@@ -81,7 +81,10 @@ class HeaderPage extends   React.Component <Props,State> {
     {
       ris ="Provenienze"
     }
- 
+     else if (page === "/qrcode_elenco")
+    {
+      ris ="Qr Code"
+    }
  
 
     return ris;
@@ -128,7 +131,10 @@ class HeaderPage extends   React.Component <Props,State> {
     {
       return <IconsMenu.ProvenienzeIcon />
     }
- 
+    else if (page === "/qrcode_elenco")
+    {
+      return <IconsMenu.QrCodeIcon />
+    }
     return null;
   }
  

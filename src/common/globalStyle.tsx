@@ -10,6 +10,7 @@ const styles =(theme:Theme) => ({
     paperDialogColore : { minWidth: "50%" },
     paperDialogProvenienza : { minWidth: "40%" },
     paperDialogArticoli : { minWidth: "40%" },
+    paperDialogQrCode : { minWidth: "70%" },
     paperElenco: {
         width: '96%',
         height: '96%',

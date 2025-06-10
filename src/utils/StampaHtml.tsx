@@ -1,8 +1,7 @@
 import { Box, Button, CircularProgress } from '@material-ui/core';
 import axios from 'axios';
 import React  from 'react';
-
-import ReactHtmlParser from 'react-html-parser';
+import parse from 'html-react-parser';
  
  
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
@@ -69,7 +68,7 @@ class Stampa  extends React.Component <IProps,IState> {
                     <CircularProgress color="primary" />
                 </Box>
             }
-            {ReactHtmlParser (this.state.html)}
+            {parse (this.state.html)}
 
     
         </Box>

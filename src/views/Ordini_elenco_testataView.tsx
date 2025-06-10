@@ -271,8 +271,8 @@ class Ordini_elenco_testataView  extends React.Component <IProps,IState> {
                 count={this.props.elenco.length}
                 rowsPerPage={this.state.rowsPerPage}
                 page={this.state.page}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeRowsPerPage} />
+                onPageChange={this.handleChangePage}
+                onRowsPerPageChange={this.handleChangeRowsPerPage} />
           
           </Paper>
  

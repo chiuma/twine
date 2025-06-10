@@ -9,7 +9,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import StampaIcon from '@material-ui/icons/PrintRounded';
 import GraficiIcon from '@material-ui/icons/BarChart';
 
-
+import QrCodeIcon from '@material-ui/icons/CropFree';
 
 import SaveIcon from '@material-ui/icons/Save';
 export   const IconsMenu = {
@@ -24,5 +24,6 @@ export   const IconsMenu = {
     HomeIcon,
     GraficiIcon,
     SaveIcon,
+    QrCodeIcon
    
 };

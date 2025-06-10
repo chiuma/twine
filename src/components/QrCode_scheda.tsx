@@ -1,48 +1,44 @@
+ 
 import React  from 'react';
 
 import { connect } from 'react-redux';
  
-import { Colore } from '../model/Colore';
-import { coloriServices } from '../services/coloriServices';
-import Colore_schedaView from '../views/Colore_schedaView';
+import { QrCode } from '../model/QrCode';
+import { qrCodeServices } from '../services/qrCodeServices';
+import QrCode_schedaView from '../views/QrCode_schedaView';
  
 import {NotificationManager} from 'react-notifications'; 
-import { coloriActions } from '../actions/colori.action';
  
- 
+  
 
-export interface IProps { 
- 
-    scheda: any,
+export interface IPropsQrCdode { 
+    savedScheda:any,
+    scheda: any ,
     handleClose:any,
- 
-    classes: any,
-
-    actNewColore: any,
-    actModColore: any,
-    
-    isModal:boolean
+    elenco_articoli: any
+    elenco_colori: any
     
 }
    
 export interface IState { 
+    
+
     isInProgress: boolean,
     bChangedForm: boolean,
-    formData: Colore,
+    formData: QrCode,
     
     formDataError:FormDataError
 }
 
 class  FormDataError { 
- 
-      descrizione: string = ""; 
-      codice: string = "";  
+  
+      codice: string = "";    
    
 }
 
  
 
-class Colore_schedaPage  extends React.Component <IProps,IState> {
+class QrCode_schedaPage  extends React.Component <IPropsQrCdode,IState> {
     precFormData: string = '';
     
     constructor(props: any) {
@@ -50,11 +46,12 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
       this.saveScheda = this.saveScheda.bind(this);
       this.handleChangeForm = this.handleChangeForm.bind(this);
  
+       
       
       this.state={           
             isInProgress: false, bChangedForm: false,
             formDataError:    new FormDataError() ,
-            formData:  Object.assign(new Colore(), this.props.scheda),
+            formData: {...this.props.scheda} // Object.assign(new QrCode(), this.props.scheda),
 
         }
       
@@ -69,17 +66,28 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
 
     }
  
-
+ 
  
     handleChangeForm = (event) => {
         const { formData } = this.state;
-     
+       
+ 
+   
         formData[event.target.name] = event.target.value;
-     
+      if ( event.target.name === "id_colore_2")
+        {
+            if ( event.target.value === -1) 
+            {
+                formData["id_colore_3"]  = -1
+                
+            }    
+        }
 
         let changed = false; 
         if (JSON.stringify(this.state.formData) !== this.precFormData) 
-        { 
+        {  
+ 
+          formData.code = QrCode.getCode(this.props.elenco_articoli,this.props.elenco_colori, this.state.formData );
           changed = true;
         } 
         
@@ -92,16 +100,11 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
         let bValid = true;
         let formDataError = new FormDataError() ;
         
-        if (this.state.formData.descrizione.trim() === "" )
-        {
-            formDataError.descrizione = "Campo obbligatorio";
-            bValid = false;
-        }
-
+ 
  
  
         
-        if (this.state.formData.codice.trim() === "" )
+        if (this.state.formData.code.trim() === "" )
         {
             formDataError.codice = "Campo obbligatorio";
             bValid = false;
@@ -117,54 +120,54 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
 
     async saveScheda()
     {
-
+     
         const bValid = this.validateForm()
         if ( bValid)
         {
             this.setState({isInProgress: true});
 
-            // console.log("TEST 1 saveScheda - this.state.formData.id =" + this.state.formData.id );
-           if ( this.state.formData.id_colore === -1)
+           if ( this.state.formData.id_qrcode  === -1)
            {
-                let ris = await coloriServices.newScheda( new Colore(this.state.formData) );
-                 
+                let ris = await qrCodeServices.newScheda( new QrCode(this.state.formData) );
+                this.setState({ isInProgress: false })   ;
                 if ( ris.esito === "OK")
                 { 
-                    this.state.formData.id_colore = Number (ris.new_id);
-
-                    this.props.actNewColore( this.state.formData).then((response:any) => { this.props.handleClose();  })
+                  this.state.formData.id_qrcode  = Number (ris.new_id);
+                  let formData = {...this.state.formData}
+                  this.precFormData = JSON.stringify(formData)  
+                  this.setState({bChangedForm:false, formData: formData});
+                  this.props.savedScheda(formData);
+                  NotificationManager.success('Operazione eseguita con successo.' , 'QrCode', 3000);  
+                   
                 }
                 else
                 {
-                    this.setState({ isInProgress: false })   ;
+                    
                     let mex = ""
                     if (ris.err_code === "001" )
                       mex = "Errore server."; 
-                    else if (ris.err_code === "004" )
-                      mex = "Impossibile inserire il colore: " +  this.state.formData.descrizione +  " perchè il codice " + this.state.formData.codice  + " già esistente."; 
+                     else if (ris.err_code === "004" )
+                      mex = "Impossibile inserire qr code : " +  this.state.formData.code +  " perchè il qr code " + this.state.formData.code  + " già esistente."; 
                
                     else
                       mex = "Errore durante l'elaborazione.";
-                    NotificationManager.error(mex, 'Colore', 3000);  
-
-          
-
+                    NotificationManager.error(mex, 'QrCode', 3000);  
                 }
 
            }
            else
            {
-                let ris = await coloriServices.modScheda( new Colore(this.state.formData) );
-                    
+                let ris = await qrCodeServices.modScheda( new QrCode(this.state.formData) );
+                this.setState({ isInProgress: false })   ;
                 if ( ris.esito === "OK")
                 { 
-
-             
-                    this.props.actModColore( this.state.formData)  .then((response:any) => { 
-     
-                      this.props.handleClose(); 
                      
-                    });
+                    this.precFormData = JSON.stringify(this.state.formData)  
+                    this.setState({bChangedForm:false });                  
+ 
+                    NotificationManager.success('Operazione eseguita con successo.' , 'QrCode', 3000); 
+                    this.props.savedScheda(this.state.formData); 
+                 
                 }
                 else
                 {
@@ -172,12 +175,12 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
                     let mex = ""
                     if (ris.err_code === "001" )
                       mex = "Errore server."; 
-                    else if (ris.err_code === "004" )
-                      mex = "Impossibile modificare il colore: " +  this.state.formData.descrizione +  " perchè il codice " + this.state.formData.codice  + " già esistente."; 
+                   else if (ris.err_code === "004" )
+                      mex = "Impossibile modificare il qr code : " +  this.state.formData.code +  " perchè il codice " + this.state.formData.code  + " già esistente."; 
                
                     else
                       mex = "Errore durante l'elaborazione.";
-                    NotificationManager.error(mex, 'Colore', 3000);  
+                    NotificationManager.error(mex, 'QrCode', 3000);  
 
                 }
 
@@ -200,17 +203,19 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
  
  
 
-            <Colore_schedaView
-                isModal={this.props.isModal}
+            <QrCode_schedaView
+                elenco_articoli={this.props.elenco_articoli} 
+                elenco_colori={this.props.elenco_colori} 
                 bChangedForm={this.state.bChangedForm}
                 readOnly={  false }
                 handleClose={this.props.handleClose}
+       
                 saveScheda={this.saveScheda}
                 isInProgress={this.state.isInProgress}
                 scheda={this.props.scheda}
                 formDataError={this.state.formDataError} 
                 formData={this.state.formData}
-                handleChangeForm={this.handleChangeForm} />            
+                handleChangeForm={this.handleChangeForm}  />            
                  
 
 
@@ -222,30 +227,10 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
  
 }
 
-
-function mapStateToProps(state) {
-  
-  
-  return {
-    
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actNewColore: async (scheda) => {
-          dispatch(coloriActions.newColore(scheda));
-        } ,
-        
-        actModColore: async (scheda) => {
-            dispatch(coloriActions.modColore(scheda));
-          } ,
-        
-    }
-  }
  
-
-const appColore_schedaPage = connect(mapStateToProps, mapDispatchToProps)(  Colore_schedaPage );
-export    { appColore_schedaPage as Colore_scheda } ; 
+ 
+ 
+ 
+export    { QrCode_schedaPage as QrCode_scheda } ; 
  
 

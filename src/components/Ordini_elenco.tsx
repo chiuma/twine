@@ -31,7 +31,18 @@ import Ordini_elenco_testataView from '../views/Ordini_elenco_testataView';
  
  
   
-
+function objectToQueryString(params: Record<string, any>): string {
+    const searchParams = new URLSearchParams();
+    for (const key in params) {
+        if (Object.prototype.hasOwnProperty.call(params, key)) {
+            const value = params[key];
+            if (value !== undefined && value !== null) {
+                searchParams.append(key, String(value));
+            }
+        }
+    }
+    return searchParams.toString();
+}
  
 export interface IProps { 
   elenco_colori: Colore[],    
@@ -97,6 +108,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       this._isMounted = false;
     }
    
+
     componentDidMount()
     { 
       this._isMounted = true;
@@ -656,7 +668,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
    
 // console.log("OrdiniElenco - render - this.lastFiltri" , this.lastFiltri)
 
-      const querystring = require('querystring');
+ 
+      const finalQueryString = this.tipo_stampa !== "singolo_ordine"
+            ? objectToQueryString(this.lastFiltri)
+            : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine });
           return (
             <>
       {this.state.showStampa &&
@@ -670,10 +685,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
             "ordini_articoli_stampa.php?")
             
             + 
-            (  this.tipo_stampa !== "singolo_ordine" ?     
-            querystring.stringify(this.lastFiltri)
-            : querystring.stringify({id_ordine: this.state.ordineSelected.id_ordine})
-            )
+            finalQueryString
              
             }
            />

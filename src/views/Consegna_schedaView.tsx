@@ -237,11 +237,11 @@ class Consegna_schedaView  extends React.Component <IProps,IState> {
 
                   {this.props.formConsegna.consegnaDettaglio.map((consegnaDettaglio, idx) => {
                         return (
-<React.Fragment key={idx}>
-  {consegnaDettaglio.id_consegna_dettaglio === -1 && (idx ===0 || (idx>0 &&  this.props.formConsegna.consegnaDettaglio[idx-1].id_consegna_dettaglio !== -1)) &&
-<Box   mt={2}  ml={1}   fontWeight={700} color="secondary.main"  style={{fontSize: '120%',  flexWrap: 'wrap', }}>
-  Aggiungi alla consegna:
-</Box>
+                  <React.Fragment key={idx}>
+                    {consegnaDettaglio.id_consegna_dettaglio === -1 && (idx ===0 || (idx>0 &&  this.props.formConsegna.consegnaDettaglio[idx-1].id_consegna_dettaglio !== -1)) &&
+                  <Box   mt={2}  ml={1}   fontWeight={700} color="secondary.main"  style={{fontSize: '120%',  flexWrap: 'wrap', }}>
+                    Aggiungi alla consegna:
+                  </Box>
                           }
 
                   <Box mb={2} mt={2} key={idx}>

@@ -85,7 +85,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
       
       totale_pagare = totale_pagare + (totale_pagare*this.props.formData.iva/100);
       totale_pagare = Math.round((totale_pagare + Number.EPSILON) * 10 ) / 10;
-
+      let importo_commissione = this.props.formData.importo_manuale * totale_scontato /100;
     
  //console.log("totale_scontato", totale_scontato)
  // console.log("totale_scontato_evaso", totale_scontato_evaso)
@@ -207,7 +207,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
 
   
 
-  <Grid item xs={2}   >
+  <Grid item xs={1}   >
 
     <Box   display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
               <Box  fontWeight={700}  style={{color:'red'}}  >Totale</Box>
@@ -216,7 +216,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
                   <NumberFormat decimalSeparator=","   prefix={'€ '} style={{ whiteSpace: "nowrap" }}
                       thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
                       value={totale   } 
-                      label=""
+                   
                       displayType={'text'}  />     
                   
                   </Box>
@@ -224,19 +224,18 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
 
     </Grid>
 
-    <Grid item xs={2}  >
+    <Grid item xs={1}  >
 
         <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
-                  <Box  fontWeight={700}  style={{color:'red'}}  >Totale scontato</Box>
+                  <Box  fontWeight={700}  style={{color:'red'}}  >Scontato</Box>
                 
                   <Box   fontWeight={500} color="text.primary"  >
                       <NumberFormat decimalSeparator=","   prefix={'€ '} style={{ whiteSpace: "nowrap" }}
                           thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                          value={ totale_scontato} 
-                          label=""
+                          value={ totale_scontato}  
                           displayType={'text'}  />     
                       
-                      </Box>
+                  </Box>
         </Box>
 
       </Grid>
@@ -293,10 +292,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
                   <Box   fontWeight={500} color="text.primary"  >
                       <NumberFormat decimalSeparator=","   prefix={'€ '}
                           thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                          value={ 
-                            totale_pagare 
-                          } 
-                          label=""
+                          value={totale_pagare}  
                           displayType={'text'}  />     
                       
                       </Box>
@@ -315,8 +311,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
                           thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
                           value={ 
                             totale_pagare_evaso 
-                          } 
-                          label=""
+                          }  
                           displayType={'text'}  />     
                       
                       </Box>
@@ -328,15 +323,34 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
  
           <NumberFormatCustom   
                       value={this.props.formData.importo_manuale}  
-                    
+                      prefix=""  
                       InputLabelProps={{shrink: true }} 
                       onChange={this.props.handleChangeForm}  
                       disabled={this.props.readOnly}
                       id="importo_manuale"
                       name="importo_manuale"
-                      label="Acconto"
+                      label="% Commisione"
                     />
           </Grid>
+
+          
+    <Grid item xs={1}  >
+
+      <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
+                <Box  fontWeight={700}  style={{color:'red', whiteSpace: "nowrap"}}  >Comm.</Box>
+              
+                <Box   fontWeight={500} color="text.primary"  >
+                    Commissione <NumberFormat decimalSeparator=","   prefix={'€ '}
+                        thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
+                        value={importo_commissione}  
+                        displayType={'text'}  />     
+                    
+                    </Box>
+      </Box>
+
+    </Grid>
+
+
   </Grid>
 
 </>

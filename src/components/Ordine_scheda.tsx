@@ -54,9 +54,9 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
       this.handleSaveOrdine = this.handleSaveOrdine.bind(this);
       this.handleAddDettaglio = this.handleAddDettaglio.bind(this);
       this.handleDelDettaglio = this.handleDelDettaglio.bind(this);
-  
       this.handleEvadiAll = this.handleEvadiAll.bind(this);      
-
+      this.applicaDataConsegna = this.applicaDataConsegna.bind(this);      
+      
     
       let formOrdine =  Object.assign (new Ordine(), {...this.props.scheda});
    
@@ -97,6 +97,22 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
     }
   
+    applicaDataConsegna   (dataConsegna) {
+   
+         
+        let formOrdine:Ordine =  Object.assign (new Ordine(), {...this.state.formOrdine});
+  
+        
+        let newDettaglio =  this.state.formOrdine.ordineDettaglio.map ( 
+          x => Object.assign(new OrdineDettaglio(), x, {data_consegna:  dataConsegna })); 
+          formOrdine.ordineDettaglio  = newDettaglio;
+  
+        
+        this.setState({   formOrdine:  formOrdine  });
+     //   console.log("this.state.formOrdine", this.state.formOrdine)
+     
+      }
+
     handleEvadiAll(event)
     {
            
@@ -354,6 +370,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             handleSaveOrdine={this.handleSaveOrdine}
             isInProgress={this.state.isInProgress}
             formOrdine ={this.state.formOrdine }
+            applicaDataConsegna={this.applicaDataConsegna }
             formDataError={this.state.formTestataErrors}  
             arrFormDettaglioErrors={this.state.arrFormDettaglioErrors}  
             

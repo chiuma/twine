@@ -33,7 +33,7 @@ export function Consegne_elencoHeaderView (props: Props ) {
                
                     <>
                         <Box  fontWeight={700} style={{color:'red'}}   >
-                        {sessionStorage.getItem("username")==="admin" ? "Totale" : "Tot. Manuale"}
+                        Tot. Commissioni
                         </Box>
                         <Box   fontWeight={500} color="text.primary"  ml={1} >
                             <NumberFormat decimalSeparator=","  style={{ whiteSpace: "nowrap" }}

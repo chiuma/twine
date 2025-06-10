@@ -3,7 +3,7 @@ import React  from 'react';
 
 import { connect } from 'react-redux';
  
-import { Bar,   } from 'react-chartjs-2';
+ 
 import { Box, CircularProgress } from '@material-ui/core';
 import { consegneServices } from '../services/consegneServices';
 import {NotificationManager} from 'react-notifications';  
@@ -197,7 +197,13 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
     render() {    
       const that = this;
 
-      const optionsOrdiniCLienti = {
+      const    optionsOrdiniCLienti = {
+        indexAxis: 'x' as const,
+        elements: {
+            bar: {
+                borderWidth: 2,
+            },
+        },
         plugins: {
           tooltip: {
             callbacks: {
@@ -208,78 +214,81 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
             }    ,
                   
           legend: {
-            position: 'right',
+             display: false,
           },
           title: {
             display: true,
             text: 'CONSEGNE CLIENTI x MESE ANNO',
           },
         },
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
+ 
       };
 
       const optionsArticoliOrdinati = {
+        indexAxis: 'x' as const,
+        elements: {
+            bar: {
+                borderWidth: 2,
+            },
+        },
         plugins: {
           tooltip: {
             callbacks: {
-                label: function(context) {  
+                label: function(context:any) {  
                 return  context.dataset.label + " - " +  that.props.elenco_articoli.find( (x :any) => x.codice === context.dataset.label)?.descrizione
                 } 
               } 
             }    ,
           legend: {
-            position: 'right',
+             display: false,
           },
           title: {
             display: true,
             text: 'CONSEGNE ARTICOLI X MESE ANNO',
           },
         },
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
+ 
       };
       
 
  
-      const optionsConsegneMeseAnno = {
-            indexAxis: 'x',
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-              bar: {
-                borderWidth: 2,
-              },
-            },
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'none',
-              },
-              title: {
+   const optionsConsegneMeseAnno = {
+    indexAxis: 'x' as const,
+    elements: {
+        bar: {
+            borderWidth: 2,
+        },
+    },
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false, // Modo corretto per nascondere la legenda
+        },
+        title: {
+            display: true,
+            text: 'CONSEGNE IMPORTI MENSILI',
+        },
+    },
+    scales: {
+        x: {
+            title: {
                 display: true,
-                text: 'CONSEGNE IMPORTI MENSILI',
-              },
-            },
-          };
-          
+                text: 'Periodo'
+            }
+        },
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: 'Importo'
+            }
+        }
+      } 
+    };
+              
  
       const optionsConsegneCliente = {
-        indexAxis: 'x', 
+        indexAxis: 'x' as const, 
 
         elements: {
           bar: {
@@ -291,7 +300,7 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
           tooltip: {
             callbacks: {
-                label: function(context) { 
+                label: function(context:any) { 
                 
                 let id_cliente_sel  =parseInt( context.dataset.dataIdCliente[context.dataIndex] );
                 let cliente_sel =  that.props.elenco_clienti.find( (x :any) => x.id_cliente === id_cliente_sel)
@@ -303,7 +312,7 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
             
             
           legend: {
-            position: 'none',
+             display: false,
           },
 
           title: {
@@ -311,13 +320,28 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
             text: 'CONSEGNE CLIENTI',
           },
         },
+        scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Periodo'
+              }
+          },
+          y: {
+              beginAtZero: true,
+              title: {
+                  display: true,
+                  text: 'Importo'
+              }
+          }
+        } 
       };
 
 
 
       
       const optionsConsegneArticoli = {
-        indexAxis: 'x', 
+        indexAxis: 'x' as const, 
 
         elements: {
           bar: {
@@ -341,7 +365,7 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
             }    ,            
             
           legend: {
-            position: 'none',
+            display: false,
           },
 
           title: {
@@ -380,35 +404,15 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 {!this.state.isInProgress &&
 <>
 
-
-
-            <Box width={'60%'} mt={6}>
-                <Bar data={this.state.chartDataConsegneMeseAnno} options={optionsConsegneMeseAnno} type="bar"/>      
-            </Box>
-
-            <Box width={'95%'} mt={6}>
-                <Bar data={this.state.chartDataConsegneClienti} options={optionsConsegneCliente} type="bar"/>      
-            </Box>
-
-
-            <Box width={'95%'} mt={6}>
-                <Bar data={this.state.chartDataConsegneArticoli} options={optionsConsegneArticoli} type="bar"/>      
-            </Box>
-
+ 
+  
             
  
 
 
-
-            <Box width={'85%'} mt={6}>
-            <Bar data={this.state.chartDataArticoli} options={optionsArticoliOrdinati} type="bar"/>    
-            </Box>
-
-
-            
-            <Box width={'85%'} mt={6} mb={2}>
-              <Bar data={this.state.chartDataOrdiniClienti} options={optionsOrdiniCLienti} type="bar"/>    
-            </Box>
+ 
+      
+      
       </>
     }
         </Box>

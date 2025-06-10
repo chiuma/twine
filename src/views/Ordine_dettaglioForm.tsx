@@ -1,7 +1,7 @@
 import React  from 'react';
  
  
-import {      Box,        FormControl,        FormHelperText,    Grid,     } from '@material-ui/core';
+import {      Box,        FormControl,        FormHelperText,    Grid, IconButton,     } from '@material-ui/core';
  
 import TextField from '@material-ui/core/TextField/TextField';
  
@@ -17,7 +17,7 @@ import { OrdineDettaglio, OrdineDettaglioErrors } from '../model/OrdineDettaglio
 import { Cliente } from '../model/Cliente';
 import { Articolo } from '../model/Articolo';
 import NumberFormat from 'react-number-format';
-
+import ScontoIcon from '@material-ui/icons/ArrowDownward';
     
 
 export interface IProps { 
@@ -27,7 +27,7 @@ export interface IProps {
     formData: OrdineDettaglio,
     formDataError:  OrdineDettaglioErrors,
     readOnly: boolean ,
-    
+    applicaDataConsegna: any |  null,
     classes: any,
     handleChangeForm: any,
   
@@ -67,9 +67,6 @@ class Ordine_dettaglioForm  extends React.Component <IProps,IState> {
 
           <Box  display="flex" flexDirection="row" alignItems="flex-start"  
                   justifyContent="flex-start"  > 
-
-        
-
         
                 <Box> 
                   <TextField   size="small"   
@@ -84,8 +81,17 @@ class Ordine_dettaglioForm  extends React.Component <IProps,IState> {
                         helperText={this.props.formDataError.data_consegna}
                         InputLabelProps={{shrink: true }}
                         onChange={this.props.handleChangeForm}         />
+
+
                 </Box>
-       
+                { this.props.applicaDataConsegna  &&
+                <Box> 
+                  <IconButton color="primary"  component="span"  title="Applica a tutti"  
+                                       onClick={(e) => { this.props.applicaDataConsegna(this.props.formData.data_consegna.replaceAll("/","-"));}} >
+                    <ScontoIcon />
+                  </IconButton>  
+                </Box>
+                }
                       
                 <Box ml={1} width={'100%'}>
   

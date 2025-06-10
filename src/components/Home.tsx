@@ -39,8 +39,9 @@ import { Consegne_elenco } from '../components/Consegne_elenco';
 import { Provenienze_elenco } from '../components/Provenienze_elenco';
 import { Provenienza_scheda } from '../components/Provenienza_scheda';
  
+import { QrCode_elenco } from '../components/QrCode_elenco';
+import { QrCode_scheda } from '../components/QrCode_scheda';
 
- 
 import { Grafici } from './Garfici';
 import { ConstantUtils } from '../ConstantUtils';
 import { IconsMenu } from '../common/Icons';
@@ -355,7 +356,10 @@ class AppPage   extends React.Component <IProps,IState> {
     {
       this.props.history.push("/provenienze_elenco");
     }    
- 
+     else if ( page === "qrcode_elenco")
+    {
+      this.props.history.push("/qrcode_elenco");
+    }
 
   }
 
@@ -448,6 +452,10 @@ class AppPage   extends React.Component <IProps,IState> {
                   <Route path="/colori_elenco" exact    render={(props) => (
                      <Colori_elenco     {...props}/>  )} />   
 
+
+                  <Route path="/qrcode_elenco" exact    render={(props) => (
+                     <QrCode_elenco     {...props}/>  )} />   
+
                   <Route path="/provenienze_elenco" exact    render={(props) => (
                       <Provenienze_elenco     {...props}/>)} />                         
 
@@ -465,16 +473,6 @@ class AppPage   extends React.Component <IProps,IState> {
                 </Switch>
                 </Box> 
 
-               
-          
- 
-     
-             
-     
-
-        
-       
- 
  
 </>      
   )}

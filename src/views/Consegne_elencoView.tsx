@@ -92,7 +92,7 @@ function TableHeader   (props: any  ) {
               </>
             }
             <TableCell     align="center"> 
-              {sessionStorage.getItem("username")==="fulladmin" ? "Importo Manuale" : "Totale"}
+             Commissione
             </TableCell>
 
 
@@ -135,10 +135,9 @@ function TableRows   (props: any ) {
          {sessionStorage.getItem("username")==="fulladmin" &&
          <>
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
-            <NumberFormat decimalSeparator=","   prefix={'€ '}
+             <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-              value={  row.importo  } 
-              label="Importo"
+              value={  row.importo  }  
               displayType={'text'}  />   
         </TableCell>
 
@@ -146,8 +145,7 @@ function TableRows   (props: any ) {
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
             <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-              value={  row.importo_scontato } 
-              label="Importo"
+              value={  row.importo_scontato }  
               displayType={'text'}  />   
         </TableCell>
         </>
@@ -155,11 +153,10 @@ function TableRows   (props: any ) {
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
             <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-              value={  row.importo_manuale  } 
-              label= {sessionStorage.getItem("username")==="fulladmin" ? "Importo Manuale" : "Importo"}
+              value={  row.importo_manuale*row.importo_scontato/100  }   
               displayType={'text'}  />   
         </TableCell>    
-
+ 
       {isEditMode &&
         <TableCell align="right"   style={{ whiteSpace: "nowrap" }}>  
         {sessionStorage.getItem("username")==="fulladmin" &&
@@ -324,8 +321,8 @@ class Consegne_elencoView  extends React.Component <IProps,IState> {
                 count={this.props.elenco.length}
                 rowsPerPage={this.state.rowsPerPage}
                 page={this.state.page}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeRowsPerPage} />
+                onPageChange={this.handleChangePage}
+                onRowsPerPageChange={this.handleChangeRowsPerPage} />
           
           </Paper>
  

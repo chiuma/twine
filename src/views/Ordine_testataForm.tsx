@@ -59,7 +59,9 @@ class Ordine_testataForm  extends React.Component <IProps,IState> {
 
     render() {    
  
-        
+        let importo = this.props.formData.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex) => accumulator + 
+                         (  currentIndex !==  this.props.formData.ordineDettaglio.length-1 ?    (currentValue.prezzo*currentValue.qta  )  : 0)
+                                 , 0 ) 
         return (
  
        
@@ -142,14 +144,9 @@ class Ordine_testataForm  extends React.Component <IProps,IState> {
           <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
                       <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
                       <Box   fontWeight={500} color="text.primary"  >
-                          <NumberFormat decimalSeparator=","   prefix={'€ '}
+                           <NumberFormat decimalSeparator=","   prefix={'€ '}
                               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                              value={ 
-                                this.props.formData.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex) => accumulator + 
-                         (  currentIndex !==  this.props.formData.ordineDettaglio.length-1 ?    (currentValue.prezzo*currentValue.qta  )  : 0)
-                                 , 0 ) 
-                                } 
-                              label="Importo"
+                              value={importo}  
                               displayType={'text'}  />   
                           
                           </Box>

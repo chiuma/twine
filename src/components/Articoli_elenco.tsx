@@ -7,8 +7,7 @@ import { Articolo } from '../model/Articolo';
 import {   Box, CircularProgress   } from '@material-ui/core';
 
  
-import { connect } from 'react-redux';
-// import { Articolo_scheda } from './Articolo_scheda';
+import { connect } from 'react-redux'; 
 import { Articoli_elencoFiltriView } from '../views/Articoli_elencoFiltriView';
 import { ConfirmFialog } from '../utils/ConfirmDialog';
 import { articoliServices } from '../services/articoliServices';

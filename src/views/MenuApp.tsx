@@ -109,7 +109,14 @@ export default function MenuApp (props) {
 
               <Divider  variant="middle" />
 
-
+             
+              <ListItem button  >
+                <ListItemIcon>
+                  <IconsMenu.QrCodeIcon />
+                </ListItemIcon>
+                <ListItemText   classes={{root: classes.textList  }}  primary="Elenco QrCode"  onClick={event =>   { props.goToPage("qrcode_elenco")    } } />
+              </ListItem> 
+              <Divider  variant="middle" />
 
  
               <ListItem button  >

@@ -19,10 +19,10 @@ import EditIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { withStyles } from "@material-ui/core/styles";
  
-import { Articolo } from '../model/Articolo';
+import { QrCode } from '../model/QrCode';
 import {    Order, tableUtility,   } from '../common/tableUtility';
  
-import NumberFormat from 'react-number-format';
+ 
  
  
 
@@ -36,38 +36,55 @@ function TableHeader   (props: any  ) {
     <TableHead>
       <TableRow>
  
-            <TableCell   key="codice"  align="left"   sortDirection={orderBy === "codice" ? order : false}>
+            <TableCell   key="codice"  align="left"   sortDirection={orderBy === "code" ? order : false}>
 
               <TableSortLabel
-                active={orderBy ===  "codice"}
-                direction={orderBy === "codice" ? order : 'asc'}
-                onClick={createSortHandler("codice")}>
-                    Codice 
+                active={orderBy ===  "code"}
+                direction={orderBy === "code" ? order : 'asc'}
+                onClick={createSortHandler("code")}>
+                    Qr Code 
               </TableSortLabel>
             </TableCell>
             
-            <TableCell    key="descrizione"  align="left" sortDirection={orderBy === "descrizione" ? order : false}>
+            <TableCell    key="cod_articolo"  align="left" sortDirection={orderBy === "cod_articolo" ? order : false}>
 
               <TableSortLabel
-                active={orderBy ===  "descrizione"}
-                direction={orderBy === "descrizione" ? order : 'asc'}
-                onClick={createSortHandler("descrizione")}>
-                    Descrizione
+                active={orderBy ===  "cod_articolo"}
+                direction={orderBy === "cod_articolo" ? order : 'asc'}
+                onClick={createSortHandler("cod_articolo")}>
+                    Cod. articolo
               </TableSortLabel>
             </TableCell>
 
-            <TableCell   width="10%"  key="prezzo"  align="left" sortDirection={orderBy === "prezzo" ? order : false}>
+            <TableCell    key="cod_colore"  align="left" sortDirection={orderBy === "cod_colore" ? order : false}>
 
-            <TableSortLabel
-                active={orderBy ===  "prezzo"}
-                direction={orderBy === "prezzo" ? order : 'asc'}
-                onClick={createSortHandler("prezzo")}>
-                    Prezzo
+              <TableSortLabel
+                active={orderBy ===  "cod_colore"}
+                direction={orderBy === "cod_colore" ? order : 'asc'}
+                onClick={createSortHandler("cod_colore")}>
+                    Colore 1
               </TableSortLabel>
             </TableCell>
-
  
-            
+            <TableCell    key="cod_colore_2"  align="left" sortDirection={orderBy === "cod_colore_2" ? order : false}>
+
+              <TableSortLabel
+                active={orderBy ===  "cod_colore_2"}
+                direction={orderBy === "cod_colore_2" ? order : 'asc'}
+                onClick={createSortHandler("cod_colore_2")}>
+                    Colore 2
+              </TableSortLabel>
+            </TableCell>
+ 
+            <TableCell    key="cod_colore_3"  align="left" sortDirection={orderBy === "cod_colore_3" ? order : false}>
+
+              <TableSortLabel
+                active={orderBy ===  "cod_colore_3"}
+                direction={orderBy === "cod_colore_3" ? order : 'asc'}
+                onClick={createSortHandler("cod_colore_3")}>
+                    Colore 3
+              </TableSortLabel>
+            </TableCell>      
             {isEditMode &&
             <TableCell></TableCell>
             }
@@ -87,15 +104,12 @@ function TableRows   (props: any ) {
     <TableRow     hover       tabIndex={-1}>
 
     
-        <TableCell  align="left" >{row.codice}</TableCell>
-        <TableCell   align="left" >{row.descrizione}</TableCell>
-        <TableCell   align="left" width="10%">
-         
-          <NumberFormat decimalSeparator="," 
-                thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                value={row.prezzo } displayType={'text'} prefix={'€ '} />   
-
-        </TableCell> 
+        <TableCell  align="left" >{row.code}</TableCell>
+        <TableCell   align="left" >{row.cod_articolo}</TableCell>
+        <TableCell   align="left" >{row.cod_colore}</TableCell>
+        <TableCell   align="left" >{row.cod_colore_2}</TableCell>
+        <TableCell   align="left" >{row.cod_colore_3}</TableCell>
+ 
         
       {isEditMode &&
       <TableCell align="right"   >
@@ -110,10 +124,7 @@ function TableRows   (props: any ) {
         </TableCell> 
       }
            
-      
-    
-    
- 
+  
  
 
   </TableRow>
@@ -141,7 +152,7 @@ export interface IProps {
 
 }
 
-class Articoli_elencoView  extends React.Component <IProps,IState> {
+class QrCode_elencoView  extends React.Component <IProps,IState> {
 
   constructor(props: IProps) {
     super(props);
@@ -153,7 +164,7 @@ class Articoli_elencoView  extends React.Component <IProps,IState> {
        
       rowsPerPage: 25   ,
       order: 'asc',
-      orderBy: 'descrizione',
+      orderBy: 'cod_articolo',
       page: 0,  
       
       
@@ -164,7 +175,7 @@ class Articoli_elencoView  extends React.Component <IProps,IState> {
 
 
 
-  handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Articolo) => {
+  handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof QrCode) => {
     const isAsc = this.state.orderBy === property && this.state.order === 'asc';
     this.setState({order: isAsc ? 'desc' : 'asc', orderBy: property })
  
@@ -248,6 +259,6 @@ width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}}
 
  
  
-export default withStyles(styles) (Articoli_elencoView);
+export default withStyles(styles) (QrCode_elencoView);
 
  

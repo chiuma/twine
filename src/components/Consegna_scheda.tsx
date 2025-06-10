@@ -325,10 +325,10 @@ class Consegna_schedaPage  extends React.Component <IProps,IState> {
         
     
           let totale_pagare_evaso = totale_pagare + ( (totale_scontato_evaso+this.state.formConsegna.importo_trasporto) *this.state.formConsegna.iva/100);
-          
+          /** 
           let importo_manuale = Math.round((totale_pagare_evaso + Number.EPSILON) * 10 ) / 10;
           this.state.formConsegna.importo_manuale = importo_manuale
-          /** */
+          */
            
         } 
         

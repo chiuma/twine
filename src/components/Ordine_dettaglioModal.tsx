@@ -170,6 +170,7 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
           <>
           <Box width="100%">
             <Ordine_dettaglioForm   
+                    applicaDataConsegna={ null  }   
                     elenco_colori={this.props.elenco_colori} 
                     elenco_clienti={this.props.elenco_clienti} 
                     elenco_articoli={this.props.elenco_articoli} 
