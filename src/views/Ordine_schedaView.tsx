@@ -152,8 +152,7 @@ export interface IProps {
     handleStampaOrdine: any,
     handleEvadiAll: any,
     handleDelOrdine: any,
-    handleSaveOrdine:any,
-    applicaDataConsegna:any,
+    handleSaveOrdine:any, 
     isInProgress: boolean,
     readOnly:boolean,
     bChangedForm: boolean
@@ -327,9 +326,7 @@ class Ordine_schedaView  extends React.Component <IProps,IState> {
                             <Box p={1}>
                             
          
-                                    <Ordine_dettaglioForm   
-                                      applicaDataConsegna={idx === 0  && !this.props.readOnly   ? this.props.applicaDataConsegna : null}   
-
+                                    <Ordine_dettaglioForm    
                                       elenco_colori={that.props.elenco_colori} 
                                       elenco_clienti={that.props.elenco_clienti} 
                                       elenco_articoli={that.props.elenco_articoli} 

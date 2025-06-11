@@ -6,7 +6,7 @@ export class  OrdineDettaglioErrors {
     id_colore: string = ""; 
      
     qta: string = ""; 
-    data_consegna: string = ""; 
+   
     prezzo: string = ""; 
 
     public constructor(init?: Partial<OrdineDettaglioErrors>) {
@@ -16,7 +16,7 @@ export class  OrdineDettaglioErrors {
 
 export class OrdineDettaglio {
  
-    data_consegna: string = "";
+ 
  
 
     id_cliente : number = -1;
@@ -61,11 +61,7 @@ export class OrdineDettaglio {
               bValid = false;
           }
  
-          if (this.data_consegna ===  "")
-          {
-              formDataError.data_consegna = "Campo obbligatorio";
-              bValid = false;
-          }
+     
           return bValid;
   
       }

@@ -24,7 +24,7 @@ export interface IProps {
     elenco_colori: Colore[],
     elenco_articoli: Articolo[],
     elenco_clienti:Cliente[],
-    data_consegna: string,
+    
     id_ordine: number,
     classes: any,
 
@@ -57,7 +57,7 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
         
         this.state = { 
             formDettaglio:  Object.assign(new OrdineDettaglio(),  
-             {data_consegna: this.props.data_consegna, id_ordine: this.props.id_ordine }),  
+             {  id_ordine: this.props.id_ordine }),  
             formDettaglioError:  new OrdineDettaglioErrors()     } ; 
 
 
@@ -169,8 +169,7 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
         <DialogContent  style={{ overflow: "hidden" }}>
           <>
           <Box width="100%">
-            <Ordine_dettaglioForm   
-                    applicaDataConsegna={ null  }   
+            <Ordine_dettaglioForm    
                     elenco_colori={this.props.elenco_colori} 
                     elenco_clienti={this.props.elenco_clienti} 
                     elenco_articoli={this.props.elenco_articoli} 

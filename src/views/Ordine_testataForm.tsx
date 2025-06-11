@@ -113,6 +113,23 @@ class Ordine_testataForm  extends React.Component <IProps,IState> {
             </FormControl>
       </Grid>
 
+      <Grid item xs={2}  >
+            <FormControl  >
+            <TextField   size="small"   
+             disabled={this.props.readOnly}
+                        id="data_consegna"
+                        name="data_consegna"
+                        label="Data consegna"
+                        type="date"
+                        error={this.props.formDataError.data_consegna !== ""}
+                        helperText={this.props.formDataError.data_consegna}
+
+                        InputLabelProps={{shrink: true }}
+                        value={this.props.formData.data_consegna.replaceAll("/","-")}  
+                        onChange={this.props.handleChangeForm}         />
+            </FormControl>
+      </Grid>
+
       <Grid item xs={2} >
           <FormControl  >
           

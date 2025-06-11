@@ -55,8 +55,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
       this.handleAddDettaglio = this.handleAddDettaglio.bind(this);
       this.handleDelDettaglio = this.handleDelDettaglio.bind(this);
       this.handleEvadiAll = this.handleEvadiAll.bind(this);      
-      this.applicaDataConsegna = this.applicaDataConsegna.bind(this);      
-      
+ 
     
       let formOrdine =  Object.assign (new Ordine(), {...this.props.scheda});
    
@@ -96,22 +95,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
          
 
     }
-  
-    applicaDataConsegna   (dataConsegna) {
-   
-         
-        let formOrdine:Ordine =  Object.assign (new Ordine(), {...this.state.formOrdine});
-  
-        
-        let newDettaglio =  this.state.formOrdine.ordineDettaglio.map ( 
-          x => Object.assign(new OrdineDettaglio(), x, {data_consegna:  dataConsegna })); 
-          formOrdine.ordineDettaglio  = newDettaglio;
-  
-        
-        this.setState({   formOrdine:  formOrdine  });
-     //   console.log("this.state.formOrdine", this.state.formOrdine)
-     
-      }
+ 
 
     handleEvadiAll(event)
     {
@@ -266,8 +250,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             x.id_articolo_base === dettaglioDaInserire.id_articolo_base 
             && x.id_colore === dettaglioDaInserire.id_colore
             && x.id_colore_2 === dettaglioDaInserire.id_colore_2
-            && x.id_colore_3 === dettaglioDaInserire.id_colore_3
-            && x.data_consegna === dettaglioDaInserire.data_consegna
+            && x.id_colore_3 === dettaglioDaInserire.id_colore_3 
             ) ; 
             
         if (idx !== -1 && idx !==  this.state.formOrdine.ordineDettaglio.length-1)
@@ -291,7 +274,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
 
                 newOrdine.ordineDettaglio.push(new OrdineDettaglio(
-                    {data_consegna: formDettaglio.data_consegna ,
+                    { 
                         qta: 1,
                         prezzo: formDettaglio.prezzo,
                         id_articolo_base: formDettaglio.id_articolo_base,
@@ -369,8 +352,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             handleDelDettaglio={this.handleDelDettaglio}
             handleSaveOrdine={this.handleSaveOrdine}
             isInProgress={this.state.isInProgress}
-            formOrdine ={this.state.formOrdine }
-            applicaDataConsegna={this.applicaDataConsegna }
+            formOrdine ={this.state.formOrdine } 
             formDataError={this.state.formTestataErrors}  
             arrFormDettaglioErrors={this.state.arrFormDettaglioErrors}  
             

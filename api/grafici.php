@@ -98,7 +98,7 @@ try
 			. $where_filtri
 			. " GROUP BY   clienti.descrizione, clienti.id_cliente"
 			. " ORDER BY importo_totale desc";
-
+ 
 	$sth = $conn->prepare($sql);
 	$sth->execute();
 	$result = $sth->fetchAll(PDO::FETCH_ASSOC);		 

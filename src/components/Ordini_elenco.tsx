@@ -141,8 +141,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       if (!this._isMounted)  return;
       
-  //    console.log("loadOrdini date_ordini" , this.lastFiltri.data_consegna_dal , this.lastFiltri.data_consegna_al);
-      this.setState({  isInProgress: true }); 
+       this.setState({  isInProgress: true }); 
       let resp = await ordiniServices.getElenco(this.lastFiltri.data_consegna_dal , this.lastFiltri.data_consegna_al);
       this.setState({  isInProgress: false }); 
   
@@ -184,7 +183,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       let ris = {
         ...objOrdineDettaglio , 
-        ...{data_ricezione: objOrdineTestata.data_ricezione, id_provenienza: objOrdineTestata.id_provenienza, 
+        ...{data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
             id_cliente: objOrdineTestata.id_cliente , id_ordine: objOrdineTestata.id_ordine},
         ...{ colore_codice: coloreSel?.codice,    colore_descrizione: coloreSel?.descrizione },
         ...{ colore_codice_2: coloreSel_2==null ? "" : coloreSel_2.codice,    colore_descrizione_2: coloreSel_2==null ? "" : coloreSel_2.descrizione },
@@ -211,6 +210,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         let campiTestata = { id_cliente: ordine.id_cliente, 
                              id_ordine: ordine.id_ordine, 
                             data_ricezione : ordine.data_ricezione, 
+                             data_consegna : ordine.data_consegna, 
                             id_provenienza: ordine.id_provenienza  }
         let arrDettagli:any  [] = [];
         ordine.ordineDettaglio.map ( (dettaglio:OrdineDettaglio) =>
@@ -468,6 +468,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         ordineSelected.id_ordine = scheda.id_ordine;
         ordineSelected.id_cliente = scheda.id_cliente;
         ordineSelected.data_ricezione = scheda.data_ricezione;
+        ordineSelected.data_consegna = scheda.data_consegna;
         ordineSelected.id_provenienza = scheda.id_provenienza;
         this.elenco_ordini.forEach((dettaglio:any) =>
         { 
@@ -479,7 +480,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
           
           }
         });
-        ordineSelected.ordineDettaglio.push (new OrdineDettaglio({data_consegna :  scheda.data_consegna ? scheda.data_consegna  : "" }))
+        ordineSelected.ordineDettaglio.push (new OrdineDettaglio())
          
         
 
@@ -631,6 +632,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               elenco_testate.push({
                   id_ordine: ordineDettaglio.id_ordine, 
                   data_ricezione: ordineDettaglio.data_ricezione,
+                  data_consegna: ordineDettaglio.data_consegna,
                   id_provenienza: ordineDettaglio.id_provenienza,
 
                   cliente_descrizione: ordineDettaglio.cliente_descrizione,

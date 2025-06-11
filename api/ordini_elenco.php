@@ -1,7 +1,9 @@
 ﻿<?php
 // https://www.cimicapp.com/temp/twine/api/ordini_elenco.php
   error_reporting(0);
+  
  require_once "./JwtConfig.php";
+ require_once "./cors.php"; 
   header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -83,6 +85,7 @@ try
 		
 		$sql = $sql 
 		. "	ORDER BY ordini.data_ricezione , articoli_base.codice, colori.codice   ";
+ 
  
 			$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

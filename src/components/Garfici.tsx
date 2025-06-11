@@ -10,7 +10,29 @@ import {NotificationManager} from 'react-notifications';
 import { CommonFunctions } from '../common/CommonFunctions';
 import { Consegne_elencoFiltriView } from '../views/Consegne_elencoFiltriView';
 import { ConsegnaFiltri } from '../model/Consegna';
+ import { Bar,   } from 'react-chartjs-2';
+import { createFalse } from 'typescript';
+
+import {
+  Chart as ChartJS,
+  CategoryScale, // <<< ESSENZIALE per l'asse 'category'
+  LinearScale,   // <<< ESSENZIALE per l'asse numerico (Y)
+  BarElement,    // <<< ESSENZIALE per disegnare le barre
+  Title,         // Stai usando il plugin title
+  Tooltip,       // Anche se non esplicitamente configurato, è bene registrarlo
+  Legend         // Stai usando il plugin legend (anche se display: false)
+} from 'chart.js';
  
+
+// 2. Registra i componenti con ChartJS
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export interface IProps {  
     classes: any,  
@@ -81,7 +103,7 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
     
     constructor(props: any) {
       super(props);  
-      this.state = {  chartDataConsegneArticoli: [], chartDataConsegneMeseAnno: [] , chartDataConsegneClienti: [],  chartDataArticoli:[], chartDataOrdiniClienti :[], isInProgress: false ,}; 
+      this.state = {  chartDataConsegneArticoli: [], chartDataConsegneMeseAnno: [] , chartDataConsegneClienti: [],  chartDataArticoli:[], chartDataOrdiniClienti :[], isInProgress: true ,}; 
       this.handleExecRicerca = this.handleExecRicerca.bind(this);
       this.lastFiltri.data_consegna_effettuata_dal = "";
     }
@@ -91,15 +113,15 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
         this._isMounted = false;
       }
      
-      componentDidMount()
-      { 
-        this._isMounted = true;
-         
-        this.loadDati();
+    componentDidMount()
+    { 
+      this._isMounted = true;
         
-        
-        
-      }
+      this.loadDati();
+      
+      
+      
+    }
 
     async loadDati()
     {
@@ -166,7 +188,8 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
 
 
-       this.setState({chartDataConsegneArticoli: chartDataConsegneArticoli, isInProgress: false , chartDataConsegneMeseAnno:  chartDataConsegneMeseAnno, chartDataConsegneClienti: chartDataConsegneClienti,  chartDataArticoli: chartDataArticoli , chartDataOrdiniClienti: chartDataOrdiniClienti  }); 
+       this.setState({chartDataConsegneArticoli: chartDataConsegneArticoli,
+         isInProgress: false , chartDataConsegneMeseAnno:  chartDataConsegneMeseAnno, chartDataConsegneClienti: chartDataConsegneClienti,  chartDataArticoli: chartDataArticoli , chartDataOrdiniClienti: chartDataOrdiniClienti  }); 
       }
       else
       {
@@ -196,7 +219,7 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
     render() {    
       const that = this;
-
+ 
       const    optionsOrdiniCLienti = {
         indexAxis: 'x' as const,
         elements: {
@@ -376,8 +399,8 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
       };
 
 
-
-
+ if  (this.state.isInProgress==false) 
+    console.log("this.state.chartDataConsegneMeseAnno",   this.state.chartDataConsegneMeseAnno )
 
         return (
 
@@ -406,9 +429,19 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
  
   
-            
+            <Box width={'60%'} mt={6}>
+              <Bar data={this.state.chartDataConsegneMeseAnno} options={optionsConsegneMeseAnno} /> 
+            </Box>
  
 
+            <Box width={'95%'} mt={6}>
+                <Bar data={this.state.chartDataConsegneClienti} options={optionsConsegneCliente}  />      
+            </Box>
+
+
+            <Box width={'95%'} mt={6}>
+                <Bar data={this.state.chartDataConsegneArticoli} options={optionsConsegneArticoli}  />      
+            </Box>
 
  
       

@@ -340,7 +340,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
                 <Box  fontWeight={700}  style={{color:'red', whiteSpace: "nowrap"}}  >Comm.</Box>
               
                 <Box   fontWeight={500} color="text.primary"  >
-                    Commissione <NumberFormat decimalSeparator=","   prefix={'€ '}
+                     <NumberFormat decimalSeparator=","   prefix={'€ '}
                         thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
                         value={importo_commissione}  
                         displayType={'text'}  />     

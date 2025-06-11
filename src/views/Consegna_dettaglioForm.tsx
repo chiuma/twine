@@ -64,12 +64,12 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
   <Grid container spacing={1}  >
       <Grid item xs={2}  >
                  
-                            <Box> 
+                            <Box>  
                             <TextField   size="small"     
                                     label="Data consegna"
                                     type="date"
                                     disabled={true}
-                                    value={this.props.formData.data_consegna.replaceAll("/","-") } 
+                                    value={this.props.formData.data_consegna?.replaceAll("/","-") } 
                                     InputLabelProps={{shrink: true }}       />
                             </Box>
                 

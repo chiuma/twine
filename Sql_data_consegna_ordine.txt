@@ -1,0 +1,9 @@
+CREATE VIEW tmpOrdineDataConsegna AS
+SELECT DISTINCT id_ordine, MIN(data_consegna) as data_consegna
+FROM ordini_dettaglio  
+group by id_ordine
+
+
+UPDATE ordini o
+JOIN tmpOrdineDataConsegna v ON o.id_ordine = v.id_ordine
+SET o.data_consegna = v.data_consegna;

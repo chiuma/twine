@@ -26,8 +26,7 @@ export interface IProps {
     elenco_clienti:Cliente[],
     formData: OrdineDettaglio,
     formDataError:  OrdineDettaglioErrors,
-    readOnly: boolean ,
-    applicaDataConsegna: any |  null,
+    readOnly: boolean , 
     classes: any,
     handleChangeForm: any,
   
@@ -62,36 +61,14 @@ class Ordine_dettaglioForm  extends React.Component <IProps,IState> {
        
 <FormControl>
   <Grid container spacing={1}  >
-      <Grid item xs={4}  >
+      <Grid item xs={3}  >
       
 
           <Box  display="flex" flexDirection="row" alignItems="flex-start"  
                   justifyContent="flex-start"  > 
         
-                <Box> 
-                  <TextField   size="small"   
-                       
-                        id="data_consegna"
-                        name="data_consegna"
-                        label="Data consegna"
-                        type="date"
-                        disabled={this.props.readOnly}
-                        value={this.props.formData.data_consegna.replaceAll("/","-") } 
-                        error={this.props.formDataError.data_consegna !== ""}
-                        helperText={this.props.formDataError.data_consegna}
-                        InputLabelProps={{shrink: true }}
-                        onChange={this.props.handleChangeForm}         />
-
-
-                </Box>
-                { this.props.applicaDataConsegna  &&
-                <Box> 
-                  <IconButton color="primary"  component="span"  title="Applica a tutti"  
-                                       onClick={(e) => { this.props.applicaDataConsegna(this.props.formData.data_consegna.replaceAll("/","-"));}} >
-                    <ScontoIcon />
-                  </IconButton>  
-                </Box>
-                }
+ 
+       
                       
                 <Box ml={1} width={'100%'}>
   
@@ -214,7 +191,7 @@ class Ordine_dettaglioForm  extends React.Component <IProps,IState> {
       </Grid>
    
 
-      <Grid item xs={2} >
+      <Grid item xs={5} >
                  
              
 
@@ -270,27 +247,7 @@ class Ordine_dettaglioForm  extends React.Component <IProps,IState> {
     
       </Grid>
 
-      <Grid item xs={2} >
- 
- 
-                
 
-                  <Box     ml={1}    >
-                      <TextField   size="small"  
-                          id="nota"
-                          name="nota"
-                          label="Nota"
-                          inputProps={{ maxLength: 250 }}
-                          disabled={this.props.readOnly}
-                          value={this.props.formData.nota  }  
-                          InputLabelProps={{shrink: true }}
-                          onChange={this.props.handleChangeForm}         />
-                  </Box>
-           
-        
-        
-      
-      </Grid>
 
   </Grid>
   </FormControl>

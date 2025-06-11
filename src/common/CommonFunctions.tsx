@@ -1,14 +1,4 @@
-/***
- * 
- * 
- * 
-create view qr_ordini_data_consegna as
-SELECT min(data_consegna ) as data_consegna_min,  
-max(data_consegna ) as data_consegna_max,
- id_ordine  
- FROM ordini_dettaglio
-group by    id_ordine
- */
+ 
 export const CommonFunctions = {
     CompareDate  ,
     FormatDate,

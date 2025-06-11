@@ -52,7 +52,15 @@ function TableHeader   (props: any  ) {
               </TableSortLabel>
             </TableCell>
             
- 
+            <TableCell   key="data_consegna"  align="left"   sortDirection={orderBy === "data_consegna" ? order : false}>
+
+              <TableSortLabel
+                active={orderBy ===  "data_consegna"}
+                direction={orderBy === "data_consegna" ? order : 'asc'}
+                onClick={createSortHandler("data_consegna")}>
+                    Data Consegna
+              </TableSortLabel>
+            </TableCell> 
 
             <TableCell width="50%"   key="cliente_descrizione"  align="left" 
                 sortDirection={orderBy === "cliente_descrizione" ? order : false}>
@@ -113,7 +121,7 @@ function TableRows   (props: any ) {
  
     
         <TableCell  align="left"  width="7%">{CommonFunctions.FormatDateDDMMYYYY ( row.data_ricezione)}</TableCell>
- 
+        <TableCell  align="left"  width="7%">{CommonFunctions.FormatDateDDMMYYYY ( row.data_consegna)}</TableCell> 
         <TableCell   align="left" width="20%">
  
         {row.cliente_descrizione }

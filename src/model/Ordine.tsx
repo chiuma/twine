@@ -31,7 +31,7 @@ export class  OrdineTestataErrors {
  
     id_cliente: string = ""; 
     data_ricezione: string = ""; 
-     
+    data_consegna: string = ""; 
     public constructor(init?: Partial<OrdineTestataErrors>) {
         Object.assign(this, init);
       }
@@ -44,6 +44,7 @@ export class Ordine {
     id_cliente: number = -1 ;
     id_provenienza: number = -1;
     data_ricezione: string = "";
+    data_consegna: string = ""; 
     id_ordine: number = -1 ;
     ordineDettaglio : OrdineDettaglio[] = [];
 
@@ -70,6 +71,13 @@ export class Ordine {
                 formDataError.data_ricezione = "Campo obbligatorio";
                 bValid = false;
             }
+
+            if (this.data_consegna ===  "")
+            {
+                formDataError.data_consegna = "Campo obbligatorio";
+                bValid = false;
+            }
+
             return bValid;
     
         }
