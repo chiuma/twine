@@ -1,45 +1,39 @@
-import React  from 'react';
- 
+import React from 'react';
 import { Articolo } from '../model/Articolo';
+import { Box, CircularProgress } from '@mui/material';
  
-
- 
-import {   Box, CircularProgress   } from '@material-ui/core';
-
- 
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { Articoli_elencoFiltriView } from '../views/Articoli_elencoFiltriView';
 import { ConfirmFialog } from '../utils/ConfirmDialog';
 import { articoliServices } from '../services/articoliServices';
-import {NotificationManager} from 'react-notifications'; 
+import { NotificationManager } from 'react-notifications';
 import { articoliActions } from '../actions/articoli.action';
-
 import Articoli_elencoView from '../views/Articoli_elencoView';
 import { Articolo_scheda } from './Articolo_scheda';
+import styles from '../common/globalStyle';
+import { withStyles } from '@mui/styles';
 
-export interface IProps { 
+export interface IProps {
     actDelArticolo: any,
-    elenco_articoli: Articolo[];
-   
- 
-  
-  }
-     
-export interface IState { 
- 
+    elenco_articoli: Articolo[],
+    classes: any
+}
 
-    elenco_filtrato: Articolo[], 
+export interface IState {
+    elenco_filtrato: Articolo[],
     isInProgress: boolean,
     isEditMode: boolean,
     scheda_selected: Articolo | null,
     scheda_delete:  Articolo | null,
-     
-  }
+}
 
 class Filtri {
     descrizione: string = '';
     codice: string = '';
-  }
+}
+
+ 
+ 
   
 class Articoli_elencoPage  extends React.Component <IProps,IState> {
     lastFiltri : Filtri =  new Filtri();
@@ -218,8 +212,8 @@ class Articoli_elencoPage  extends React.Component <IProps,IState> {
                     deleteScheda={this.handleSchedaToDelete}
                     showScheda={this.handleSchedaSelected}
                     isEditMode={this.state.isEditMode}
-                    elenco={this.state.elenco_filtrato}  
-                    /> 
+                    elenco={this.state.elenco_filtrato}
+                    classes={this.props.classes} /> 
               </>
               
 
@@ -258,6 +252,6 @@ function mapDispatchToProps(dispatch) {
   }
  
 
-const appArticolo_schedaPage = connect(mapStateToProps, mapDispatchToProps)(  Articoli_elencoPage );
+const appArticolo_schedaPage = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)  (Articoli_elencoPage));
 export    { appArticolo_schedaPage as Articoli_elenco } ; 
  

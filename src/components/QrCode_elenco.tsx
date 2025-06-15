@@ -2,7 +2,7 @@ import React  from 'react';
  
 import { QrCode } from '../model/QrCode';
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
  
 import { QrCode_elencoFiltriView } from '../views/QrCode_elencoFiltriView';

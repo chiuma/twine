@@ -1,47 +1,27 @@
-import React  from 'react';
- 
- 
-import {      Box,        FormControl,   FormHelperText,    Grid, IconButton,     } from '@material-ui/core';
- 
-import TextField from '@material-ui/core/TextField/TextField';
- 
-import { withStyles } from "@material-ui/core/styles";
- 
-import   styles   from '../common/globalStyle'
-import { NumberFormatCustom } from '../utils/NumberFormatCustom';
- 
-import { Autocomplete } from '@material-ui/lab';
- 
- 
-import { Cliente } from '../model/Cliente';
- 
-import {  ConsegnaTestataErrors } from '../model/Consegna';
+import React from 'react';
+import { Box, FormControl, FormHelperText, Grid, IconButton, TextField } from '@mui/material';
+ import styles from '../common/globalStyle';
+ import { Cliente } from '../model/Cliente';
+import { ConsegnaTestataErrors } from '../model/Consegna';
 import NumberFormat from 'react-number-format';
- 
-import EditClienteIcon from '@material-ui/icons/Search';
-    
+import SearchIcon from '@mui/icons-material/Search';
+import { withStyles } from '@mui/styles';
+import { CustomComponents } from '../utils/CustomComponents';
 
 export interface IProps { 
- 
     elenco_clienti:Cliente[],
     showCliente:any,
     formData: any ,
     formDataError:  ConsegnaTestataErrors  ,
     readOnly: boolean ,
-    
     classes: any,
     handleChangeForm: any,
-  
-
 }
    
 export interface IState {
     
- 
 }
  
- 
-
 class Consegna_testataForm  extends React.Component <IProps,IState> {
     
   lockCliente:boolean = false;
@@ -49,15 +29,11 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
       super(props); 
     }
  
- 
-
     componentDidMount()
     {
         this.lockCliente = this.props.formData.id_cliente === -1  ?  false : true;
        
     }
-
- 
 
     render() {    
       let azione = this.props.formData.id_consegna === -1  ?  "NEW" : "MOD";
@@ -65,34 +41,24 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
       let totale  =  this.props.formData.consegnaDettaglio.reduce( (accumulator, currentValue) => accumulator + 
       (currentValue.consegnato ?    (currentValue.prezzo*currentValue.qta  ) : 0 ) , 0 ) 
 
-
       let totale_scontato =  this.props.formData.consegnaDettaglio.reduce( (accumulator, currentValue) => accumulator + 
                         (currentValue.consegnato ?    (currentValue.prezzo*currentValue.qta - (currentValue.prezzo*currentValue.qta*currentValue.sconto/100)) : 0 ) , 0 ) ;
       
       let totale_pagare = totale_scontato  + this.props.formData.importo_trasporto;     
       
-
       let totale_scontato_evaso =  this.props.formData.consegnaDettaglio.reduce( (accumulator, currentValue) => accumulator + 
             (currentValue.consegnato ?    (currentValue.prezzo*currentValue.qta_evasa - (currentValue.prezzo*currentValue.qta_evasa*currentValue.sconto/100)) : 0 ) , 0 ) 
 
     
-
       let totale_pagare_evaso = totale_pagare + ( (totale_scontato_evaso+this.props.formData.importo_trasporto) *this.props.formData.iva/100);
       
       totale_pagare_evaso = Math.round((totale_pagare_evaso + Number.EPSILON) * 10 ) / 10;
  
-
-      
       totale_pagare = totale_pagare + (totale_pagare*this.props.formData.iva/100);
       totale_pagare = Math.round((totale_pagare + Number.EPSILON) * 10 ) / 10;
       let importo_commissione = this.props.formData.importo_manuale * totale_scontato /100;
     
- //console.log("totale_scontato", totale_scontato)
- // console.log("totale_scontato_evaso", totale_scontato_evaso)
-
-
-
-        return (
+      return (
 <> 
        
    
@@ -105,23 +71,19 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
         <Box width={'92%'}> 
           <FormControl  >
       
-          <Autocomplete
+          <CustomComponents.CustomAutocomplete
                 disabled={azione !== "NEW" || this.lockCliente === true}
-                value={  this.props.formData.id_cliente === -1 ? null :   this.props.elenco_clienti.find( x=> x.id_cliente === this.props.formData.id_cliente) }
-                 options={this.props.elenco_clienti}
-                 getOptionSelected={ (option: Cliente ) => 
-                  {
-                    return option?.id_cliente === this.props.formData.id_cliente
-                  }
+                label="Cliente"
+                value={this.props.formData.id_cliente === -1 ? null : this.props.elenco_clienti.find(x => x.id_cliente === this.props.formData.id_cliente)}
+                options={this.props.elenco_clienti}
+                isOptionEqualToValue={(option: Cliente, value: Cliente) => 
+                  option?.id_cliente === value?.id_cliente
                 }
-                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
-                id="id_cliente" 
-                onChange={ (event:any, option:any)  => 
-                    this.props.handleChangeForm ({target: {name: 'id_cliente', value:  option != null ? option.id_cliente : -1 }}  ) 
-                }    
-
-                clearOnEscape
-                renderInput={(params) => <TextField {...params} InputLabelProps={{shrink: true }}   label="Cliente" margin="normal" />}
+                getOptionLabel={(option: any) => option != null ? option.descrizione : ''}
+                id="id_cliente"
+                onChange={(event: any, option: any) =>
+                  this.props.handleChangeForm({ target: { name: 'id_cliente', value: option != null ? option.id_cliente : -1 } })
+                }
               />
               { this.props.formDataError.id_cliente !== '' && 
                 <Box>
@@ -133,7 +95,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
       <Box  >
               { this.props.formData.id_cliente !== -1 && 
               <IconButton title='Scheda Cliente' color="primary"  component="span"   onClick={() => { this.props.showCliente(this.props.formData.id_cliente);}}>
-              <EditClienteIcon />
+              <SearchIcon />
               </IconButton>
               } 
          
@@ -143,16 +105,14 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
     
     <Grid item xs={2}  >
             <FormControl  >
-            <TextField   size="small"   
+            <CustomComponents.NumberFormatCustom
              disabled={this.props.readOnly}
                         id="data_consegna_effettuata"
                         name="data_consegna_effettuata"
                         label="Data consegna effettuata"
                         type="date"
                         error={this.props.formDataError.data_consegna_effettuata !== ""}
-                        helperText={this.props.formDataError.data_consegna_effettuata}
-              
-                        InputLabelProps={{shrink: true }}
+                        helperText={this.props.formDataError.data_consegna_effettuata} 
                         value={this.props.formData.data_consegna_effettuata.replaceAll("/","-")}  
                         onChange={this.props.handleChangeForm}         />
             </FormControl>
@@ -160,14 +120,11 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
       
     <Grid item xs={1}  >
             <FormControl  >
-            <TextField   size="small"   
+            <CustomComponents.CustomTextField
              disabled={true}
                         id="progressivo"
                         name="progressivo"
-                        label="Codice"
- 
-              
-                        InputLabelProps={{shrink: true }}
+                        label="Codice" 
                         value={this.props.formData.progressivo}  
                         onChange={this.props.handleChangeForm}         />
             </FormControl>
@@ -176,8 +133,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
 
     <Grid item xs={4} >
           <FormControl  >
-          <TextField  size="small"  
-                            InputLabelProps={{shrink: true}}
+         <CustomComponents.CustomTextField 
                             disabled={this.props.readOnly} 
                             InputProps={{ 
                                 classes:{
@@ -242,7 +198,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
 
       <Grid item xs={1}>
 
-        <NumberFormatCustom   
+        <CustomComponents.NumberFormatCustom 
                     value={this.props.formData.importo_trasporto}  
                    
                     InputLabelProps={{shrink: true }} 
@@ -256,7 +212,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
     
       <Grid item xs={1}>
 
-        <NumberFormatCustom   
+        <CustomComponents.NumberFormatCustom
                 value={this.props.formData.iva}  
                 InputLabelProps={{shrink: true }}
                 prefix= ""  
@@ -270,7 +226,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
 
         <Grid item xs={1}>
 
-          <NumberFormatCustom   
+          <CustomComponents.NumberFormatCustom
                   value={this.props.formData.colli}  
                   InputLabelProps={{shrink: true }}
                   prefix= ""  
@@ -321,7 +277,7 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
 
         <Grid item xs={1}>
  
-          <NumberFormatCustom   
+          <CustomComponents.NumberFormatCustom
                       value={this.props.formData.importo_manuale}  
                       prefix=""  
                       InputLabelProps={{shrink: true }} 
@@ -366,4 +322,4 @@ class Consegna_testataForm  extends React.Component <IProps,IState> {
     
 
 
-export default withStyles(styles) (Consegna_testataForm);
+export default withStyles(styles)(Consegna_testataForm) ;

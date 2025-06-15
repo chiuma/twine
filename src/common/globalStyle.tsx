@@ -1,6 +1,4 @@
-import {   Theme } from '@material-ui/core/styles';
-
-const styles =(theme:Theme) => ({
+const styles =(theme:any) => (  {
   popper: {
     maxWidth: "fit-content"
   },
@@ -10,7 +8,6 @@ const styles =(theme:Theme) => ({
     paperDialogColore : { minWidth: "50%" },
     paperDialogProvenienza : { minWidth: "40%" },
     paperDialogArticoli : { minWidth: "40%" },
-    paperDialogQrCode : { minWidth: "70%" },
     paperElenco: {
         width: '96%',
         height: '96%',
@@ -25,7 +22,11 @@ const styles =(theme:Theme) => ({
   
     },
   
-
+  menuList: {
+    width: 'auto',
+    color:'white',
+ 
+  },
 
     inputRoot: {
         '&$disabled': { 

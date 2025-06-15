@@ -32,7 +32,7 @@ export default {
                 if ( response.data.esito === "NOT_OK" &&  
                     (response.data.err_code === "-001" || response.data.err_code === "-002"))
                 {
-
+// console.log("SessionExpired 1",response)
                    
                     if ( response.data.err_code === "-001")
                     {
@@ -48,7 +48,9 @@ export default {
                     else
                     {
                         sessionStorage.clear(); 
-                      window.location.href = ConstantUtils.url.HOME_URL +  'SessionExpired.html'
+                   //     console.log("SessionExpired 2",response )
+      
+                        window.location.href = ConstantUtils.url.HOME_URL +  'SessionExpired.html'
                     }
                 }
                  

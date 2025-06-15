@@ -4,7 +4,7 @@ import React  from 'react';
 import { connect } from 'react-redux';
  
  
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@mui/material';
 import { consegneServices } from '../services/consegneServices';
 import {NotificationManager} from 'react-notifications';  
 import { CommonFunctions } from '../common/CommonFunctions';

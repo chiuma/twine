@@ -1,160 +1,123 @@
-import React  from 'react';
+import React from 'react';
+import { 
+  AppBar,
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  FormControl,
+  Grid,
+  Paper,
+  Toolbar,
+  Typography,
+  TextField
+} from '@mui/material';
+ 
+import styles from '../common/globalStyle';
+import { IconsMenu } from '../common/Icons';
+import SaveIcon from '@mui/icons-material/Save';
+import { withStyles } from '@mui/styles';
+import { CustomComponents } from '../utils/CustomComponents';
+
  
  
-import {   AppBar,   Box,   Button, CircularProgress,     Dialog,  DialogContent,  FormControl,    Grid,    Paper,    Toolbar, Typography } from '@material-ui/core';
- 
-import TextField from '@material-ui/core/TextField/TextField';
- 
-import { withStyles } from "@material-ui/core/styles";
-import {IconsMenu} from '../common/Icons'
- 
- 
-import   styles   from '../common/globalStyle'
- 
-function Scheda   (props: any  ) {
-  const {    propieta } = props;
-  return (   
+function Scheda(props: any) {
+  const { propieta } = props;
+  return (
     <Box width="100%">
-          {propieta.isInProgress &&
-
-            <Box mt={2}>
-                <CircularProgress color="primary" />
-            </Box>
-          }
-
-          <AppBar position="static"  className={propieta.classes.barBackground} color="primary">
-          <Toolbar>
-          
-              <Typography variant="h6" className={propieta.classes.title}>
+      {propieta.isInProgress && (
+        <Box mt={2}>
+          <CircularProgress color="primary" />
+        </Box>
+      )}
+      <Box width="100%" p={2}>
+        <AppBar position="static" className={propieta.classes.barBackground} color="primary">
+           <Toolbar>
+            <Typography variant="h6"  className={propieta.classes.title}>
               Provenienza - {propieta.formData.id_provenienza === -1 ? "Nuovo" : "Modifica"}
-              </Typography>
-
-
-              {!propieta.readOnly && propieta.bChangedForm &&
-              <Button  startIcon={<IconsMenu.SaveIcon />}  onClick={propieta.saveScheda} style={{marginRight:10}} size="small" color="primary" variant="contained" >
-              Salva
+            </Typography>
+            {!propieta.readOnly && propieta.bChangedForm && (
+              <Button color="inherit" onClick={propieta.saveScheda}>
+                <SaveIcon />
               </Button>
-              }
-
-              <Button onClick={propieta.handleClose}  size="small" color="primary" variant="contained"> 
+            )}
+            <Button onClick={propieta.handleClose} size="small" color="primary" variant="contained">
               Chiudi
-              </Button>
+            </Button>
           </Toolbar>
         </AppBar>
-
-
-
-        <FormControl style={{width: '100%', marginTop:'4%', marginBottom:'2%'}}  >
-
-                <Grid container spacing={1} >
-                     
- 
-
-                  <Grid  item xs={8}>
-                        <TextField  size="small" 
-                            error={propieta.formDataError.descrizione !== ""}
-                            helperText={propieta.formDataError.descrizione}
-                            InputLabelProps={{shrink: true}}
-                            disabled={propieta.bReadObnly}   
-                            InputProps={{ 
-                                classes:{
-                                  root: propieta.classes.inputRoot,
-                                  disabled: propieta.classes.disabled,
-                                }
-                              }}
-                             
-                            id="descrizione"
-                            name="descrizione"
-                            label="Descrizione"
-                            value={propieta.formData.descrizione}   
-                            onChange={propieta.handleChangeForm}    
-                        />
-
-                </Grid>
-
+        <FormControl style={{width: '100%', marginTop:'4%', marginBottom:'2%'}}>
+          <Grid container spacing={1}>
+            <Grid item xs={8}>
+              <CustomComponents.CustomTextField  
+                error={propieta.formDataError.descrizione !== ""}
+                helperText={propieta.formDataError.descrizione} 
+                disabled={propieta.bReadObnly}
+                id="descrizione"
+                name="descrizione"
+                label="Descrizione"
+                value={propieta.formData.descrizione}
+                onChange={propieta.handleChangeForm}
+              />
             </Grid>
-
-
-          </FormControl>
+          </Grid>
+        </FormControl>
+      </Box>
     </Box>
-   );
+  );
 }
-        
 
 export interface IProps { 
     formData: any,
     formDataError: any,
- 
     handleChangeForm: any,
-
     scheda: any,
-
-    classes: any,
     isModal:boolean,
     handleClose:any,
     saveScheda:any,
     isInProgress: boolean,
     readOnly:boolean,
     bChangedForm: boolean
-
 }
-   
-export interface IState {
-    
- 
-}
- 
 
-class Provenienza_schedaView  extends React.Component <IProps,IState> {
-    
+export interface IState {}
+
+class Provenienza_schedaView extends React.Component<IProps, IState> {
+  constructor(props: any) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <>
+        {this.props.isModal && (
+          <Dialog
+            open={true}
+            onClose={this.props.handleClose}
+            aria-labelledby="dialog-title"
+            PaperProps={{
+              sx: {
+                minWidth: '500px'
+              }
+            }}
+          >
+            <DialogContent style={{ overflow: "hidden" }}>
+              <Scheda propieta={this.props} />
+            </DialogContent>
+          </Dialog>
+        )}
+        {!this.props.isModal && (
+          <Box display="flex" flexDirection="row" alignItems="center" height="70%" width="50%"
+            mt={4} justifyContent="center">
+ 
+              <Scheda propieta={this.props} />
   
-
- 
-
-    render() {    
-   
-       
-        
-        return (
-
-        <> 
-          {this.props.isModal && 
-
-
-            <Dialog scroll="body" open={true} onClose={this.props.handleClose} aria-labelledby="form-dialog-title"
-                    disableBackdropClick={true} 
-                    classes={{      paperWidthSm: this.props.classes.paperDialogProvenienza     }}>
-
-                <DialogContent  style={{ overflow: "hidden" }}>
-                    <Scheda  propieta={this.props} />
-                </DialogContent>
-            </Dialog>
-           
-          
-          }
-
-          {!this.props.isModal && 
-            <Box  display="flex" flexDirection="row" alignItems="center"  height="70%"  width="50%"
-                  mt={4}   justifyContent="center"  > 
-                <Paper className={this.props.classes.paperElenco} variant="outlined"  >
-                   
-                  <Scheda  propieta={this.props} />
-                   
-               </Paper>
-            </Box>
-          }
- 
-
-        </>
-     
-    )}
-
- 
+          </Box>
+        )}
+      </>
+    );
+  }
 }
 
- 
- 
- 
-
-
-export default withStyles(styles) (Provenienza_schedaView);
+export default withStyles(styles) (Provenienza_schedaView) ; 

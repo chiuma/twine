@@ -1,26 +1,27 @@
 import React from 'react'; 
 
-import {     Box,  IconButton, TableHead, TableSortLabel} from '@material-ui/core';
+import {     Box,  IconButton, TableHead, TableSortLabel} from '@mui/material';
 
-import   styles   from '../common/globalStyle'
- 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
- 
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
  
  
-import Paper from '@material-ui/core/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+ 
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+ 
+ 
+import Paper from '@mui/material/Paper';
   
-import EditIcon from '@material-ui/icons/Search';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from "@material-ui/core/styles";
+import EditIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+ import styles from '../common/globalStyle';
  
 import { QrCode } from '../model/QrCode';
 import {    Order, tableUtility,   } from '../common/tableUtility';
+import { withStyles } from '@mui/styles';
  
  
  
@@ -258,7 +259,7 @@ width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}}
 }
 
  
+export default withStyles(styles) (QrCode_elencoView) ; 
  
-export default withStyles(styles) (QrCode_elencoView);
 
  

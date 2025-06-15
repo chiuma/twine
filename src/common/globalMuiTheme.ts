@@ -34,9 +34,63 @@ theme = createTheme (theme,{
  
 
     components: {
-
- 
-
+        MuiTablePagination: {
+            styleOverrides: {
+              root: {
+                borderTop: '1px solid rgba(224, 224, 224, 1)'
+              }
+            }
+          },
+      
+        MuiTableSortLabel: {
+            styleOverrides: {
+              root: {
+                color: theme.palette.primary.main,
+                fontWeight: 'bold'
+              }
+            }
+          },
+    
+          MuiTableCell: {
+            styleOverrides: {
+              head: {
+                    color: theme.palette.primary.main,
+                  fontWeight: 'bold'
+              },
+              root: {
+                color: 'black',
+                fontWeight: 'normal'
+              }
+            }
+          },
+          MuiTableHead: {
+            styleOverrides: {
+              root: {
+                backgroundColor: '#f5f5f5',
+                 fontWeight: 'bold'
+              }
+            }
+          },
+          MuiTableRow: {
+            styleOverrides: {
+              root: {
+                    fontWeight: 'bold',
+                '&:nth-of-type(odd)': {
+                  backgroundColor: '#fafafa'
+                }
+              }
+            }
+          },
+          MuiTableBody: {
+            styleOverrides: {
+              root: {
+                '& .MuiTableRow-root:hover': {
+                  backgroundColor: '#f0f0f0'
+                }
+              }
+            }
+          },
+      
       MuiListItemText: {
         styleOverrides: {
           primary : {  
@@ -61,24 +115,7 @@ theme = createTheme (theme,{
             }
           }},
 
-      MuiTableCell: {
-        styleOverrides: {
-        root:
-        {
-            color: theme.palette.primary.main, 
-            fontWeight:'bold',
-            padding: '6px', 
-
-        },
-        head:
-        { 
-            verticalAlign:'bottom'
-
-        },
-
-      }
-      },
-
+ 
       MuiAutocomplete: {
         styleOverrides: {
           root: {
@@ -221,11 +258,14 @@ theme = createTheme (theme,{
     }
     },
  
+
+
       
  
-
+ 
       MuiCheckbox: {
         styleOverrides: {
+
         colorSecondary: {
           color: "grey",
           "&:hover": {
@@ -269,12 +309,11 @@ theme = createTheme (theme,{
 
       MuiInputLabel:{
         styleOverrides: {
-        shrink: {fontSize: "large", color: theme.palette.primary.main, fontWeight:"bold",whiteSpace:'nowrap',  }
+        shrink: {fontSize: "small", color: theme.palette.primary.main, fontWeight:"bold",whiteSpace:'nowrap',  }
         }
       },
 
  
-    
      
       MuiToolbar:{
         styleOverrides: {
@@ -295,7 +334,13 @@ theme = createTheme (theme,{
 
       },
 
-  
+      MuiBox:{
+        styleOverrides: { 
+        root: {
+         fontSize:'50%'
+        }
+
+      }},
 
   
       MuiLink:
@@ -385,6 +430,9 @@ theme = createTheme (theme,{
       },
                
     },
+
+
+    
   
    
 }

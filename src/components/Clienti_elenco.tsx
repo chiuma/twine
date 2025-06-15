@@ -2,7 +2,7 @@ import React  from 'react';
  
 import { Cliente, ClienteFiltri } from '../model/Cliente';
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
 import { Cliente_scheda } from './Cliente_scheda';
 import { Clienti_elencoFiltriView } from '../views/Clienti_elencoFiltriView';
@@ -237,8 +237,7 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
 
   
 function mapStateToProps(state) {
-  console.log("state.clientiReducer.elenco_clienti", state.clientiReducer.elenco_clienti)
-  return {
+   return {
     elenco_clienti: state.clientiReducer.elenco_clienti 
   };
 }

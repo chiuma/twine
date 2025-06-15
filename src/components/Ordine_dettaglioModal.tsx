@@ -1,56 +1,38 @@
-import React  from 'react';
+import React from 'react';
+import { Box, Button, Dialog, DialogContent } from '@mui/material';
  
- 
-import {      Box,      } from '@material-ui/core';
- 
-import { withStyles } from "@material-ui/core/styles";
- 
-import   styles   from '../common/globalStyle'
- 
-  
+import styles from '../common/globalStyle';
 import { Colore } from '../model/Colore';
 import { OrdineDettaglio, OrdineDettaglioErrors } from '../model/OrdineDettaglio';
 import { Cliente } from '../model/Cliente';
 import { Articolo } from '../model/Articolo';
-import {  Button, Dialog , DialogContent} from '@material-ui/core';
 import Ordine_dettaglioForm from '../views/Ordine_dettaglioForm';
 import { IconsMenu } from '../common/Icons';
 import { ordiniServices } from '../services/ordiniServices';
-    
-import {NotificationManager} from 'react-notifications'; 
-
+import { NotificationManager } from 'react-notifications';
+import { withStyles } from '@mui/styles';
 
 export interface IProps { 
     elenco_colori: Colore[],
     elenco_articoli: Articolo[],
     elenco_clienti:Cliente[],
-    
+    isMobile: boolean,
     id_ordine: number,
     classes: any,
-
     handleAddOrdine:any,
     handleSaveOrdine:any
-  
-
 }
    
 export interface IState {
-    
     formDettaglio:  OrdineDettaglio ,
     formDettaglioError: OrdineDettaglioErrors
 }
  
- 
-
 class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
     
- 
- 
-
     constructor(props: any) 
     {
         super(props); 
- 
         
         this.handleChangeFormDettaglio = this.handleChangeFormDettaglio.bind(this);  
         this.handleSalva = this.handleSalva.bind(this);  
@@ -59,18 +41,12 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
             formDettaglio:  Object.assign(new OrdineDettaglio(),  
              {  id_ordine: this.props.id_ordine }),  
             formDettaglioError:  new OrdineDettaglioErrors()     } ; 
-
-
     }
 
- 
     handleChangeFormDettaglio = (event, idx) => {
     
         const formDettaglio = this.state.formDettaglio;
        
-   //  console.log("formDettaglio",formDettaglio)
-       //  let dPrezzo  = Number( parseFloat(event.target.value.replace(",","."))) ;
-         // (Math.round(dPrezzo * 100) / 100).toFixed(2); 
         if ( event.target.name === "data_ricezione")
         {
             formDettaglio[event.target.name] = event.target.value.replaceAll("-","/") ;
@@ -135,7 +111,6 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
    
               this.props.handleSaveOrdine(ris.scheda)
       
-               // console.log("elenco_ordini", this.elenco_ordini)
             }
             else
             { 
@@ -159,12 +134,9 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
     }
 
     render() {    
- 
-        
         return (
- 
             <Dialog scroll="body" open={true} onClose={e => this.props.handleAddOrdine(null)} aria-labelledby="form-dialog-title"
-            disableBackdropClick={true}   classes={{      paperWidthSm: this.props.classes.paperDialogordineDettaglio     }}>
+            disableEscapeKeyDown={true} classes={{ paperWidthSm: this.props.classes.paperDialogordineDettaglio }}>
 
         <DialogContent  style={{ overflow: "hidden" }}>
           <>
@@ -175,6 +147,8 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
                     elenco_articoli={this.props.elenco_articoli} 
                     formData={this.state.formDettaglio}
                     readOnly={false} 
+                    isNewRow={true}
+                    isMobile={this.props.isMobile} 
                     formDataError={this.state.formDettaglioError } 
                     handleChangeForm={this.handleChangeFormDettaglio}
                   /> 
@@ -192,13 +166,7 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
     </Dialog>
  
     ) 
- 
 }
 }
  
- 
- 
-    
-
-
-export default withStyles(styles) (Ordine_dettaglioModal);
+export default withStyles(styles) (Ordine_dettaglioModal) ;

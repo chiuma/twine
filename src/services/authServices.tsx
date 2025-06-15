@@ -36,7 +36,6 @@ async function   login (email,    password)
             JSON.stringify(  params   ),
             config
         )  
-
       
        return {esito: responseData.data.esito , err_code: responseData.data.err_code, token: responseData.headers.authorization };
  

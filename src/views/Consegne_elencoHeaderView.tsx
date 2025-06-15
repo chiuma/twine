@@ -1,20 +1,12 @@
- 
-import {     Box, Button,      Paper,      } from '@material-ui/core';
- 
- 
- 
+import { Box, Button, Paper } from '@mui/material';
 import NumberFormat from 'react-number-format';
 import { IconsMenu } from '../common/Icons';
- 
 
 interface Props   {
     handleStampaEtichette:any,
     handleNewConsegna:any,
     elenco: any, 
- 
-    
-    
-  } 
+} 
 
 export function Consegne_elencoHeaderView (props: Props ) {
  

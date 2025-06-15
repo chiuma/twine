@@ -1,29 +1,30 @@
 import React from 'react'; 
 
-import {     Box,  IconButton, TableHead, TableSortLabel, Tooltip} from '@material-ui/core';
+import {     Box,  IconButton,   TableHead, TableSortLabel, Tooltip} from '@mui/material';
 
 import   styles   from '../common/globalStyle'
  
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
  
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
  
  
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
   
-import EditIcon from '@material-ui/icons/Search';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from "@material-ui/core/styles";
+import EditIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+
  
  
 import {    Order, tableUtility,   } from '../common/tableUtility';
  
 import NumberFormat from 'react-number-format';
 import { CommonFunctions } from '../common/CommonFunctions';
+import { withStyles } from '@mui/styles';
  
  
 
@@ -351,8 +352,6 @@ class Ordini_elenco_dettaglioView  extends React.Component <IProps,IState> {
   }
 }
 
- 
- 
-export default withStyles(styles) (Ordini_elenco_dettaglioView);
+  
 
- 
+ export default withStyles(styles) (Ordini_elenco_dettaglioView) ; 

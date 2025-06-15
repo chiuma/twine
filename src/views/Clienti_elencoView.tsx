@@ -1,31 +1,11 @@
 import React from 'react'; 
-
-import {     Box, IconButton, TableHead, TableSortLabel} from '@material-ui/core';
-
-import   styles   from '../common/globalStyle'
- 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
- 
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
- 
- 
-import Paper from '@material-ui/core/Paper';
-  
-import EditIcon from '@material-ui/icons/Search';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from "@material-ui/core/styles";
- 
+import { Box, IconButton, TableHead, TableSortLabel, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Paper } from '@mui/material';
+ import styles from '../common/globalStyle';
+import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Cliente } from '../model/Cliente';
-import {   HeadCell, Order, tableUtility,   } from '../common/tableUtility';
- 
- 
-
-
- 
+import { HeadCell, Order, tableUtility } from '../common/tableUtility';
+import { withStyles } from '@mui/styles';
 
 const headCells: HeadCell[] = [
   { id: 'id_cliente', numeric: false,   label: 'id_cliente', align: 'left' },
@@ -148,7 +128,7 @@ function TableRows   (props: any ) {
         </IconButton>    
    
         <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <EditIcon />
+          <SearchIcon />
         </IconButton>
  
            
@@ -289,6 +269,6 @@ class Clienti_elencoView  extends React.Component <IProps,IState> {
 
  
  
-export default withStyles(styles) (Clienti_elencoView);
+export default withStyles(styles) (Clienti_elencoView) ;
 
  

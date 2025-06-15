@@ -1,19 +1,21 @@
 import React  from 'react';
  
  
-import {   AppBar,   Box,   Button, CircularProgress,     Dialog,  DialogContent,  FormControl,    Grid,    Paper,    Tab,    Tabs,    Toolbar, Typography } from '@material-ui/core';
+import {   AppBar,   Box,   Button, CircularProgress,     Dialog,  DialogContent,  FormControl,    Grid,    Paper,        Tab,    Tabs,    Toolbar, Typography } from '@mui/material';
  
-import TextField from '@material-ui/core/TextField/TextField';
+import TextField from '@mui/material/TextField/TextField';
  
-import { withStyles } from "@material-ui/core/styles";
+
  
-import EmailIcon from '@material-ui/icons/EmailRounded';
-import TelefonoIcon from '@material-ui/icons/PhoneRounded';
-import CellulareIcon from '@material-ui/icons/PhoneAndroid';
+import EmailIcon from '@mui/icons-material/EmailRounded';
+import TelefonoIcon from '@mui/icons-material/PhoneRounded';
+import CellulareIcon from '@mui/icons-material/PhoneAndroid';
  
 import   styles   from '../common/globalStyle'
 import { Consegne_elenco } from '../components/Consegne_elenco';
 import { IconsMenu } from '../common/Icons';
+import { withStyles } from '@mui/styles';
+import { CustomComponents } from '../utils/CustomComponents';
  
  
 function Scheda   (props: any  ) {
@@ -32,11 +34,11 @@ function Scheda   (props: any  ) {
 
           <Grid container spacing={3} >
     
-                <Grid item xs={6} >
-                        <TextField  size="small" 
+                <Grid item xs={6} > 
+                        <CustomComponents.CustomTextField  
                             error={propieta.formDataError.descrizione !== ""}
                             helperText={propieta.formDataError.descrizione}
-                            InputLabelProps={{shrink: true}}
+                            
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 classes:{
@@ -54,8 +56,7 @@ function Scheda   (props: any  ) {
 
                 </Grid>
                 <Grid item xs={3} >
-                        <TextField   size="small"  
-                            InputLabelProps={{shrink: true}}
+                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 classes:{
@@ -73,8 +74,7 @@ function Scheda   (props: any  ) {
                         />          
                 </Grid>
                 <Grid item xs={3} >
-                      <TextField  size="small"  
-                            InputLabelProps={{shrink: true}}
+                      <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 classes:{
@@ -96,8 +96,7 @@ function Scheda   (props: any  ) {
 
                 <Grid item xs={4} >
                        
-                       <TextField   size="small"  
-                            InputLabelProps={{shrink: true}}
+                       <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 startAdornment: (<TelefonoIcon color="primary" />),
@@ -121,8 +120,7 @@ function Scheda   (props: any  ) {
                 
                 <Grid item xs={4} >
                        
-                       <TextField   size="small"  
-                            InputLabelProps={{shrink: true}}
+                        <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 startAdornment: (<CellulareIcon color="primary" />),
@@ -145,8 +143,7 @@ function Scheda   (props: any  ) {
 
 
                 <Grid item xs={4} >
-                        <TextField   size="small"  
-                            InputLabelProps={{shrink: true}}
+                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                               startAdornment: (<EmailIcon color="primary" />),
@@ -166,8 +163,7 @@ function Scheda   (props: any  ) {
                 </Grid>
 
                 <Grid item xs={1} >
-                        <TextField   size="small"  
-                            InputLabelProps={{shrink: true}}
+                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 classes:{
@@ -196,9 +192,7 @@ function Scheda   (props: any  ) {
 
 
                 <Grid item xs={4} >
-                        <TextField  size="small"   
-                        
-                          InputLabelProps={{shrink: true}}
+                        <CustomComponents.CustomTextField  
                           disabled={propieta.bReadObnly}   
                             InputProps={{ 
                                 classes:{
@@ -216,8 +210,7 @@ function Scheda   (props: any  ) {
 
                 </Grid>
                 <Grid item xs={1} >
-                        <TextField   size="small"   
-                            InputLabelProps={{shrink: true}}
+                        <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}  
                             InputProps={{ 
                                 classes:{
@@ -235,8 +228,7 @@ function Scheda   (props: any  ) {
                         />          
                 </Grid>
                 <Grid item xs={6} >
-                        <TextField   size="small"   
-                            InputLabelProps={{shrink: true}}
+                        <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}  
                             InputProps={{ 
                                 classes:{
@@ -257,8 +249,7 @@ function Scheda   (props: any  ) {
 
 
                 <Grid item xs={12} >
-                        <TextField   size="small"   
-                            InputLabelProps={{shrink: true}}
+                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}  
                             InputProps={{ 
                                 classes:{
@@ -336,13 +327,23 @@ function SchedaTabs (props: any  ) {
 
       <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="space-between"  > 
         <Box>
-
-          <Tabs value={value} onChange={handleChange} aria-label="Scheda" 
-           TabIndicatorProps={{ style: { background: "white" } }}>
-            <Tab label="Scheda"  {...a11yProps(0)}   icon={<IconsMenu.ClientiIcon />} />
+     
+          <Tabs value={value} onChange={handleChange} aria-label="Scheda"    
+              TabIndicatorProps={{ style: { background: "white"  } }}>
+            <Tab label="Scheda"    sx={{
+                color: 'antiquewhite', // Colore per lo stato non selezionato
+                '&.Mui-selected': {
+                  color: 'white', // Colore per lo stato selezionato
+                },
+              }} icon={<IconsMenu.ClientiIcon  sx={{ color: 'white' }} />} />
 
             {props.formData.id_cliente !== -1 && props.showConsegne &&
-            <Tab label="Consegne" {...a11yProps(1)}  icon={<IconsMenu.ConsegneIcon />}/>
+            <Tab label="Consegne"   sx={{
+                color: 'antiquewhite', // Colore per lo stato non selezionato
+                '&.Mui-selected': {
+                  color: 'white', // Colore per lo stato selezionato
+                },
+              }} icon={<IconsMenu.ConsegneIcon sx={{ color: 'white' }} />}/>
             }
     
           </Tabs>
@@ -358,12 +359,12 @@ function SchedaTabs (props: any  ) {
         <Toolbar> 
         
           {!props.readOnly && props.bChangedForm &&
-          <Button  startIcon={<IconsMenu.SaveIcon />}  onClick={props.saveScheda} style={{marginRight:10}} size="small" color="primary" variant="contained" >
+          <Button  startIcon={<IconsMenu.SaveIcon />}  onClick={props.saveScheda} style={{marginRight:10}} size="small"  color="primary" variant="contained" >
           Salva
           </Button>
           }
 
-          <Button onClick={props.handleClose}  size="small" color="primary" variant="contained"> 
+          <Button onClick={props.handleClose}  size="small"   color="primary" variant="contained"> 
            Chiudi
           </Button>
         </Toolbar>
@@ -432,7 +433,6 @@ class Cliente_schedaView  extends React.Component <IProps,IState> {
 
 
             <Dialog scroll="body" open={true} onClose={this.props.handleClose} aria-labelledby="form-dialog-title"
-                    disableBackdropClick={true} 
                     classes={{      paperWidthSm: this.props.classes.paperDialogClienti     }}>
 
                 <DialogContent  style={{ overflow: "hidden" }}>
@@ -467,6 +467,4 @@ class Cliente_schedaView  extends React.Component <IProps,IState> {
  
  
  
-
-
-export default withStyles(styles) (Cliente_schedaView);
+  export default withStyles(styles) (Cliente_schedaView) ;  

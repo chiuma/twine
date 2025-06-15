@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import React  from 'react';
 import parse from 'html-react-parser';

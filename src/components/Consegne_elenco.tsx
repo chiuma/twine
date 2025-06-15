@@ -2,7 +2,7 @@ import React  from 'react';
  
  
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 
  
 import { connect } from 'react-redux';

@@ -19,13 +19,15 @@ export interface IProps {
     scheda: Ordine,
     saveOrdine:any,
     readOnly: boolean ,
-    handleDelOrdine: any,
-    handleStampaOrdine: any,
+    handleDelOrdine: any | null,
+    handleStampaOrdine: any | null,
     classes: any,
     elenco_colori: Colore[],    
     elenco_clienti: Cliente[],
     elenco_articoli: Articolo[],
     elenco_provenienze: Provenienza[]
+    isModal:boolean,
+    isMobile:boolean,
 }
    
 export interface IState { 
@@ -56,10 +58,10 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
       this.handleDelDettaglio = this.handleDelDettaglio.bind(this);
       this.handleEvadiAll = this.handleEvadiAll.bind(this);      
  
-    
+ 
       let formOrdine =  Object.assign (new Ordine(), {...this.props.scheda});
    
-      this.azione = this.props.scheda.ordineDettaglio[0].id_ordine_dettaglio === -1 ? "NEW": "MOD"
+      this.azione = this.props.scheda.id_ordine === -1 ? "NEW": "MOD"
        
       if (this.azione === "NEW")
       { 
@@ -182,7 +184,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
     
         const formDettaglio = this.state.formOrdine.ordineDettaglio[idx];
        
-   //  console.log("formDettaglio",formDettaglio)
+     console.log("formDettaglio",formDettaglio)
        //  let dPrezzo  = Number( parseFloat(event.target.value.replace(",","."))) ;
          // (Math.round(dPrezzo * 100) / 100).toFixed(2); 
         if ( event.target.name === "data_ricezione")
@@ -205,8 +207,9 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                 if ( articolo != null)
                 {
                     formDettaglio["prezzo"]  = articolo.prezzo 
-                    formDettaglio["articolo_base_descrizione"] = articolo?.descrizione;
+                    formDettaglio[""] = articolo?.descrizione;
                     formDettaglio["articolo_base_codice"] = articolo?.codice        
+                    formDettaglio["articolo_base_descrizione"] = articolo?.descrizione  
                     
                 }
                 else
@@ -252,7 +255,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             && x.id_colore_2 === dettaglioDaInserire.id_colore_2
             && x.id_colore_3 === dettaglioDaInserire.id_colore_3 
             ) ; 
-            
+        
         if (idx !== -1 && idx !==  this.state.formOrdine.ordineDettaglio.length-1)
         {
             formDettaglioaErrors.id_articolo_base = "Articolo già esistente"
@@ -280,7 +283,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                         id_articolo_base: formDettaglio.id_articolo_base,
                         
                     })) 
-
+ 
                 newOrdine.ordineDettaglio[newOrdine.ordineDettaglio.length-1]["articolo_base_descrizione"] = formDettaglio["articolo_base_descrizione"] 
 
                 newOrdine.ordineDettaglio[newOrdine.ordineDettaglio.length-1]["articolo_base_codice"] = formDettaglio["articolo_base_codice"] 
@@ -336,6 +339,8 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
 
           <Ordine_schedaView
+            isModal={this.props.isModal}
+            isMobile={this.props.isMobile}
             elenco_colori={this.props.elenco_colori} 
             elenco_clienti={this.props.elenco_clienti} 
             elenco_articoli={this.props.elenco_articoli} 

@@ -1,13 +1,21 @@
- 
-
-import {    Accordion, AccordionDetails, AccordionSummary, Box, Button, Container,   Grid,         TextField, Typography } from '@material-ui/core';
- 
-  
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React from 'react';
+import { 
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Autocomplete } from '@mui/material';
 import { useState } from 'react';
 import { QrCode } from '../model/QrCode';
 import { IconsMenu } from '../common/Icons';
-
+import { CustomComponents } from '../utils/CustomComponents';
 
 interface Props   {
     initFiltri: any; 
@@ -51,12 +59,11 @@ export function QrCode_elencoFiltriView (props: Props ) {
            
 
             <Grid item xs={12} sm={12} md={6}>
-              <TextField  size="small"  
+              <CustomComponents.CustomTextField  
                                 id="code"
                                 name="code"
                                 type="string"
-                                label="Qr Code"
-                                InputLabelProps={{shrink: true}}
+                                label="Qr Code" 
                                 value={code}   
                                 onChange={ (event:any) => { setCode( ( event.target.value));   
                                   props.handleExecRicerca ( {  code:  event.target.value } )

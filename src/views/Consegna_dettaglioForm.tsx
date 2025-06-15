@@ -1,30 +1,15 @@
-import React   from 'react';
+import React from 'react';
+import { Box, Checkbox, FormControl, Grid, IconButton, InputLabel, TextField } from '@mui/material';
+ import styles from '../common/globalStyle';
  
- 
-import {      Box,        Checkbox,       FormControl,     Grid,   IconButton,   InputLabel,      } from '@material-ui/core';
- 
-import TextField from '@material-ui/core/TextField/TextField';
- 
-import { withStyles } from "@material-ui/core/styles";
- 
-import   styles   from '../common/globalStyle'
-import { NumberFormatCustom } from '../utils/NumberFormatCustom';
- 
- 
-import {   ConsegnaDettaglioErrors } from '../model/ConsegnaDettaglio';
- 
+import { ConsegnaDettaglioErrors } from '../model/ConsegnaDettaglio';
 import NumberFormat from 'react-number-format';
- 
-import ScontoIcon from '@material-ui/icons/ArrowDownward';
-    
-import DeleteOrdineIcon from '@material-ui/icons/Delete';
-
-
-
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { withStyles } from '@mui/styles';
+import { CustomComponents } from '../utils/CustomComponents';
 
 export interface IProps { 
-
-     
     formData: any,
     formDataError:  ConsegnaDettaglioErrors,
     readOnly: boolean ,
@@ -33,7 +18,6 @@ export interface IProps {
     handleChangeForm: any,
     handleDelDettaglio: any,
     deleteOrdineDettaglio: any,
-
 }
    
 export interface IState {
@@ -65,12 +49,11 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
       <Grid item xs={2}  >
                  
                             <Box>  
-                            <TextField   size="small"     
+                             <CustomComponents.CustomTextField     
                                     label="Data consegna"
                                     type="date"
                                     disabled={true}
-                                    value={this.props.formData.data_consegna?.replaceAll("/","-") } 
-                                    InputLabelProps={{shrink: true }}       />
+                                    value={this.props.formData.data_consegna?.replaceAll("/","-") }       />
                             </Box>
                 
         
@@ -78,11 +61,10 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
 
       </Grid>
       
-      <Grid item xs={5} >
+      <Grid item xs={4} >
                 <Box>
                 
-          <TextField  size="small"  
-                            InputLabelProps={{shrink: true}}
+           <CustomComponents.CustomTextField  
                             disabled={true} 
                             InputProps={{ 
                                 classes:{
@@ -110,7 +92,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
       <Grid item xs={1} >
                  
               
-              <NumberFormatCustom   
+              <CustomComponents.NumberFormatCustom
                     value={this.props.formData.prezzo}  
                     onChange={this.props.handleChangeForm}  
                     disabled={this.props.readOnly || this.props.formData.consegnato === false}
@@ -131,7 +113,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
       <Box  display="flex" flexDirection="row" alignItems="flex-start"  
                   justifyContent="flex-start"  >  
                 <Box> 
-                  <NumberFormatCustom 
+                  <CustomComponents.NumberFormatCustom
                      prefix=""  
                      value={this.props.formData.sconto}   
                      onChange={this.props.handleChangeForm}  
@@ -145,7 +127,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
                 <Box> 
                   <IconButton color="primary"  component="span"  title="Applica a tutti"  
                                        onClick={(e) => { this.props.applicaSconto(this.props.formData.sconto);}} >
-                    <ScontoIcon />
+                    <ArrowDownwardIcon />
                   </IconButton>  
                 </Box>
                 }
@@ -157,7 +139,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
       <Grid item xs={1} >
                  
          
-      <NumberFormatCustom 
+      <CustomComponents.NumberFormatCustom
                     prefix=""  
                     value={this.props.formData.qta}   
                     onChange={this.props.handleChangeForm}  
@@ -175,7 +157,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
       <Grid item xs={1} >
                  
  
-                 <NumberFormatCustom 
+                 <CustomComponents.NumberFormatCustom
                      prefix=""  
                      value={this.props.formData.qta_evasa}  
                      error={this.props.formDataError.qta_evasa !== ""}
@@ -193,7 +175,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
 
 
    
-      <Grid item xs={1} >
+      <Grid item xs={2} >
         <Box  display="flex" flexDirection="row" alignItems="center"  
                           justifyContent="space-between" width={'100%'} > 
                       <Box  >
@@ -202,19 +184,18 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
 
                     <Box  display="flex" flexDirection="column" alignItems="flex-start"  
                           justifyContent="center"  > 
-                      <Box mb={1}>
-                        <InputLabel shrink >Consegna</InputLabel> 
-                      </Box>
-                      <Box>
-                        <Checkbox 
+                
+
+                      <CustomComponents.CustomCheckbox   
                         disabled={this.props.readOnly}
                             checked={this.props.formData.consegnato === true} 
                             id="consegnato"
                             name="consegnato" 
                             onChange={ (event:any )  => { 
                                 this.props.handleChangeForm (      {target: {name: 'consegnato', value:  event.target.checked}} ) 
-                              } } />
-                      </Box>
+                            }}    
+                            label="Consegnato"
+                          />
                     </Box> 
                     
 
@@ -225,7 +206,7 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
                       <Box>
                         <IconButton title="Elimina Dettaglio Ordine" color="primary"  component="span"  
                          onClick={() => { this.props.deleteOrdineDettaglio(this.props.formData);}}>
-                            <DeleteOrdineIcon />
+                            <DeleteIcon />
                         </IconButton>
                       </Box>
           </Box>
@@ -248,4 +229,4 @@ class Consegna_dettaglioForm  extends React.Component <IProps,IState> {
     
 
 
-export default withStyles(styles) (Consegna_dettaglioForm);
+export default withStyles(styles) (Consegna_dettaglioForm) ;

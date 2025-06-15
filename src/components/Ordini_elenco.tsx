@@ -4,7 +4,7 @@ import { OrdineDettaglio } from '../model/OrdineDettaglio';
  
 
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 
  
 import { connect } from 'react-redux';
@@ -195,6 +195,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         return ris;
 
     }
+
 
     async saveOrdine(ordine:Ordine)
     {
@@ -784,6 +785,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
                 <Box width="96%" mt={2}> 
                 <Ordine_scheda    
+                  isModal={false}
                   readOnly={
                     this.state.ordineSelected.id_ordine === -1 ? false : 
                     (this.state.ordineSelected.ordineDettaglio.reduce( (accumulator, currentValue) =>   
