@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import { Provider } from 'react-redux'; 
-import { ThemeProvider, createTheme } from '@mui/material/styles'; 
+ 
 
 import  { App  }  from './App';
 import { store } from './reducers/store';

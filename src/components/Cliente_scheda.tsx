@@ -24,6 +24,7 @@ export interface IProps {
     actNewCliente: any,
     actModCliente: any,
     isModal:boolean,
+    isMobile:boolean,
     showConsegne: boolean
 }
    
@@ -188,6 +189,7 @@ class Cliente_schedaPage  extends React.Component <IProps,IState> {
             
                 showConsegne={this.props.showConsegne}
                 isModal={this.props.isModal}
+                isMobile={this.props.isMobile}
                 bChangedForm={this.state.bChangedForm}
                 readOnly={  false }
                 handleClose={this.props.handleClose}

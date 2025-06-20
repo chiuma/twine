@@ -1,9 +1,11 @@
 import React from 'react';
-import { AppBar, Box, Button, CircularProgress, Dialog, DialogContent, FormControl, Paper, Toolbar, Typography, TextField } from '@mui/material';
- import styles from '../common/globalStyle';
- import { IconsMenu } from '../common/Icons';
-import { withStyles } from '@mui/styles';
+import { AppBar, Box, Button, CircularProgress, Dialog, DialogContent, FormControl, Paper, Toolbar, Typography  } from '@mui/material';
+ 
+import styles from '../common/globalStyle';
+ 
+import { IconsMenu } from '../common/Icons';
 import { CustomComponents } from '../utils/CustomComponents';
+import { withStyles } from '@mui/styles';
 
 function SchedaArticolo(props: any) {
   const { propieta } = props;
@@ -27,7 +29,7 @@ function SchedaArticolo(props: any) {
                 startIcon={<IconsMenu.SaveIcon />}
                 onClick={propieta.saveScheda}
                 style={{ marginRight: 10 }}
-                size="small"  
+                size="small"
                 color="primary"
                 variant="contained"
               >
@@ -35,7 +37,7 @@ function SchedaArticolo(props: any) {
               </Button>
             )}
 
-            <Button onClick={propieta.handleClose} size="small"   color="primary" variant="contained">
+            <Button onClick={propieta.handleClose} size="small" color="primary" variant="contained">
               Chiudi
             </Button>
           </Toolbar>
@@ -57,8 +59,9 @@ function FormArticolo(props: any) {
   return (
     <FormControl>
       <Box display="flex" flexDirection="row" alignItems="flex-start" justifyContent="space-around" height="auto">
-        <Box mt={2} width="50%"> 
-           <CustomComponents.CustomTextField  
+        <Box mt={2} width="50%">
+        <CustomComponents.CustomTextField 
+            size="small"
             error={propieta.formDataError.descrizione !== ""}
             helperText={propieta.formDataError.descrizione} 
             disabled={propieta.bReadObnly}
@@ -75,10 +78,11 @@ function FormArticolo(props: any) {
             onChange={propieta.handleChangeForm}
           />
         </Box>
-        <Box mt={2} width="20%"> 
+        <Box mt={2} width="20%">
           <CustomComponents.CustomTextField  
             error={propieta.formDataError.codice !== ""}
-            helperText={propieta.formDataError.codice} 
+            helperText={propieta.formDataError.codice}
+            InputLabelProps={{ shrink: true }}
             disabled={propieta.bReadObnly}
             InputProps={{
               classes: {
@@ -142,13 +146,7 @@ class Articolo_schedaView extends React.Component<IProps, IState> {
     return (
       <>
         {this.props.isModal && (
-          <Dialog 
-            scroll="body" 
-            open={true} 
-            onClose={this.props.handleClose} 
-            aria-labelledby="form-dialog-title"
-            disableEscapeKeyDown={true}
-            classes={{ paperWidthSm: this.props.classes.paperDialogArticoli }}>
+          <Dialog scroll="body" open={true} onClose={this.props.handleClose} aria-labelledby="form-dialog-title"   classes={{ paperWidthSm: this.props.classes.paperDialogArticoli }}>
             <DialogContent style={{ overflow: "hidden" }}>
               <SchedaArticolo propieta={this.props} />
             </DialogContent>
@@ -169,4 +167,4 @@ class Articolo_schedaView extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles) (Articolo_schedaView) ;
+export default withStyles(styles) (Articolo_schedaView);

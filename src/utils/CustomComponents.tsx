@@ -42,6 +42,13 @@ function NumberFormatCustom(props: any) {
     prefix="€ "
      variant="standard"
         isNumericString={true}
+      
+
+      inputProps={{
+        inputMode: "numeric",
+        pattern: "[0-9]*"
+      }}
+      
       {...props}
 
       onFocus={ e => { 

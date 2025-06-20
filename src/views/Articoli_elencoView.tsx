@@ -89,16 +89,16 @@ function TableRows   (props: any ) {
         </TableCell> 
         
       {isEditMode &&
-      <TableCell align="right"   >
-
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.deleteScheda(row);}}>
-          <DeleteIcon />
-        </IconButton>    
-   
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <EditIcon />
-        </IconButton>
-        </TableCell> 
+      <TableCell align="right">
+        <Box display="flex" flexDirection="row" flexWrap="nowrap" alignItems="center">
+          <IconButton color="primary" component="span" onClick={() => { propieta.deleteScheda(row); }}>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton color="primary" component="span" onClick={() => { propieta.showScheda(row); }}>
+            <EditIcon />
+          </IconButton>
+        </Box>
+      </TableCell> 
       }
            
       
@@ -180,11 +180,10 @@ class Articoli_elencoView  extends React.Component <IProps,IState> {
   return (
 
  
+ 
 
-
-<Box  display="flex" flexDirection="row" alignItems="center"    
-width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}} 
-    justifyContent="center" > 
+<Box  display="flex" flexDirection="row" alignItems="center"    justifyContent="center"
+    width={'100%'}  > 
  
           <Paper className={this.props.classes.paperElenco} variant="outlined" >
 
@@ -197,7 +196,6 @@ width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}}
 
                   <TableHeader
                     isEditMode={this.props.isEditMode}
-                    classes={this.props.classes} 
                     order={this.state.order}
                     orderBy={this.state.orderBy} 
                     onRequestSort={this.handleRequestSort}

@@ -78,6 +78,7 @@ export interface IProps {
     saveScheda:any,
     isInProgress: boolean,
     readOnly:boolean,
+    classes: any,
     bChangedForm: boolean
 }
 
@@ -92,28 +93,28 @@ class Provenienza_schedaView extends React.Component<IProps, IState> {
     return (
       <>
         {this.props.isModal && (
-          <Dialog
-            open={true}
-            onClose={this.props.handleClose}
-            aria-labelledby="dialog-title"
-            PaperProps={{
-              sx: {
-                minWidth: '500px'
-              }
-            }}
-          >
+          <Dialog 
+          scroll="body" 
+          open={true} 
+          onClose={this.props.handleClose} 
+          aria-labelledby="form-dialog-title"
+          disableEscapeKeyDown={true}
+          classes={{ paperWidthSm: this.props.classes.paperDialogColore }}>
             <DialogContent style={{ overflow: "hidden" }}>
+ 
+            
               <Scheda propieta={this.props} />
+         
+    
             </DialogContent>
           </Dialog>
         )}
         {!this.props.isModal && (
-          <Box display="flex" flexDirection="row" alignItems="center" height="70%" width="50%"
-            mt={4} justifyContent="center">
  
+            <Paper className={this.props.classes.paperElenco} variant="outlined"> 
               <Scheda propieta={this.props} />
-  
-          </Box>
+            </Paper>
+ 
         )}
       </>
     );

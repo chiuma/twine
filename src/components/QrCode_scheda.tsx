@@ -74,7 +74,7 @@ class QrCode_schedaPage  extends React.Component <IPropsQrCdode,IState> {
  
    
         formData[event.target.name] = event.target.value;
-      if ( event.target.name === "id_colore_2")
+        if ( event.target.name === "id_colore_2")
         {
             if ( event.target.value === -1) 
             {
@@ -88,9 +88,10 @@ class QrCode_schedaPage  extends React.Component <IPropsQrCdode,IState> {
         {  
  
           formData.code = QrCode.getCode(this.props.elenco_articoli,this.props.elenco_colori, this.state.formData );
+         
           changed = true;
         } 
-        
+      
         this.setState({ formData: formData ,  bChangedForm: changed  });
         
       }  

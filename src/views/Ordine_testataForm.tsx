@@ -3,9 +3,7 @@ import {
   Box,
   FormControl,
   FormHelperText,
-  Grid,
-  TextField,
-  Autocomplete
+  Grid, 
 } from '@mui/material';
 
  import styles from '../common/globalStyle'
@@ -25,7 +23,6 @@ function FormSm   (props: any  ) {
     <Grid container spacing={2} >
     <Grid item xs={12} >
           <FormControl  >
-           
           <CustomComponents.CustomAutocomplete
                 disabled={props.readOnly}
                 value={  props.formData.id_cliente === -1 ? null :   props.elenco_clienti.find( x=> x.id_cliente === props.formData.id_cliente) }
@@ -107,7 +104,7 @@ function FormSm   (props: any  ) {
   
       <Grid item xs={6}  >
 
-
+          <Box display="flex" flexDirection="row" alignItems="left" justifyContent="space-around">
           <Box  display="flex" flexDirection="column" alignItems="left" justifyContent="space-around">
                       <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
                       <Box   fontWeight={500} color="text.primary"  >
@@ -118,7 +115,18 @@ function FormSm   (props: any  ) {
                           
                           </Box>
           </Box>
-
+          <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
+                
+                <Box  fontWeight={700} style={{color:'red'}}   >Qta</Box>
+                <Box   fontWeight={500} color="text.primary"  >
+                      <NumberFormat decimalSeparator=","   prefix={''}
+                        thousandSeparator="."  decimalScale={0} fixedDecimalScale={true}
+                        value={props.qtaTotale}  
+                        displayType={'text'}  />   
+                          
+                </Box>
+          </Box>
+          </Box>
       </Grid>
 
 
@@ -217,14 +225,15 @@ function Form   (props: any  ) {
 
 
           <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
-                      <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
-                      <Box   fontWeight={500} color="text.primary"  >
-                           <NumberFormat decimalSeparator=","   prefix={'€ '}
-                              thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                              value={props.importo}  
-                              displayType={'text'}  />   
+                
+                <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
+                <Box   fontWeight={500} color="text.primary"  >
+                      <NumberFormat decimalSeparator=","   prefix={'€ '}
+                        thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
+                        value={props.importo}  
+                        displayType={'text'}  />   
                           
-                          </Box>
+                </Box>
           </Box>
 
       </Grid>
@@ -277,18 +286,20 @@ class Ordine_testataForm  extends React.Component <IProps,IState> {
 
 
     render() {    
- 
+      let qtaTotale = this.props.formData.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex) => accumulator + 
+      (  currentIndex !==  this.props.formData.ordineDettaglio.length-1 ?    ( currentValue.qta  )  : 0)
+              , 0 ) 
         let importo = this.props.formData.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex) => accumulator + 
                          (  currentIndex !==  this.props.formData.ordineDettaglio.length-1 ?    (currentValue.prezzo*currentValue.qta  )  : 0)
                                  , 0 ) 
         return (
           this.props.isMobile ? 
-            <FormSm  {...this.props}   importo={importo} /> 
+            <FormSm  {...this.props}   importo={importo} qtaTotale={qtaTotale} /> 
             : 
             <Form  {...this.props}   importo={importo} /> 
         );
  
-}
+  }
 }
  
  

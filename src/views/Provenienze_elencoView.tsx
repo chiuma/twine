@@ -177,7 +177,7 @@ class Provenienze_elencoView  extends React.Component <IProps,IState> {
 <Box  display="flex" flexDirection="row" alignItems="center"   width="100%" mt={2}
                 justifyContent="center" > 
  
-          <Paper style={{width:'50%'}} variant="outlined" >
+          <Paper className={this.props.classes.paperElencoSmall} variant="outlined" >
 
               <TableContainer  >
                 <Table  

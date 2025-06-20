@@ -16,7 +16,7 @@ import Clienti_elencoView from '../views/Clienti_elencoView';
 export interface IProps { 
     actDelCliente: any,
     elenco_clienti: Cliente[];
-  
+    isMobile:boolean,
   }
      
 export interface IState { 
@@ -178,7 +178,7 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
     }
  
     render() {    
-        // console.log("XXXXXXXX - " ,   this.props.status , this.props.elenco_storico);
+      //   console.log("isMobile - " ,   this.props.isMobile);
           return ( 
             
             <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"   > 
@@ -223,11 +223,12 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
                 <Cliente_scheda  
                   showConsegne={true}
                   isModal={false}
+                  isMobile={this.props.isMobile}
                   handleClose={() => { this.handleSchedaSelected(null)}}
                   scheda={this.state.scheda_selected } />
               }
 
-</Box>
+          </Box>
           
             )
           }

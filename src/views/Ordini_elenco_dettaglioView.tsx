@@ -300,12 +300,11 @@ class Ordini_elenco_dettaglioView  extends React.Component <IProps,IState> {
 
 
 <Box  display="flex" flexDirection="row" alignItems="center"    width="100%"    justifyContent="center" mb={1} > 
- 
+           
           <Paper className={this.props.classes.paperFullWidth} variant="outlined" >
 
               <TableContainer  >
                 <Table  
-                  className={this.props.classes.table}
                   aria-labelledby="tableTitle"
                   size="small"
                   aria-label="enhanced table">

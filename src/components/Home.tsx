@@ -145,7 +145,6 @@ function HomePage(propieta: any) {
 
 function ResponsiveHomePage({ goToPage, ...props }) {
  
-console.log("ResponsiveHomePage", props.isMobile)
   return props.isMobile ? (
     <HomePageSm goToPage={goToPage} {...props} />
   ) : (
@@ -331,7 +330,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
     return (
       <>
         <Box display="flex" flexDirection="column" alignItems="stretch" width="100%" justifyContent="flex-start">
-          { !(this.state.ordine_show != null && this.props.isMobile == true) &&
+          { !(this.state.ordine_show != null && this.props.isMobile == true) && !(this.props.cliente_show != null  &&  this.props.isMobile) &&
           <Box mb={2}>
             <Header goToPage={this.goToPage} isMobile={this.props.isMobile}>
               <MenuApp goToPage={this.goToPage} />
@@ -343,6 +342,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
             <Cliente_scheda
               showConsegne={false}
               isModal={true}
+              isMobile={this.props.isMobile}
               handleClose={this.handleHideSchedaCliente}
               scheda={this.props.cliente_show} />
           }
@@ -365,8 +365,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               scheda={this.props.articolo_show} />
           }
           {this.state.ordine_show != null && 
-              <Ordine_scheda
-                isModal={false}
+              <Ordine_scheda 
                 isMobile={this.props.isMobile}
                 readOnly={false}
                 handleClose={this.handleHideSchedaOrdine}
@@ -376,7 +375,9 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
                 saveOrdine={this.saveOrdine} />
         
           }
-          { this.state.ordine_show == null  &&
+       
+          { this.state.ordine_show == null  && !(this.props.cliente_show != null  &&  this.props.isMobile)  &&
+          
           <Switch>
             <Route path="/home" exact
               render={(props) => (
@@ -394,7 +395,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
             }
             <Route path="/clienti_elenco" exact
               render={(props) => (
-                <Clienti_elenco {...props} />
+                <Clienti_elenco {...props} isMobile={this.props.isMobile} />
               )} />
             <Route path="/colori_elenco" exact
               render={(props) => (
@@ -414,7 +415,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               )} />
             <Route path="/ordini_elenco" exact
               render={(props) => (
-                <Ordini_elenco {...props} />
+                <Ordini_elenco {...props} isMobile={this.props.isMobile}  />
               )} />
             <Route path="/consegne_elenco" exact
               render={(props) => (
@@ -428,10 +429,31 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
   }
 }
 
+// Funzione di utilità per ottenere il breakpoint attivo
+function getActiveBreakpoint({ isXs, isSm, isMd, isLg, isXl }) {
+  if (isXs) return 'xs';
+  if (isSm) return 'sm';
+  if (isMd) return 'md';
+  if (isLg) return 'lg';
+  if (isXl) return 'xl';
+  return 'unknown';
+}
+
 // Componente funzionale per gestire useTheme
 function ResponsiveAppPage(props) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))  ;
+  
+ 
+  const isXs = useMediaQuery(theme.breakpoints.only('xs'));
+const isSm = useMediaQuery(theme.breakpoints.only('sm'));
+const isMd = useMediaQuery(theme.breakpoints.only('md'));
+const isLg = useMediaQuery(theme.breakpoints.only('lg'));
+const isXl = useMediaQuery(theme.breakpoints.only('xl'));
+
+const activeBreakpoint = getActiveBreakpoint({ isXs, isSm, isMd, isLg, isXl });
+console.log('Breakpoint attivo:', activeBreakpoint);
+
    return <AppPage {...props} isMobile={isMobile} />;
 }
 

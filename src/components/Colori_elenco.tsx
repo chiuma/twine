@@ -182,7 +182,7 @@ class Colori_elencoPage  extends React.Component <IProps,IState> {
         // console.log("XXXXXXXX - " ,   this.props.status , this.props.elenco_storico);
           return (
             
-            <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
+            <Box width={'100%'} display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
 
               {this.state.scheda_delete !== null &&
                 <ConfirmFialog

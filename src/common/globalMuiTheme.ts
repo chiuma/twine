@@ -317,9 +317,17 @@ theme = createTheme (theme,{
      
       MuiToolbar:{
         styleOverrides: {
-        root: {
-          padding:'2 2 2 2'
-        }
+          root: {
+            minHeight: '54px',
+            '@media (min-width: 600px)': {
+              minHeight: '40px'
+            },
+            '@media (min-width: 0px)': {
+              minHeight: '40px'
+            },
+            padding:'2px 2px 2px 2px',
+        
+          }, 
         }
       },
 
@@ -364,7 +372,11 @@ theme = createTheme (theme,{
         root: {         
           '&:focus': {            
             outline: 'none'
-          } ,          
+          } ,      
+          [theme.breakpoints.down('sm')]: {
+            padding: '4px 8px',   
+            fontSize: '0.67rem'   
+          }
         },
         
         containedPrimary:
@@ -428,6 +440,16 @@ theme = createTheme (theme,{
         },  
       
       },
+
+      MuiTypography: {
+        styleOverrides: {
+          h6: {
+            [theme.breakpoints.down('sm')]: {
+              fontSize: '90%'
+            }
+          }
+        }
+      }
                
     },
 

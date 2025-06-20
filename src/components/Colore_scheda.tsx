@@ -21,7 +21,8 @@ export interface IProps {
     actNewColore: any,
     actModColore: any,
     
-    isModal:boolean
+    isModal:boolean,
+    
     
 }
    

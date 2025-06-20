@@ -6,7 +6,7 @@ import styles from '../common/globalStyle';
 import { Colore } from '../model/Colore';
 import { Order, tableUtility } from '../common/tableUtility';
 import { Theme } from '@mui/material/styles';
-
+import { withStyles } from '@mui/styles';
 function TableHeader   (props: any  ) {
   const {   order, orderBy,    onRequestSort, isEditMode } = props;
   const createSortHandler = (property: keyof Colore) => (event: React.MouseEvent<unknown>) => {   onRequestSort(event, property);   };
@@ -68,21 +68,16 @@ function TableRows   (props: any ) {
     
     
 
-      <TableCell align="right"   >
-
-        <IconButton color="primary"  component="span"   
-            onClick={() => { propieta.deleteScheda(row);}}>
-          <DeleteIcon />
-        </IconButton>    
-     
-        <IconButton color="primary" component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <SearchIcon />
-        </IconButton>
-        
- 
-           
-      
-    </TableCell> 
+      <TableCell align="right">
+        <Box display="flex" flexDirection="row" flexWrap="nowrap" alignItems="center">
+          <IconButton color="primary" component="span" onClick={() => { propieta.deleteScheda(row); }}>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton color="primary" component="span" onClick={() => { propieta.showScheda(row); }}>
+            <SearchIcon />
+          </IconButton>
+        </Box>
+      </TableCell> 
     
  
  
@@ -95,12 +90,13 @@ function TableRows   (props: any ) {
 export interface IProps { 
   elenco: Colore[], 
   isEditMode: boolean,
+  classes:any,
   showScheda: (scheda: Colore) => void,
   deleteScheda: (scheda: Colore) => void,
   theme?: Theme
 }
 
-const Colori_elencoView = ({ elenco, isEditMode, showScheda, deleteScheda }: IProps) => {
+const Colori_elencoView = ({ classes, elenco, isEditMode, showScheda, deleteScheda }: IProps) => {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Colore>('descrizione');
   const [page, setPage] = React.useState(0);
@@ -123,9 +119,13 @@ const Colori_elencoView = ({ elenco, isEditMode, showScheda, deleteScheda }: IPr
 
   return (
     <Box display="flex" flexDirection="row" alignItems="center" width="100%" justifyContent="center">
-      <Paper style={{width:'60%'}} variant="outlined">
+      <Paper className={classes.paperElencoSmall} variant="outlined">
         <TableContainer>
-          <Table aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
+          <Table 
+                  className={classes.table}
+                  aria-labelledby="tableTitle"
+                  size="small"
+                  aria-label="enhanced table">
             <TableHeader
               isEditMode={isEditMode}
               order={order}
@@ -162,6 +162,6 @@ const Colori_elencoView = ({ elenco, isEditMode, showScheda, deleteScheda }: IPr
   );
 };
  
-export default Colori_elencoView;
+export default  withStyles (styles)  (Colori_elencoView) ;
 
  

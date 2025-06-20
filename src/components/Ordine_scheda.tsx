@@ -1,4 +1,3 @@
-  
 import React  from 'react';
 
 import { connect } from 'react-redux';
@@ -12,7 +11,8 @@ import { Ordine,   OrdineTestataErrors } from '../model/Ordine';
 import Ordine_schedaView from '../views/Ordine_schedaView';
 import { Provenienza } from '../model/Provenienza';
 import { CommonFunctions } from '../common/CommonFunctions';
- 
+import {NotificationManager} from 'react-notifications'; 
+
 
 export interface IProps { 
    
@@ -25,8 +25,7 @@ export interface IProps {
     elenco_colori: Colore[],    
     elenco_clienti: Cliente[],
     elenco_articoli: Articolo[],
-    elenco_provenienze: Provenienza[]
-    isModal:boolean,
+    elenco_provenienze: Provenienza[] 
     isMobile:boolean,
 }
    
@@ -57,7 +56,8 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
       this.handleAddDettaglio = this.handleAddDettaglio.bind(this);
       this.handleDelDettaglio = this.handleDelDettaglio.bind(this);
       this.handleEvadiAll = this.handleEvadiAll.bind(this);      
- 
+      this.handleScan = this.handleScan.bind(this);    
+      
  
       let formOrdine =  Object.assign (new Ordine(), {...this.props.scheda});
    
@@ -119,8 +119,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
         if ( event === null) this.props.saveOrdine (null)
         else
         {
-
-        
+ 
      
             let arrFormDettaglioErrors :  OrdineDettaglioErrors[] = [];        
             let formTestataErrors = new OrdineTestataErrors();
@@ -182,11 +181,11 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
  
     handleChangeFormDettaglio = (event, idx) => {
     
+
+
         const formDettaglio = this.state.formOrdine.ordineDettaglio[idx];
-       
-     console.log("formDettaglio",formDettaglio)
-       //  let dPrezzo  = Number( parseFloat(event.target.value.replace(",","."))) ;
-         // (Math.round(dPrezzo * 100) / 100).toFixed(2); 
+ 
+ 
         if ( event.target.name === "data_ricezione")
         {
             formDettaglio[event.target.name] = event.target.value.replaceAll("-","/") ;
@@ -329,6 +328,86 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
        
     }
 
+    handleScan (scan:string)
+    {
+        if (!scan.startsWith('ART-') && !!scan.startsWith('COL-')) {
+            console.log("Invalid scan format - must start with ART");
+            NotificationManager.error("QR Code non valido", 'Ordine', 2000);  
+            return;
+        }
+
+        const formDettaglio = this.state.formOrdine.ordineDettaglio[this.state.formOrdine.ordineDettaglio.length-1];
+        const parts = scan.split('-');
+        const prefix = parts[0] || '';  
+
+
+        if ( prefix === 'ART')
+        {
+            const cod_art = parts[1] || '';
+            const cod_colore = parts[2] || '';
+            const cod_colore_2 = parts[3] || '';
+            const cod_colore_3 = parts[4] || '';
+
+            let articolo_base = this.props.elenco_articoli.find( x => x.codice === cod_art) 
+            let id_colore = this.props.elenco_colori.find( x => x.codice === cod_colore)?.id_colore || -1;;
+            let id_colore_2 = this.props.elenco_colori.find( x => x.codice === cod_colore_2)?.id_colore || -1;;
+            let id_colore_3 = this.props.elenco_colori.find( x => x.codice === cod_colore_3)?.id_colore || -1;
+    
+
+            
+            
+            if ( articolo_base != null)
+            {
+                formDettaglio["id_articolo_base"]  = articolo_base.id_articolo_base;
+                formDettaglio["prezzo"]  = articolo_base.prezzo 
+                formDettaglio[""] = articolo_base?.descrizione;
+                formDettaglio["articolo_base_codice"] = articolo_base?.codice        
+                formDettaglio["articolo_base_descrizione"] = articolo_base?.descrizione  
+                
+            }
+            else
+            {
+                NotificationManager.error("QR Code non corrispondente", 'Ordine', 2000);  
+                formDettaglio["id_articolo_base"]  = -1;
+                formDettaglio["articolo_base_descrizione"] = "";
+                formDettaglio["articolo_base_codice"] = ""       
+                formDettaglio["prezzo"]  = 0;
+            }
+            formDettaglio["id_colore"]  = id_colore;
+            formDettaglio["id_colore_2"]  = id_colore_2;
+            formDettaglio["id_colore_3"]  = id_colore_3;
+            
+            this.setState({  formOrdine: this.state.formOrdine  });
+        }
+        
+        else if ( prefix === 'COL')
+        {
+          
+            const cod_colore = parts[1] || ''; 
+            let id_colore = this.props.elenco_colori.find( x => x.codice === cod_colore)?.id_colore || -1;;
+            if (id_colore !== -1)
+            {
+                if ( formDettaglio["id_colore"] == -1)
+                    formDettaglio["id_colore"] = id_colore
+                else if ( formDettaglio["id_colore_2"] == -1)
+                    formDettaglio["id_colore_2"] = id_colore
+                else if ( formDettaglio["id_colore_3"] == -1)
+                    formDettaglio["id_colore_3"] = id_colore
+                 
+
+                this.setState({  formOrdine: this.state.formOrdine  });
+            }
+            else
+            {
+                NotificationManager.error("QR Code non corrispondente", 'Ordine', 2000);  
+
+
+            }
+
+        }
+
+    }
+
     render() {    
  
  
@@ -339,7 +418,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
 
           <Ordine_schedaView
-            isModal={this.props.isModal}
+            handleScan={this.handleScan}
             isMobile={this.props.isMobile}
             elenco_colori={this.props.elenco_colori} 
             elenco_clienti={this.props.elenco_clienti} 
@@ -355,7 +434,8 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             handleChangeFormDettaglio={this.handleChangeFormDettaglio}
             handleAddDettaglio={this.handleAddDettaglio}
             handleDelDettaglio={this.handleDelDettaglio}
-            handleSaveOrdine={this.handleSaveOrdine}
+        // handleSaveOrdine={e=>  this.handleScan ("ART-1CN01-ARCO")}
+           handleSaveOrdine={this.handleSaveOrdine }
             isInProgress={this.state.isInProgress}
             formOrdine ={this.state.formOrdine } 
             formDataError={this.state.formTestataErrors}  

@@ -15,7 +15,8 @@ interface Props   {
     elenco_clienti: Cliente[],
     elenco_articoli:Articolo[],
     elenco_provenienze:Provenienza[]
-    tipo_elenco:string
+    tipo_elenco:string,
+    
     
   }
 
@@ -49,7 +50,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
           <Grid container spacing={3}      >
 
-          <Grid item xs={2}  >
+          <Grid item xs={4} sm={3} md={2}>
                  <CustomComponents.CustomTextField  
                               id="data_ricezione_dal"
                               name="data_ricezione_dal"
@@ -63,7 +64,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
                                 } }     />
             </Grid>
 
-            <Grid item xs={2} >
+            <Grid item  xs={4} sm={3} md={2} >
                  <CustomComponents.CustomTextField  
                               id="data_ricezione_al"
                               name="data_ricezione_al"
@@ -77,7 +78,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
                                 }} />
             </Grid>
 
-            <Grid item  xs={2}>
+            <Grid item  xs={4} sm={3} md={2}>
                  <CustomComponents.CustomTextField   
                               id="data_consegna_dal"
                               name="data_consegna_dal"
@@ -93,7 +94,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
                                 } }     />
             </Grid>
 
-            <Grid item  xs={2}>
+            <Grid item  xs={4} sm={3} md={2}>
                  <CustomComponents.CustomTextField    
                               id="data_consegna_al"
                               name="data_consegna_al"
@@ -112,7 +113,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
             {props.tipo_elenco==="dettaglio" &&
  
-            <Grid item xs={1}>
+            <Grid item xs={3} sm={2} md={1}>
               <FormControl variant="standard">
               <InputLabel shrink id="demo-simple-select-label">Evasi</InputLabel>
               <Select 
@@ -134,7 +135,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
             </Grid>
              
           }     
-            <Grid item xs={1}>
+            <Grid item  xs={3} sm={2} md={1}>
             
             <FormControl  variant="standard"> 
               <InputLabel shrink id="demo-simple-select-label">Consegnati</InputLabel>
@@ -161,7 +162,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
   
 
             
-            <Grid item  xs={3}>
+            <Grid item   xs={5} sm={4} md={3}>
             <FormControl  variant="standard">
        
             <CustomComponents.CustomAutocomplete
@@ -187,7 +188,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
             </Grid>
   
 
-            <Grid item  xs={2}>
+            <Grid item   xs={4} sm={3} md={2}>
                 <CustomComponents.CustomTextField  
                                 id="iniziali_cliente"
                                 name="iniziali_cliente"
@@ -209,7 +210,7 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
             {props.tipo_elenco==="dettaglio" &&
             <>
-            <Grid item  xs={3}>
+            <Grid item   xs={5} sm={4} md={3}>
             <FormControl  >
            
             <CustomComponents.CustomAutocomplete
@@ -245,7 +246,7 @@ return  option  !== null && option.id_articolo_base !== -1 ? option.codice  + "-
               </>
             }
 
-            <Grid item  xs={2}>
+            <Grid item   xs={4} sm={3} md={2}>
             <FormControl  >
       
             <CustomComponents.CustomAutocomplete
@@ -279,7 +280,7 @@ return  option  !== null && option.id_provenienza !== -1 ?  option.descrizione :
 
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} >
               <Box  display="flex" flexDirection="row" alignItems=""  justifyContent="flex-end">
                <Button onClick={ e => 
                         {                           

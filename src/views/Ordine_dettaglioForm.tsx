@@ -1,12 +1,11 @@
 import React from 'react';
 import { 
   Box,
+  Button,
   FormControl,
   FormHelperText,
-  Grid,
-  IconButton,
-  TextField,
-  Autocomplete,
+  Grid, 
+  TextField, 
     
 } from '@mui/material';
  
@@ -15,7 +14,7 @@ import styles from '../common/globalStyle'
 import { OrdineDettaglio, OrdineDettaglioErrors } from '../model/OrdineDettaglio';
 import { Cliente } from '../model/Cliente';
 import { Articolo } from '../model/Articolo';
-import NumberFormat from 'react-number-format'; 
+ 
 import { withStyles } from '@mui/styles';
 import { CustomComponents } from '../utils/CustomComponents';
 
@@ -54,6 +53,7 @@ function FormSm   (props: any  ) {
                 </Box>
                 } 
                 </Box>
+
         </Box>
        
     
@@ -63,7 +63,7 @@ function FormSm   (props: any  ) {
 
       
  
-      <Grid item xs={3} >
+      <Grid item xs={3.7} >
           <Box> 
                 <CustomComponents.CustomAutocomplete
                   disabled={props.readOnly}
@@ -84,52 +84,52 @@ function FormSm   (props: any  ) {
                 </Box>
                 } 
                 </Box>
-          </Grid>
-          
-          
-          <Grid item xs={3} >
-          <Box>
-                <CustomComponents.CustomAutocomplete
-                  disabled={props.readOnly}
-                  label="Colore 2"
-                  value={  props.formData.id_colore_2 === -1 ? null :   props.elenco_colori.find( x=> x.id_colore  === props.formData.id_colore_2) }
-                   options={props.elenco_colori}
-                   isOptionEqualToValue={(option: Colore) => option?.id_colore === props.formData.id_colore_2}
-                   getOptionLabel={ (option: any) => option  !== null && option.id_colore  !== -1 ?  option.codice : ''}
-                   
-                   onChange={ (event:any, option:any)  => 
-                    props.handleChangeForm ({target: {name: 'id_colore_2', value:  option != null ? option.id_colore : -1 }}  ) 
-                   }    
-                  id="id_colore_2" 
-                />
-                </Box>
-          </Grid>
+      </Grid>
+      
+      
+      <Grid item xs={3.7} >
+      <Box>
+            <CustomComponents.CustomAutocomplete
+              disabled={props.readOnly}
+              label="Colore 2"
+              value={  props.formData.id_colore_2 === -1 ? null :   props.elenco_colori.find( x=> x.id_colore  === props.formData.id_colore_2) }
+                options={props.elenco_colori}
+                isOptionEqualToValue={(option: Colore) => option?.id_colore === props.formData.id_colore_2}
+                getOptionLabel={ (option: any) => option  !== null && option.id_colore  !== -1 ?  option.codice : ''}
+                
+                onChange={ (event:any, option:any)  => 
+                props.handleChangeForm ({target: {name: 'id_colore_2', value:  option != null ? option.id_colore : -1 }}  ) 
+                }    
+              id="id_colore_2" 
+            />
+            </Box>
+      </Grid>
 
-           
- 
-          <Grid item xs={3} >
+        
 
-          <Box> 
-                <CustomComponents.CustomAutocomplete
-                  disabled={props.readOnly}
-                  label="Colore 3"
-                  value={  props.formData.id_colore_3 === -1 ? null :   props.elenco_colori.find( x=> x.id_colore  === props.formData.id_colore_3) }
-                   options={props.elenco_colori}
-                   isOptionEqualToValue={(option: Colore) => option?.id_colore === props.formData.id_colore_3}
-                   getOptionLabel={ (option: any) => option  !== null && option.id_colore  !== -1 ?  option.codice : ''}
-                   
-                   onChange={ (event:any, option:any)  => 
-                    props.handleChangeForm ({target: {name: 'id_colore_3', value:  option != null ? option.id_colore : -1 }}  ) 
-                   }    
-                  id="id_colore_3" 
-                />
-          </Box>            
-          </Grid>
- 
-  
-   
+      <Grid item xs={3.3} >
 
-      <Grid item xs={3} >
+      <Box> 
+            <CustomComponents.CustomAutocomplete
+              disabled={props.readOnly}
+              label="Colore 3"
+              value={  props.formData.id_colore_3 === -1 ? null :   props.elenco_colori.find( x=> x.id_colore  === props.formData.id_colore_3) }
+                options={props.elenco_colori}
+                isOptionEqualToValue={(option: Colore) => option?.id_colore === props.formData.id_colore_3}
+                getOptionLabel={ (option: any) => option  !== null && option.id_colore  !== -1 ?  option.codice : ''}
+                
+                onChange={ (event:any, option:any)  => 
+                props.handleChangeForm ({target: {name: 'id_colore_3', value:  option != null ? option.id_colore : -1 }}  ) 
+                }    
+              id="id_colore_3" 
+            />
+      </Box>            
+      </Grid>
+
+
+
+
+      <Grid item xs={1.3} >
 
               <Box> 
                 <CustomComponents.NumberFormatCustom
@@ -273,7 +273,7 @@ function Form  (props: any  ) {
           <Box  display="flex" flexDirection="row" alignItems="flex-start"  
                         justifyContent="space-between"  > 
 
-              <Box> 
+              <Box>
                 <CustomComponents.NumberFormatCustom
                     prefix=""  
                     value={props.formData.qta}  

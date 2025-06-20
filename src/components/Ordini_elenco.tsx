@@ -49,7 +49,7 @@ export interface IProps {
   elenco_clienti: Cliente[],
   elenco_articoli: Articolo[],
   elenco_provenienze: Provenienza[],
-  
+  isMobile:boolean
  
   
   }
@@ -670,34 +670,36 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     render() {    
    
 // console.log("OrdiniElenco - render - this.lastFiltri" , this.lastFiltri)
-
+      
  
       const finalQueryString = this.tipo_stampa !== "singolo_ordine"
             ? objectToQueryString(this.lastFiltri)
             : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine });
           return (
-            <>
-      {this.state.showStampa &&
-       <Box mt={2} ml={1} mr={1}>
-       <StampaHtml 
-           handleShowStampa={this.handleShowStampa}
-             urlToPrint={ConstantUtils.url.SERVER_URL + 
-            (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
-            this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
-            this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
-            "ordini_articoli_stampa.php?")
-            
-            + 
-            finalQueryString
-             
-            }
-           />
-           </Box>
-      }
+            <Box  width="100%" >
+  
+
+              {this.state.showStampa &&
+              <Box mt={2} ml={1} mr={1}>
+              <StampaHtml 
+                  handleShowStampa={this.handleShowStampa}
+                    urlToPrint={ConstantUtils.url.SERVER_URL + 
+                    (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
+                    this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
+                    this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
+                    "ordini_articoli_stampa.php?")
+                    
+                    + 
+                    finalQueryString
+                    
+                    }
+                  />
+                  </Box>
+              }
 
       {!this.state.showStampa &&
-            <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
-
+            <Box  width="100%"  display="flex" flexDirection="column" alignItems="center"  justifyContent="center" > 
+     
               {this.state.ordineDettaglioToDelete !== null &&
                 <ConfirmFialog
                           handleConfirm={this.execDeleteOrdineDettaglio}
@@ -731,9 +733,9 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               
                <>
 
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}  mt={2}> 
- 
-                  <Ordini_elencoFiltriView 
+              <Box     mt={2}    width="92%" > 
+  
+                  <Ordini_elencoFiltriView  
                       tipo_elenco   ={this.tipo_elenco}   
                       elenco_clienti = {this.props.elenco_clienti}
                       elenco_articoli = {this.props.elenco_articoli}
@@ -741,8 +743,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                       initFiltri={this.lastFiltri}   
                       handleExecRicerca={this.handleExecRicerca}   />
               </Box>
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}} mt={2}> 
+              <Box    mt={2}  width="92%" > 
+              
                 <Ordini_elencoHeaderView     
+                      isMobile={this.props.isMobile}
                       elenco = {this.state.elenco_filtrato}  
                       handleStampaOrdine={this.handleShowStampa} 
                       handleChangeTipoElenco = {this.handleChangeTipoElenco}
@@ -750,8 +754,8 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                       handleNewOrdine={() => { this.handleOrdineDettaglioSelected(null)}  } />
               </Box>
 
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}  mt={2}> 
-
+              <Box     mt={2}   width="92%"> 
+ 
               {this.tipo_elenco === "dettaglio" &&
                   <Ordini_elenco_dettaglioView 
                     deleteScheda={this.handleOrdineDettaglioToDelete}
@@ -785,7 +789,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
                 <Box width="96%" mt={2}> 
                 <Ordine_scheda    
-                  isModal={false}
+                  isMobile={this.props.isMobile}
                   readOnly={
                     this.state.ordineSelected.id_ordine === -1 ? false : 
                     (this.state.ordineSelected.ordineDettaglio.reduce( (accumulator, currentValue) =>   
@@ -803,7 +807,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
             </Box>
           
 }
-          </>
+          </Box>
             )
           }
 

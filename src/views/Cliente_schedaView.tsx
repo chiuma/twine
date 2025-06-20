@@ -3,7 +3,6 @@ import React  from 'react';
  
 import {   AppBar,   Box,   Button, CircularProgress,     Dialog,  DialogContent,  FormControl,    Grid,    Paper,        Tab,    Tabs,    Toolbar, Typography } from '@mui/material';
  
-import TextField from '@mui/material/TextField/TextField';
  
 
  
@@ -18,23 +17,24 @@ import { withStyles } from '@mui/styles';
 import { CustomComponents } from '../utils/CustomComponents';
  
  
-function Scheda   (props: any  ) {
+function SchedaSm   (props: any  ) {
  
 //  console.log("Scheda", props )
   let propieta = props ;
   return (   
     <Box width="100%">
-          {propieta.isInProgress &&   <Box mt={2}><CircularProgress color="primary"/></Box>   }
+      {propieta.isInProgress &&   
+          <Box mt={2}><CircularProgress color="primary"/></Box>   }
 
        
 
-      <Box mb={2} mt={2} >
+      <Box mb={2} mt={2}  width="100%">
 
           <FormControl style={{width: '100%'}}>
 
-          <Grid container spacing={3} >
+          <Grid container spacing={2} >
     
-                <Grid item xs={6} > 
+                <Grid item xs={12} > 
                         <CustomComponents.CustomTextField  
                             error={propieta.formDataError.descrizione !== ""}
                             helperText={propieta.formDataError.descrizione}
@@ -55,7 +55,7 @@ function Scheda   (props: any  ) {
                         />
 
                 </Grid>
-                <Grid item xs={3} >
+                <Grid item xs={6} >
                          <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
@@ -73,7 +73,7 @@ function Scheda   (props: any  ) {
                             onChange={propieta.handleChangeForm}    
                         />          
                 </Grid>
-                <Grid item xs={3} >
+                <Grid item xs={6} >
                       <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
@@ -94,7 +94,7 @@ function Scheda   (props: any  ) {
 
 
 
-                <Grid item xs={4} >
+                <Grid item xs={6} >
                        
                        <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
@@ -118,7 +118,7 @@ function Scheda   (props: any  ) {
                 </Grid>
 
                 
-                <Grid item xs={4} >
+                <Grid item xs={6} >
                        
                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
@@ -142,7 +142,7 @@ function Scheda   (props: any  ) {
                 </Grid>
 
 
-                <Grid item xs={4} >
+                <Grid item xs={8} >
                          <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
@@ -162,7 +162,7 @@ function Scheda   (props: any  ) {
                         />          
                 </Grid>
 
-                <Grid item xs={1} >
+                <Grid item xs={4} >
                          <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}   
                             InputProps={{ 
@@ -184,14 +184,7 @@ function Scheda   (props: any  ) {
 
 
 
-
-
-
-
-
-
-
-                <Grid item xs={4} >
+                <Grid item xs={8} >
                         <CustomComponents.CustomTextField  
                           disabled={propieta.bReadObnly}   
                             InputProps={{ 
@@ -209,7 +202,7 @@ function Scheda   (props: any  ) {
                         />
 
                 </Grid>
-                <Grid item xs={1} >
+                <Grid item xs={4} >
                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}  
                             InputProps={{ 
@@ -227,7 +220,7 @@ function Scheda   (props: any  ) {
                             onChange={propieta.handleChangeForm}    
                         />          
                 </Grid>
-                <Grid item xs={6} >
+                <Grid item xs={12} >
                         <CustomComponents.CustomTextField  
                             disabled={propieta.bReadObnly}  
                             InputProps={{ 
@@ -278,14 +271,268 @@ function Scheda   (props: any  ) {
     </Box>
    );
 }
-        
-function a11yProps(index: any) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
+         
+function Scheda   (props: any  ) {
+ 
+  //  console.log("Scheda", props )
+    let propieta = props ;
+    return (   
+      <Box width="100%">
+            {propieta.isInProgress &&   <Box mt={2}><CircularProgress color="primary"/></Box>   }
+  
+         
+  
+        <Box mb={2} mt={2} >
+  
+            <FormControl style={{width: '100%'}}>
+  
+            <Grid container spacing={3} >
+      
+                  <Grid item xs={6} > 
+                          <CustomComponents.CustomTextField  
+                              error={propieta.formDataError.descrizione !== ""}
+                              helperText={propieta.formDataError.descrizione}
+                              
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="descrizione"
+                              name="descrizione"
+                              label="Descrizione"
+                              value={propieta.formData.descrizione}   
+                              onChange={propieta.handleChangeForm}    
+                          />
+  
+                  </Grid>
+                  <Grid item xs={3} >
+                           <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="piva"
+                              name="piva"
+                              label="P. iva"
+                          
+                              value={propieta.formData.piva}   
+                              onChange={propieta.handleChangeForm}    
+                          />          
+                  </Grid>
+                  <Grid item xs={3} >
+                        <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="codfiscale"
+                              name="codfiscale"
+                              label="Cod. fiscale"
+                              value={propieta.formData.codfiscale}   
+                              onChange={propieta.handleChangeForm}    
+                          />
+  
+                  </Grid>
+  
+  
+  
+                  <Grid item xs={4} >
+                         
+                         <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  startAdornment: (<TelefonoIcon color="primary" />),
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="telefono"
+                              name="telefono"
+                              label="Telefono"
+                      
+                              value={propieta.formData.telefono}   
+                              onChange={propieta.handleChangeForm}    
+                          />   
+  
+  
+                  </Grid>
+  
+                  
+                  <Grid item xs={4} >
+                         
+                          <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  startAdornment: (<CellulareIcon color="primary" />),
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="cellulare"
+                              name="cellulare"
+                              label="Cellulare"
+                      
+                              value={propieta.formData.cellulare}   
+                              onChange={propieta.handleChangeForm}    
+                          />   
+  
+  
+                  </Grid>
+  
+  
+                  <Grid item xs={4} >
+                           <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                startAdornment: (<EmailIcon color="primary" />),
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="email"
+                              name="email"
+                              label="Email"
+                          
+                              value={propieta.formData.email}   
+                              onChange={propieta.handleChangeForm}    
+                          />          
+                  </Grid>
+  
+                  <Grid item xs={1} >
+                           <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="cap"
+                              name="cap"
+                              label="Cap"
+                      
+                              value={propieta.formData.cap}   
+                              onChange={propieta.handleChangeForm}    
+                          />            
+  
+                  </Grid>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                  <Grid item xs={4} >
+                          <CustomComponents.CustomTextField  
+                            disabled={propieta.bReadObnly}   
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="comune"
+                              name="comune"
+                              label="Comune"
+                              value={propieta.formData.comune}   
+                              onChange={propieta.handleChangeForm}    
+                          />
+  
+                  </Grid>
+                  <Grid item xs={1} >
+                          <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}  
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="provincia"
+                              name="provincia"
+                              label="Provincia"
+                          
+                              value={propieta.formData.provincia}   
+                              onChange={propieta.handleChangeForm}    
+                          />          
+                  </Grid>
+                  <Grid item xs={6} >
+                          <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}  
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="indirizzo"
+                              name="indirizzo"
+                              label="Indirizzo"
+                      
+                              value={propieta.formData.indirizzo}   
+                              onChange={propieta.handleChangeForm}    
+                          />            
+  
+                  </Grid>
+  
+  
+                  <Grid item xs={12} >
+                           <CustomComponents.CustomTextField  
+                              disabled={propieta.bReadObnly}  
+                              InputProps={{ 
+                                  classes:{
+                                    root: propieta.classes.inputRoot,
+                                    disabled: propieta.classes.disabled,
+                                  }
+                                }}
+                               
+                              id="indirizzo_legale"
+                              name="indirizzo_legale"
+                              label="Indirizzo legale"
+                      
+                              value={propieta.formData.indirizzo_legale}   
+                              onChange={propieta.handleChangeForm}    
+                          />            
+  
+                  </Grid>
+  
+              </Grid>
+  
+  
+            </FormControl>
+        </Box>
+  
+  
+      </Box>
+     );
+  }
+     
 interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
@@ -327,7 +574,7 @@ function SchedaTabs (props: any  ) {
 
       <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="space-between"  > 
         <Box>
-     
+          {!props.isMobile &&
           <Tabs value={value} onChange={handleChange} aria-label="Scheda"    
               TabIndicatorProps={{ style: { background: "white"  } }}>
             <Tab label="Scheda"    sx={{
@@ -347,6 +594,7 @@ function SchedaTabs (props: any  ) {
             }
     
           </Tabs>
+        }
         </Box>
 
         <Box  mr={4} >
@@ -373,8 +621,12 @@ function SchedaTabs (props: any  ) {
       </AppBar>
 
 
-      <TabPanel value={value} index={0}>
-        <Scheda    {...props} />
+      <TabPanel value={value} index={0} > 
+        {props.isMobile ? (
+           <SchedaSm {...props} /> 
+        ) : (
+          <Scheda {...props} />
+        )}
       </TabPanel>
 
       {props.formData.id_cliente !== -1 &&
@@ -387,7 +639,7 @@ function SchedaTabs (props: any  ) {
   );
 }
 
-
+ 
 export interface IProps { 
     formData: any,
     formDataError: any,
@@ -396,7 +648,7 @@ export interface IProps {
     handleChangeForm: any,
 
     scheda: any,
-
+    isMobile:boolean,
     classes: any,
     isModal:boolean,
     handleClose:any,
@@ -427,35 +679,38 @@ class Cliente_schedaView  extends React.Component <IProps,IState> {
  
         
         return (
-
+ 
         <> 
-          {this.props.isModal && 
-
-
+          {(this.props.isModal && !this.props.isMobile) ? (
             <Dialog scroll="body" open={true} onClose={this.props.handleClose} aria-labelledby="form-dialog-title"
-                    classes={{      paperWidthSm: this.props.classes.paperDialogClienti     }}>
-
-                <DialogContent  style={{ overflow: "hidden" }}>
-                <SchedaTabs  {...this.props} />
+                    classes={{ paperWidthSm: this.props.classes.paperDialogClienti }}>
+                <DialogContent style={{ overflow: "hidden" }}>
+                  <SchedaTabs {...this.props} />
                 </DialogContent>
             </Dialog>
-           
-          
-          }
+          ) : (
+<>
+            {!this.props.isMobile  ? (
+            <Box display="flex" flexDirection="row" alignItems="center" height="70%"  
+                 width={{ xs: '95%', sm: '90%', md: '90%', lg: '85%', xl: '80%' }} 
+                 mt={4} justifyContent="center">     
+            
 
-          {!this.props.isModal && 
-            <Box  display="flex" flexDirection="row" alignItems="center"  height="70%"  
-
-            width={{ xs: '95%', sm: '90%' , md: '90%', lg: '85%', xl: '80%',}} 
-            mt={4}   justifyContent="center"  > 
-                       <Paper className={this.props.classes.paperElenco} variant="outlined"  >
-
-                <SchedaTabs  {...this.props} />
-
-               </Paper>
+              <Paper className={this.props.classes.paperElenco} variant="outlined">
+                <SchedaTabs {...this.props} />
+              </Paper>
             </Box>
-          }
- 
+          ) : (
+            <Box  display="flex" flexDirection="column" alignItems="center"  width="100%"
+            justifyContent="center"  p={.5}> 
+             <Paper className={this.props.classes.paperElenco} variant="outlined"> 
+            <SchedaTabs {...this.props} />
+            </Paper>
+            </Box>
+          )}
+</>
+          )
+        }
 
         </>
      

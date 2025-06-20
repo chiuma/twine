@@ -25,46 +25,69 @@ import { withStyles } from '@mui/styles';
 function SchedaQrCode(props: any) {
   const { propieta } = props;
   
-  return (
+  return  (   
     <Box width="100%">
-      {propieta.isInProgress && (
+      {propieta.isInProgress &&
+
         <Box mt={2}>
-          <CircularProgress color="primary" />
+            <CircularProgress color="primary" />
+            
         </Box>
-      )}
-      <Box width="100%" p={2}>
-        <AppBar position="static" className={propieta.classes.barBackground} color="primary">
-          <Toolbar>
-            <Typography variant="h6">
-              Qr Code - {propieta.formData.id_qrcode === -1 ? "Nuovo" : "Modifica"}
+      }
+      <Box   width="100%"  p={2}   > 
+        
+        <AppBar position="static"  className={propieta.classes.barBackground} color="primary">
+        <Toolbar>
+        
+            <Typography variant="h6" className={propieta.classes.title}>
+            Qr Code - {propieta.formData.id_qrcode === -1 ? "Nuovo" : "Modifica"}
             </Typography>
-            {!propieta.readOnly && propieta.bChangedForm && (
-              <Button color="inherit" onClick={propieta.onSave}>
-                <SaveIcon />
-              </Button>
-            )}
-          </Toolbar>
-        </AppBar>
-        <Box mt={2} width="100%">
-          <Paper>
+
+
+            {!propieta.readOnly && propieta.bChangedForm &&
+            <Button  startIcon={<SaveIcon />}  onClick={propieta.saveScheda} style={{marginRight:10}} size="small" color="primary" variant="contained" >
+            Salva
+            </Button>
+            }
+
+            <Button onClick={propieta.handleClose}  size="small" color="primary" variant="contained"> 
+            Chiudi
+            </Button>
+        </Toolbar>
+      </AppBar>
+
+
+
+      
+      <Box  mt={2}   width="100%">
+          <Paper elevation={1}  variant="outlined">
             <FormQrCode propieta={propieta} />
           </Paper>
-        </Box>
+      </Box>
+          
+ 
+              
+              
+   
+         
+ 
+          
+
       </Box>
     </Box>
-  );
+   );
 }
 
 function FormQrCode(props: any) {
   const { propieta } = props;
    
   return (   
-  
+     
            
     <FormControl  >
       <Box  display="flex" flexDirection="row"   alignItems="flex-start" justifyContent="space-around"  height="auto" >
           <Box mt={2} mr={2} width="25%">
-            {propieta.formData.id_articolo_base !== -1 &&  propieta.formData.id_colore !== -1  &&
+            {propieta.formData.id_articolo_base !== -1 || propieta.formData.id_colore !== -1  &&
             <>
             <Box  m={1}><QRCodeSVG value={propieta.formData.code} size={128} /></Box>
             <Box ml={1}>{propieta.formData.code}</Box>

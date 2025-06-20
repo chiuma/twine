@@ -237,9 +237,8 @@ class Ordini_elenco_testataView  extends React.Component <IProps,IState> {
 
  
 
-
 <Box  display="flex" flexDirection="row" alignItems="center"    width="100%"    justifyContent="center" mb={1} > 
- 
+
           <Paper className={this.props.classes.paperFullWidth} variant="outlined" >
 
               <TableContainer  >
