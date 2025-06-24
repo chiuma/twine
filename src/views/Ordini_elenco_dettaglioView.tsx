@@ -121,10 +121,7 @@ function TableHeader   (props: any  ) {
                     Consegnato
               </TableSortLabel>
             </TableCell>
-            
-            <TableCell     align="left"> 
-                    Nota 
-            </TableCell>
+ 
 
             {isEditMode &&
             <TableCell></TableCell>
@@ -204,7 +201,7 @@ function TableRows   (props: any ) {
 
         <TableCell   align="left" >{row.evaso  === true ? "Si" : "No"}</TableCell>
         <TableCell   align="left" >{row.consegnato  === true ? "Si" : "No"}</TableCell>
-        <TableCell  align="left"  width="15%">{ row.nota}</TableCell>
+  
 
 
       {isEditMode &&
@@ -300,7 +297,7 @@ class Ordini_elenco_dettaglioView  extends React.Component <IProps,IState> {
 
 
 <Box  display="flex" flexDirection="row" alignItems="center"    width="100%"    justifyContent="center" mb={1} > 
-           
+            
           <Paper className={this.props.classes.paperFullWidth} variant="outlined" >
 
               <TableContainer  >

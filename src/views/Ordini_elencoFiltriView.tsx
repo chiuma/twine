@@ -1,5 +1,5 @@
 import React from 'react';
-import {    Accordion, AccordionDetails, AccordionSummary, Box, Button,   FormControl,   Grid,          InputLabel,     MenuItem,     Select,     TextField, Typography } from '@mui/material';
+import {    Accordion, AccordionDetails, AccordionSummary, Box, Button,   Container,   FormControl,   Grid,          InputLabel,     MenuItem,     Select,     TextField, Typography } from '@mui/material';
 import { Autocomplete } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
@@ -32,8 +32,10 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
 
       <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="center"  width="100%" >
-      <Box width="100%"> 
- 
+     <Box width="100%"> 
+  
+        
+  
           
         <Accordion>
           <AccordionSummary
@@ -303,9 +305,7 @@ return  option  !== null && option.id_provenienza !== -1 ?  option.descrizione :
           </AccordionDetails>
         </Accordion>
 
-
-            
-
+ 
       </Box>
  
     </Box>

@@ -180,7 +180,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
  
     handleChangeFormDettaglio = (event, idx) => {
-    
+    console.log("handleChangeFormDettaglio", event, idx)
 
 
         const formDettaglio = this.state.formOrdine.ordineDettaglio[idx];
@@ -202,6 +202,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
         }
          else if ( event.target.name === "id_articolo_base")
          {
+            console.log("event.target.value", event.target.value)
                 let articolo = this.props.elenco_articoli.find(x => x.id_articolo_base === event.target.value)
                 if ( articolo != null)
                 {
@@ -331,15 +332,16 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
     handleScan (scan:string)
     {
         if (!scan.startsWith('ART-') && !!scan.startsWith('COL-')) {
-            console.log("Invalid scan format - must start with ART");
+       
             NotificationManager.error("QR Code non valido", 'Ordine', 2000);  
             return;
         }
 
         const formDettaglio = this.state.formOrdine.ordineDettaglio[this.state.formOrdine.ordineDettaglio.length-1];
-        const parts = scan.split('-');
+        const parts = scan.split('*');
         const prefix = parts[0] || '';  
 
+console.log("xxxxx")
 
         if ( prefix === 'ART')
         {

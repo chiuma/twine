@@ -27,7 +27,7 @@ class JwtConfig
 {
 	static $KEY    = '_TWINE@CHIUma@SEC_';
 	static $DOMAIN    = 'https://localhost';
-	static $tokenDuration = 3400; // in secondi
+	static $tokenDuration = 18000; // in secondi
 	public static function makeToken($payload)
 	{
 			

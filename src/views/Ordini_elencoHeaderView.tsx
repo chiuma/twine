@@ -24,13 +24,13 @@ interface Props   {
     
   }
 function elencoHeaderView (props: Props ) {
-    return (
+    return ( 
         <Box   width="100%" >
             <Paper  variant="outlined" elevation={1}   > 
             <Box display="flex" p={1} flexDirection="row" alignItems="center"  justifyContent="center"  width="100%" >
                 
-                <Box width="100%" mb={1}>
-
+                <Box style={{flexGrow: 1, }} >
+ 
                     <FormControl component="fieldset">
                 <FormLabel component="legend" style={{color:'red', fontWeight:'bold'}} >Visualizza</FormLabel>
                 <RadioGroup row aria-label="position" name="position" value={props.tipo_elenco} > 
@@ -55,7 +55,7 @@ function elencoHeaderView (props: Props ) {
 
                 </Box>
 
-                <Box  width="100%" mb={1} display="flex" flexDirection="row" alignItems="center"  justifyContent="center"   >
+                <Box   style={{flexGrow: 1, }} mb={1} display="flex" flexDirection="row" alignItems="center"  justifyContent="center"   >
            
                          
                         <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
@@ -88,7 +88,8 @@ function elencoHeaderView (props: Props ) {
                             </Box>
                 </Box>
                 
-                <Box width="100%" mb={1} display="flex" flexDirection="row" alignItems="center" justifyContent="flex-end">
+                <Box  style={{flexGrow: 1, }} mb={1} display="flex" flexDirection="row" alignItems="center" 
+                    justifyContent="flex-end">
                     
                 {props.tipo_elenco === "dettaglio" &&
                     <Box  mr={2}>
@@ -109,7 +110,7 @@ function elencoHeaderView (props: Props ) {
                 
                     <Box>
                         <Button  startIcon={<IconsMenu.NuovoIcon />}  onClick={ props.handleNewOrdine}   size="small" color="primary" variant="contained" >
-                            Nuovo Ordine
+                            Nuovo
                         </Button>
                     </Box>
 
@@ -184,7 +185,7 @@ function elencoHeaderViewSm (props: Props ) {
                             </Box>
                 </Box>
                 
-                <Box width="100%" mb={1} display="flex" flexDirection="row" alignItems="center" justifyContent="flex-end">
+                <Box width="100%" mb={1} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
                     
                 {props.tipo_elenco === "dettaglio" &&
                     <Box  mr={2}>
@@ -205,7 +206,7 @@ function elencoHeaderViewSm (props: Props ) {
                 
                     <Box>
                         <Button  startIcon={<IconsMenu.NuovoIcon />}  onClick={ props.handleNewOrdine}   size="small" color="primary" variant="contained" >
-                            Nuovo Ordine
+                            Nuovo
                         </Button>
                     </Box>
 

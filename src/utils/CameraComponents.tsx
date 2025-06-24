@@ -79,6 +79,7 @@ export function CameraView(props: any) {
             handleScan(detectedCodes[0].rawValue);
           }}
           onError={(error) => {
+        //    NotificationManager.error("Errore Camera", 'Articolo', 3000);  
             console.log(`onError: ${error}'`);
           }}
           styles={{ container: { height: "240px", width: "240px" } }}

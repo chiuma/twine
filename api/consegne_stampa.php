@@ -3,6 +3,7 @@
 
  error_reporting(0);
 require_once "./JwtConfig.php";
+require_once "./cors.php"; 
 	$authCheck = JwtConfig::checkToken();
 	if (  $authCheck["esito"] === "NOT_OK")
 	{
@@ -119,7 +120,7 @@ try
 						
   	$sql = 
   	" SELECT  consegne.*, articoli_base.codice as articolo_base_codice "
-  	. " , DATE_FORMAT(ordini_dettaglio.data_consegna, '%d/%m/%Y') as data_consegna_formatted   " 
+ 
   	. " , DATE_FORMAT(consegne.data_consegna_effettuata, '%d/%m/%Y') as data_consegna_effettuata_formatted   " 
 		. "		,clienti.descrizione as cliente_descrizione   "
 		. "		,consegne_dettaglio.id_consegna_dettaglio  , consegne_dettaglio.qta_evasa   "
@@ -139,8 +140,9 @@ try
 		
 		. "	INNER  JOIN ordini_dettaglio "
 		. "	ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio   "
-		
-		
+
+ 
+ 
 		. "	INNER JOIN articoli_base "
 		. "	ON ordini_dettaglio.id_articolo_base = articoli_base.id_articolo_base   "
   
@@ -151,7 +153,7 @@ try
 		. " LEFT JOIN colori as  colori_3  	ON colori_3.id_colore  = ordini_dettaglio.id_colore_3 "
 		
 		. " WHERE   consegne.id_consegna =   " .$id_consegna  
-		. "	ORDER BY articoli_base.codice, consegne.id_consegna desc, consegne_dettaglio.id_consegna_dettaglio ,  ordini_dettaglio.data_consegna  ";
+		. "	ORDER BY articoli_base.codice, consegne.id_consegna desc, consegne_dettaglio.id_consegna_dettaglio    ";
 
 	
      //echo $sql;die();

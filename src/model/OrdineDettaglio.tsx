@@ -29,9 +29,7 @@ export class OrdineDettaglio {
     prezzo : number = 0;
     qta : number = 0;
  
-    evaso : boolean =false;
-    
-    nota: string = "";
+    evaso : boolean =false; 
 
 
     public constructor(init?: Partial<OrdineDettaglio>) {

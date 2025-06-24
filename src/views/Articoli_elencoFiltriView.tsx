@@ -110,7 +110,7 @@ export function Articoli_elencoFiltriView (props: Props ) {
       <Box width="25%">
 
         <Button startIcon={<IconsMenu.NuovoIcon />}  onClick={() => { props.handleNewArticolo(new Articolo())}} size="small" color="primary" variant="contained" >
-              Nuovo Articolo
+              Nuovo
         </Button>
 
       </Box>

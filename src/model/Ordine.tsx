@@ -32,6 +32,8 @@ export class  OrdineTestataErrors {
     id_cliente: string = ""; 
     data_ricezione: string = ""; 
     data_consegna: string = ""; 
+ 
+
     public constructor(init?: Partial<OrdineTestataErrors>) {
         Object.assign(this, init);
       }
@@ -46,6 +48,7 @@ export class Ordine {
     data_ricezione: string = "";
     data_consegna: string = ""; 
     id_ordine: number = -1 ;
+    note: string = ""; 
     ordineDettaglio : OrdineDettaglio[] = [];
 
 

@@ -2,6 +2,7 @@
 // https://www.cimicapp.com/temp/twine/api/ordini_stampa.php
 error_reporting(0);
 require_once "./JwtConfig.php";
+require_once "./cors.php"; 
 	$authCheck = JwtConfig::checkToken();
 	if (  $authCheck["esito"] === "NOT_OK")
 	{
@@ -128,9 +129,9 @@ try
 		. " ordini_dettaglio.id_colore_2, colori_2.codice as colore_codice_2, colori_2.descrizione as colore_descrizione_2 , "
 		. " ordini_dettaglio.id_colore_3, colori_3.codice as colore_codice_3, colori_3.descrizione as colore_descrizione_3 , "
 		
-		. "		DATE_FORMAT(ordini_dettaglio.data_consegna, '%d/%m/%Y') as data_consegna_formatted,   "
+		. "		DATE_FORMAT(ordini.data_consegna, '%d/%m/%Y') as data_consegna_formatted,   "
 		. "		DATE_FORMAT(ordini.data_ricezione, '%d/%m/%Y') as data_ricezione_formatted,   "
-		. "		ordini_dettaglio.evaso,  ordini_dettaglio.nota,  "
+		. "		ordini_dettaglio.evaso,     "
 		. "		articoli_base.id_articolo_base, articoli_base.codice, articoli_base.descrizione,  "
 		. "		colori.codice as colore_codice, colori.descrizione as colore_descrizione , "
 		. "		clienti.descrizione as cliente_descrizione   "
@@ -158,7 +159,7 @@ try
 		. "	ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio    "
 				
 		. $where	
-		. "	ORDER BY  clienti.descrizione, ordini_dettaglio.data_consegna , articoli_base.codice, colori.codice   ";
+		. "	ORDER BY  clienti.descrizione, ordini.data_consegna , articoli_base.codice, colori.codice   ";
 
      // echo $sql; die();
 

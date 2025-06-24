@@ -1,6 +1,7 @@
 ﻿<?php
 // https://www.cimicapp.com/temp/twine/api/clienti_etichetta_stampa.php?elenco_consegne=171,172
-// error_reporting(0);
+error_reporting(0);
+require_once "./cors.php"; 
 require_once "./JwtConfig.php";
 	$authCheck = JwtConfig::checkToken();
 	if (  $authCheck["esito"] === "NOT_OK")

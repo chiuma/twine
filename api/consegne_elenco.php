@@ -4,7 +4,7 @@
 
  error_reporting(0);
  require_once "./JwtConfig.php";
- 
+ require_once "./cors.php"; 
  header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";

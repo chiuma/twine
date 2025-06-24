@@ -74,7 +74,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     lastFiltri : OrdineFiltri =  new OrdineFiltri();
     elenco_ordini: any;
     componentRef: any;
-    tipo_elenco: OptionsTipoElenco = "dettaglio";
+    tipo_elenco: OptionsTipoElenco = "testata";
     tipo_stampa: any="";
 
     constructor(props: any) {
@@ -130,7 +130,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     handleShowStampa(showStampa:boolean, tipo_stampa:string)
     {
  
-      // console.log("singolo_ordine", this.state.ordineSelected);  return ;
+      
       this.tipo_stampa = tipo_stampa;
       this.setState({ showStampa: showStampa   }); 
  
@@ -183,7 +183,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       let ris = {
         ...objOrdineDettaglio , 
-        ...{data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
+        ...{note: objOrdineTestata.note, data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
             id_cliente: objOrdineTestata.id_cliente , id_ordine: objOrdineTestata.id_ordine},
         ...{ colore_codice: coloreSel?.codice,    colore_descrizione: coloreSel?.descrizione },
         ...{ colore_codice_2: coloreSel_2==null ? "" : coloreSel_2.codice,    colore_descrizione_2: coloreSel_2==null ? "" : coloreSel_2.descrizione },
@@ -210,6 +210,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         this.setState({  isInProgress: true }); 
         let campiTestata = { id_cliente: ordine.id_cliente, 
                              id_ordine: ordine.id_ordine, 
+                             note: ordine.note, 
                             data_ricezione : ordine.data_ricezione, 
                              data_consegna : ordine.data_consegna, 
                             id_provenienza: ordine.id_provenienza  }
@@ -235,7 +236,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               if (idx !== -1)
               {
                 this.elenco_ordini[idx] = { ...this.getOrdineDettaglioAggiornato (ris.testata, dettaglio) , ...{consegnato: this.elenco_ordini[idx].consegnato}};
-                 
+                console.log("saveOrdine",ris.testata,  this.elenco_ordini[idx])
               }
               else
               {
@@ -463,11 +464,12 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     handleOrdineDettaglioSelected (scheda:any |null)
     {
       let ordineSelected = new Ordine();
-     // console.log("handleOrdineDettaglioSelected",scheda)
+     console.log("handleOrdineDettaglioSelected",scheda)
       if ( scheda != null)
       {
         ordineSelected.id_ordine = scheda.id_ordine;
         ordineSelected.id_cliente = scheda.id_cliente;
+        ordineSelected.note = scheda.note;
         ordineSelected.data_ricezione = scheda.data_ricezione;
         ordineSelected.data_consegna = scheda.data_consegna;
         ordineSelected.id_provenienza = scheda.id_provenienza;
@@ -635,7 +637,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                   data_ricezione: ordineDettaglio.data_ricezione,
                   data_consegna: ordineDettaglio.data_consegna,
                   id_provenienza: ordineDettaglio.id_provenienza,
-
+                  note: ordineDettaglio.note,
                   cliente_descrizione: ordineDettaglio.cliente_descrizione,
                   id_cliente: ordineDettaglio.id_cliente})
 
@@ -676,30 +678,29 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
             ? objectToQueryString(this.lastFiltri)
             : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine });
           return (
-            <Box  width="100%" >
+            <Box width="100%" display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
   
 
               {this.state.showStampa &&
               <Box mt={2} ml={1} mr={1}>
-              <StampaHtml 
-                  handleShowStampa={this.handleShowStampa}
-                    urlToPrint={ConstantUtils.url.SERVER_URL + 
-                    (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
-                    this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
-                    this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
-                    "ordini_articoli_stampa.php?")
-                    
-                    + 
-                    finalQueryString
-                    
-                    }
-                  />
-                  </Box>
+                <StampaHtml 
+                    handleShowStampa={this.handleShowStampa}
+                      urlToPrint={ConstantUtils.url.SERVER_URL + 
+                      (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
+                      this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
+                      this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
+                      "ordini_articoli_stampa.php?")
+                      
+                      + 
+                      finalQueryString
+                      
+                      }
+                    />
+                </Box>
               }
 
       {!this.state.showStampa &&
-            <Box  width="100%"  display="flex" flexDirection="column" alignItems="center"  justifyContent="center" > 
-     
+      <>
               {this.state.ordineDettaglioToDelete !== null &&
                 <ConfirmFialog
                           handleConfirm={this.execDeleteOrdineDettaglio}
@@ -732,9 +733,11 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               { this.state.ordineSelected === null &&
               
                <>
-
-              <Box     mt={2}    width="92%" > 
-  
+ 
+              <Box  id="filtri"   
+              sx={{ width: {xs:'98%', sm: '98%', md: '98%', lg: '96%', xl: '90%' }, mt: 2 }}
+                     mt={2}> 
+               
                   <Ordini_elencoFiltriView  
                       tipo_elenco   ={this.tipo_elenco}   
                       elenco_clienti = {this.props.elenco_clienti}
@@ -742,9 +745,11 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                       elenco_provenienze = {this.props.elenco_provenienze}
                       initFiltri={this.lastFiltri}   
                       handleExecRicerca={this.handleExecRicerca}   />
-              </Box>
-              <Box    mt={2}  width="92%" > 
+              </Box>       
               
+            
+              <Box mt={2}  width={{ xs:'98%', sm: '98%' , md: '98%', lg: '96%', xl: '90%'}} >            
+                
                 <Ordini_elencoHeaderView     
                       isMobile={this.props.isMobile}
                       elenco = {this.state.elenco_filtrato}  
@@ -752,10 +757,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                       handleChangeTipoElenco = {this.handleChangeTipoElenco}
                       tipo_elenco={this.tipo_elenco}
                       handleNewOrdine={() => { this.handleOrdineDettaglioSelected(null)}  } />
-              </Box>
-
-              <Box     mt={2}   width="92%"> 
- 
+              </Box>       
+    
+               <Box mt={2}  width={{xs:'98%',sm: '98%' , md: '98%', lg: '96%', xl: '90%'}} >
+                 
               {this.tipo_elenco === "dettaglio" &&
                   <Ordini_elenco_dettaglioView 
                     deleteScheda={this.handleOrdineDettaglioToDelete}
@@ -764,7 +769,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                     isEditMode={this.state.isEditMode}
                     elenco={this.state.elenco_filtrato}  
                     /> 
-              }
+              } 
 
               {this.tipo_elenco === "testata" &&
                   <Ordini_elenco_testataView  
@@ -774,8 +779,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                     elenco={this.state.elenco_filtrato}  
                     /> 
               }
-              </Box>              
- 
+
+
+              </Box>       
+              
                  
               </>
               
@@ -787,7 +794,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
             
 
-                <Box width="96%" mt={2}> 
+                <Box width="100%" mt={2}> 
                 <Ordine_scheda    
                   isMobile={this.props.isMobile}
                   readOnly={
@@ -804,7 +811,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               }
  
 
-            </Box>
+          </>
           
 }
           </Box>

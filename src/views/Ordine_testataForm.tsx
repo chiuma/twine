@@ -129,7 +129,29 @@ function FormSm   (props: any  ) {
           </Box>
       </Grid>
 
+      <Grid item xs={12} >
+          <FormControl  >
+           
+          <CustomComponents.CustomTextField 
+                      size="small"
+                      disabled={props.readOnly}  
+                      InputProps={{
+                        classes: {
+                          root: props.classes.inputRoot,
+                          disabled: props.classes.disabled,
+                        },
+                      }}
+                      id="note"
+                      name="note"
+                      label="Note ordine"
+                      maxlength={500}
+                      value={props.formData.note}
+                      onChange={props.handleChangeForm}
+                    />
 
+  
+              </FormControl>
+      </Grid>
  
 
   </Grid>
@@ -141,7 +163,7 @@ function Form   (props: any  ) {
   let that = props;
    return ( 
     <Grid container spacing={2} >
-    <Grid item xs={4} >
+    <Grid item xs={4} md={4} >
           <FormControl  >
            
           <CustomComponents.CustomAutocomplete
@@ -168,7 +190,7 @@ function Form   (props: any  ) {
               } 
               </FormControl>
       </Grid>
-      <Grid item xs={2}  >
+      <Grid item xs={2} md={1.5} >
             <FormControl  >
             <CustomComponents.CustomTextField   
              disabled={props.readOnly}
@@ -183,7 +205,7 @@ function Form   (props: any  ) {
             </FormControl>
       </Grid>
 
-      <Grid item xs={2}  >
+      <Grid item xs={2} md={1.5} >
             <FormControl  >
             <CustomComponents.CustomTextField  
              disabled={props.readOnly}
@@ -198,7 +220,7 @@ function Form   (props: any  ) {
             </FormControl>
       </Grid>
 
-      <Grid item xs={2} >
+      <Grid item xs={2} md={1} >
           <FormControl  >
           
           <CustomComponents.CustomAutocomplete
@@ -221,7 +243,7 @@ function Form   (props: any  ) {
               </FormControl>
       </Grid>  
   
-      <Grid item xs={2}  >
+      <Grid item xs={2} md={1} >
 
 
           <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
@@ -239,12 +261,30 @@ function Form   (props: any  ) {
       </Grid>
 
 
-      <Grid item xs={2}  >
+ 
+      <Grid item xs={6} md={3}>
+          <FormControl  >
+           
+          <CustomComponents.CustomTextField 
+                      size="small"
+                      disabled={props.readOnly}  
+                      InputProps={{
+                        classes: {
+                          root: props.classes.inputRoot,
+                          disabled: props.classes.disabled,
+                        },
+                      }}
+                      id="note"
+                      name="note"
+                      maxlength={500}
+                      label="Note ordine"
+                      value={props.formData.note}
+                      onChange={props.handleChangeForm}
+                    />
 
-
-
+  
+              </FormControl>
       </Grid>
-
   </Grid>
 
   );

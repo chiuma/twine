@@ -40,7 +40,7 @@ const styles =(theme:any) => (  {
           width: "80%"
         },
         [theme.breakpoints.up('xl')]: {
-          width: "70%"
+          width: "80%"
         }
     
       },

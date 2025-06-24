@@ -2,7 +2,9 @@
 // https://www.cimicapp.com/temp/twine/api/consegne_scheda_get.php
 // http://127.0.0.1/react/twine/api/consegne_scheda_get.php
  error_reporting(0);
+ 
  require_once "./JwtConfig.php";
+ require_once "./cors.php"; 
  header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -86,7 +88,7 @@ try
 SELECT  articoli_base.codice AS articolo_base_codice,
        ordini_dettaglio.id_ordine, ordini_dettaglio.id_colore_2, colori_2.codice AS colore_codice_2, colori_2.descrizione AS colore_descrizione_2,
        ordini_dettaglio.id_colore_3, colori_3.codice AS colore_codice_3, colori_3.descrizione AS colore_descrizione_3,
-       DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y/%m/%d') AS data_consegna_formatted,
+       DATE_FORMAT(ordini.data_consegna, '%Y/%m/%d') AS data_consegna_formatted,
        consegne_dettaglio.id_consegna_dettaglio, consegne_dettaglio.qta_evasa, consegne_dettaglio.sconto,
        ordini_dettaglio.id_ordine_dettaglio, ordini_dettaglio.qta, ordini_dettaglio.prezzo AS prezzo,
        consegne_dettaglio.sconto, articoli_base.id_articolo_base, articoli_base.descrizione AS articolo_descrizione,
@@ -104,7 +106,7 @@ SELECT  articoli_base.codice AS articolo_base_codice,
 				
 				$sql = $base_query 
 				. " WHERE consegne_dettaglio.id_consegna  IS NULL and ordini.id_cliente = ". $id_cliente 
-				. "	ORDER BY  consegne_dettaglio.id_consegna desc, consegne_dettaglio.id_consegna_dettaglio ,  ordini_dettaglio.data_consegna  ";
+				. "	ORDER BY  consegne_dettaglio.id_consegna desc, consegne_dettaglio.id_consegna_dettaglio ,  ordini.data_consegna  ";
  
 			}
 			else

@@ -61,8 +61,7 @@ class LoginView  extends React.Component <IProps,IState> {
 
     render() {    
  
-       console.log("LoginView render", styles)
-        console.log("CLASSES FROM PROPS:",  this.props.classes.inputRoot);
+ 
         return (
 
     <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 

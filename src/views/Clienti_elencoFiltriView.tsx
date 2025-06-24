@@ -129,7 +129,7 @@ export function Clienti_elencoFiltriView (props: Props ) {
 
         <Button startIcon={<IconsMenu.NuovoIcon />} 
         onClick={() => { props.handleNewCliente(new Cliente())}}  size="small" color="primary" variant="contained" >
-              Nuovo Cliente
+              Nuovo
         </Button>
 
       </Box>

@@ -8,7 +8,8 @@ import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 import { IconsMenu } from '../common/Icons';
 
 export interface IProps { 
- urlToPrint: string,
+ urlToPrint?: string,
+ html?: string,
  handleShowStampa:any
     
 }
@@ -31,7 +32,8 @@ class Stampa  extends React.Component <IProps,IState> {
 
     componentDidMount()
     {  
-
+      if (this.props.urlToPrint !== undefined )
+      {
         this.setState({   isInProgress: true });
         
         const config = {
@@ -46,7 +48,11 @@ class Stampa  extends React.Component <IProps,IState> {
        
             this.setState({   html: response.data  , isInProgress:false});
         });
-
+      }
+      else if (this.props.html !== undefined )
+      {
+        this.setState({   html: this.props.html , isInProgress:false});
+      }
     }
  
  

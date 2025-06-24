@@ -1,7 +1,7 @@
 <?php
 
 	 	define("HOST", "89.46.111.124");
-	define("DB", "Sql1360838_5");
+	define("DB", "Sql1360838_2");
 	define("DB_USER", "Sql1360838");
 	define("DB_PASSWORD", "728rhdlcg4"); 
 	

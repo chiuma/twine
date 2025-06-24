@@ -25,7 +25,7 @@ try
 		$token =  JwtConfig::makeToken( null ); 
 		
 		header('Authorization: '.$token);		
-		$json_response =  array ('esito' => "OK"  );	
+		$json_response =  array ('esito' => "OK"   );	
 	}
 	else
 	{

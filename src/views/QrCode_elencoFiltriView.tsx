@@ -19,9 +19,8 @@ import { CustomComponents } from '../utils/CustomComponents';
 
 interface Props   {
     initFiltri: any; 
-    handleExecRicerca: any, 
-    handleNewQrCode:any
-    
+    handleExecRicerca: any,  
+    handleStampaOrdine:any
   }
 
 export function QrCode_elencoFiltriView (props: Props ) {
@@ -38,8 +37,8 @@ export function QrCode_elencoFiltriView (props: Props ) {
 
 
 
-      <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="center"  
-      width={{ xs: '98%', sm: '90%' , md: '80%', lg: '75%', xl: '60%',}}  >
+      <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="center"  width="100%"
+      >
       <Box width="75%"> 
   
         <Container style={{marginTop: '2%', marginBottom: '2%'}}>
@@ -100,11 +99,15 @@ export function QrCode_elencoFiltriView (props: Props ) {
 
       </Box>
       <Box width="25%">
+  
 
-        <Button startIcon={<IconsMenu.NuovoIcon />}  onClick={() => { props.handleNewQrCode(new QrCode())}} size="small" color="primary" variant="contained" >
-              Nuovo QrCode
-        </Button>
-
+        <Box mt={2}>
+                        <Button startIcon={<IconsMenu.StampaIcon />} 
+                        onClick={ e=>  props.handleStampaOrdine(true, "qrcode")  } 
+                             size="small" color="primary" variant="contained" >
+                           Qr Code
+                        </Button>
+                        </Box>
       </Box>
     </Box>
     )

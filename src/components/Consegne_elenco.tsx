@@ -449,7 +449,7 @@ class Consegne_elencoPage  extends React.Component <IProps,IState> {
               
                <>
 
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}   mt={2}> 
+              <Box  width={{xs:'98%',  sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}   mt={2}> 
  
                   <Consegne_elencoFiltriView    
                       elenco_clienti = {this.props.elenco_clienti}
@@ -457,7 +457,7 @@ class Consegne_elencoPage  extends React.Component <IProps,IState> {
                       initFiltri={this.lastFiltri}   
                       handleExecRicerca={this.handleExecRicerca}   />
               </Box>
-              <Box width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}   mt={2} >  
+              <Box width={{xs:'98%',  sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}   mt={2} >  
                 <Consegne_elencoHeaderView     
                       handleStampaEtichette={this.handleStampaEtichette}
                       elenco = {this.state.elenco_filtrato}    
@@ -469,7 +469,7 @@ class Consegne_elencoPage  extends React.Component <IProps,IState> {
                         )}  } />
               </Box>
 
-              <Box width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}   mt={2} > 
+              <Box width={{xs:'98%',  sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}   mt={2} > 
 
  
                   <Consegne_elencoView 

@@ -74,12 +74,13 @@ function TestataSm   (propieta: any  ) {
 
  
           <Box      > 
+          {!props.readOnly && 
             <Button   
             startIcon={props.isCameraShow ? <HideIcon  /> : <ShowIcon  />}  
             onClick={props.handleShowCamera}   style={{marginRight:8}} size="small" color="primary" variant="contained" >
               QrCode
             </Button>
-           
+          }
 
             {!props.bChangedForm && props.formOrdine.id_ordine !== -1 && 
 
@@ -156,13 +157,13 @@ function Testata   (propieta: any  ) {
             {props.formOrdine.ordineDettaglio[0].id_ordine_dettaglio === -1 ? "Nuovo " : ""}Ordine   
             </Typography>
 
-
+            {!props.readOnly && 
             <Button   
             startIcon={props.isCameraShow ? <HideIcon  /> : <ShowIcon  />}  
             onClick={props.handleShowCamera}   style={{marginRight:8}} size="small" color="primary" variant="contained" >
               QrCode
             </Button>
-
+            }
    
           {!props.readOnly && 
             !(props.formOrdine.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex ) =>   
@@ -275,10 +276,10 @@ function Scheda   (props: any  ) {
                    </Paper>
                    </Box>
   
-                   {props.isCameraShow && 
-                  <Box  width="100%"  > 
+                   {props.isCameraShow && !props.readOnly &&  
+                    <Box  width="100%"> 
                       <CameraView onScan={e =>  props.handleScan(e)} /> 
-                  </Box>
+                    </Box>
                   }
 
                    {ordineDettaglio.map((ordineDettaglio:any, idx_riga) => {

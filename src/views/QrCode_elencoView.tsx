@@ -119,9 +119,7 @@ function TableRows   (props: any ) {
           <DeleteIcon />
         </IconButton>    
    
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <EditIcon />
-        </IconButton>
+       
         </TableCell> 
       }
            
@@ -148,7 +146,6 @@ export interface IProps {
   classes:any, 
   elenco: any , 
   isEditMode: boolean,
-  showScheda: any,
   deleteScheda: any,
 
 }
@@ -204,7 +201,7 @@ class QrCode_elencoView  extends React.Component <IProps,IState> {
 
 
 <Box  display="flex" flexDirection="row" alignItems="center"    
-width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}} 
+width="100%"
     justifyContent="center" > 
  
           <Paper className={this.props.classes.paperElenco} variant="outlined" >

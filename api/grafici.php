@@ -1,8 +1,9 @@
 ﻿<?php
 
  error_reporting(0);
- require_once "./JwtConfig.php";
  
+ require_once "./JwtConfig.php";
+ require_once "./cors.php"; 
  header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -169,85 +170,8 @@ try
 
 	}	  
  
- 	// **********************
- 	$sql = 
-		  " SELECT    articoli_base.codice as articolo_base_codice,   "
-		. " SUM(ordini_dettaglio.qta) as qta_totale, 	DATE_FORMAT(ordini_dettaglio.data_consegna ,'%Y/%m') as anno_mese"
-		. " FROM ordini_dettaglio"
-		. " INNER JOIN articoli_base	ON ordini_dettaglio.id_articolo_base = articoli_base.id_articolo_base "
-		. " group by articoli_base.codice,   anno_mese"
-		. " ORDER BY  articoli_base.codice, anno_mese";
-			  
-	$sql = " SELECT  articoli_base.codice as articolo_base_codice,  "
-			. " ROUND(SUM(ordini_dettaglio.prezzo*qta - (consegne_dettaglio.sconto*ordini_dettaglio.prezzo*qta/100)),2) as importo_totale ,   	DATE_FORMAT(consegne.data_consegna_effettuata ,'%Y/%m') as anno_mese"
-			. " FROM consegne   "
-			. " INNER  JOIN consegne_dettaglio 	ON consegne.id_consegna = consegne_dettaglio.id_consegna"
-			. " INNER  JOIN ordini_dettaglio 	ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio"
-			. " INNER JOIN articoli_base	ON ordini_dettaglio.id_articolo_base = articoli_base.id_articolo_base "
-			. $where_filtri
-			. " group by articoli_base.codice,   anno_mese"
-			. " ORDER BY  articoli_base.codice, anno_mese";			  
-	 	
-	 	$sth = $conn->prepare($sql);
-			$sth->execute();
-			$result = $sth->fetchAll(PDO::FETCH_ASSOC);		 
+ 	 
 	 
-			$json_elencoConsegneArticoliAnnoMese = array(); 
-		 
-			$itemArticoliOrdinati;
-			foreach ($result as $row)
-			{	 
-			 
-					$itemArticoliOrdinati    =  array( 			
-		  			'anno_mese'=>     $row["anno_mese"] , 
- 						'articolo_base_codice'=>     $row["articolo_base_codice"] , 
-		  			'importo_totale' =>  intval ( $row["importo_totale"])  ,
-		  	 
-		    	 );
- 
-		 			array_push($json_elencoConsegneArticoliAnnoMese, $itemArticoliOrdinati); 
-	 
-			}	  
-	 	
-	 	
-
-
-	// **********************
- 
-	$sql = " SELECT    clienti.id_cliente, clienti.descrizione, "
-			. " ROUND(SUM(ordini_dettaglio.prezzo*qta - (consegne_dettaglio.sconto*ordini_dettaglio.prezzo*qta/100)),2) as importo_totale,   	DATE_FORMAT(consegne.data_consegna_effettuata ,'%Y/%m') as anno_mese "
-			. " FROM consegne   "
-			. " INNER  JOIN consegne_dettaglio 	ON consegne.id_consegna = consegne_dettaglio.id_consegna"
-			. " INNER  JOIN ordini_dettaglio 	ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio"
-			. " INNER  JOIN clienti	ON consegne.id_cliente = clienti.id_cliente "
-			. $where_filtri
-		. " GROUP BY clienti.id_cliente  ,   clienti.descrizione,   anno_mese"
-		. " ORDER BY   clienti.id_cliente  ,   clienti.descrizione,  anno_mese" ;
-					  
-	 	
-	 		$sth = $conn->prepare($sql);
-			$sth->execute();
-			$result = $sth->fetchAll(PDO::FETCH_ASSOC);		 
-	 
-			$json_elencoConsegneClientiAnnomese = array(); 
-		 
-			$itemOrdiniClienti;
-			foreach ($result as $row)
-			{	 
-			 
-					$itemOrdiniClienti    =  array( 			
-		  			'anno_mese'=>     $row["anno_mese"] , 
- 						'id_cliente'=>     $row["id_cliente"] , 
- 						'descrizione'=>     $row["descrizione"] ,
-		  			'importo_totale' =>  intval ( $row["importo_totale"])  ,
-		  	 
-		    	 );
- 
-		 			array_push($json_elencoConsegneClientiAnnomese, $itemOrdiniClienti); 
-	 
-			}	  
-	 	
-
 
 	// **********************
 
@@ -257,9 +181,7 @@ try
 	 	
 	 	$json_response    =  array ('esito' => "OK", 
 	 								'elenco_consegne_annomese' =>  $json_elenco_consegne_annomese , 
-	 								'elenco_consegne_articoli_annomese' =>  $json_elencoConsegneArticoliAnnoMese,
-	 								'elenco_consegne_clienti_annomese' => $json_elencoConsegneClientiAnnomese  ,
-	 								'elenco_consegne_cliente' => $json_consegne_cliente,
+  	 								'elenco_consegne_cliente' => $json_consegne_cliente,
 	 								'elenco_consegne_articoli' => $json_consegne_articoli ) ;
 	 								
 	 	 echo json_encode( $json_response); 	

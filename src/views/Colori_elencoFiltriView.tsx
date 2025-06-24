@@ -104,7 +104,7 @@ export function Colori_elencoFiltriView (props: Props ) {
  
 
         <Button  startIcon={<IconsMenu.NuovoIcon />}  onClick={() => { props.handleNewColore(new Colore())}} size="small" color="primary" variant="contained" >
-              Nuovo Colore
+              Nuovo
         </Button>
 
 
