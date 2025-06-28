@@ -80,8 +80,7 @@ function TableHeader   (props: any  ) {
               </TableSortLabel>
             </TableCell>
             }
-            {sessionStorage.getItem("username")==="fulladmin" &&
-              <>
+ 
               <TableCell     align="center"> 
               Totale   
               </TableCell>
@@ -90,8 +89,7 @@ function TableHeader   (props: any  ) {
               <TableCell     align="center"> 
               Totale scontato
               </TableCell>
-              </>
-            }
+  
             <TableCell     align="center"> 
              Commissione
             </TableCell>
@@ -133,8 +131,7 @@ function TableRows   (props: any ) {
         <TableCell   align="left" >{ row.cliente_descrizione     }  </TableCell>
 
         }
-         {sessionStorage.getItem("username")==="fulladmin" &&
-         <>
+ 
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
              <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
@@ -149,8 +146,7 @@ function TableRows   (props: any ) {
               value={  row.importo_scontato }  
               displayType={'text'}  />   
         </TableCell>
-        </>
-        }
+ 
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
             <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
@@ -160,7 +156,7 @@ function TableRows   (props: any ) {
  
       {isEditMode &&
         <TableCell align="right"   style={{ whiteSpace: "nowrap" }}>  
-        {sessionStorage.getItem("username")==="fulladmin" && false &&
+        { false &&
             <IconButton color="primary"  component="span"   
             title= {row.hide===1 ? "Clicca per renderlo visibile" : "Clicca per nascondere"} 
                 onClick={() => { propieta.hiddingScheda(row.id_consegna);}}>
@@ -178,7 +174,7 @@ function TableRows   (props: any ) {
             <IconButton color="primary"  component="span"   onClick={() => { propieta.deleteScheda(row);}}>
             <DeleteIcon />
             </IconButton>    
-            {  sessionStorage.getItem("username") === "fulladmin" && 
+            {  sessionStorage.getItem("profile") === "admin" && 
             <IconButton color="primary"  component="span"   onClick={() => { propieta.showScheda(row);}}>
             <EditIcon />
             </IconButton>

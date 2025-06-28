@@ -99,8 +99,17 @@ function TableHeader   (props: any  ) {
               </TableSortLabel>
             </TableCell>
             
- 
+            {sessionStorage.getItem("profile") === "admin" && 
+              <TableCell    key="user_new"  align="left" sortDirection={orderBy === "user_new" ? order : false}>
 
+                <TableSortLabel
+                  active={orderBy ===  "user_new"}
+                  direction={orderBy === "user_new" ? order : 'asc'}
+                  onClick={createSortHandler("user_new")}>
+                      Utente
+                </TableSortLabel>
+              </TableCell>
+            }
             
             <TableCell></TableCell>
            
@@ -114,6 +123,7 @@ function TableHeader   (props: any  ) {
 function TableRows   (props: any ) {
   const {   row  , isEditMode , propieta } = props;
  
+
   return (   
     <TableRow     hover       tabIndex={-1}>
 
@@ -147,17 +157,18 @@ function TableRows   (props: any ) {
 
    
         <TableCell   align="left" >{row.consegnato  === true ? "Si" : "No"}</TableCell>
-       
+        {sessionStorage.getItem("profile") === "admin" && 
+        <TableCell   align="left" width="10%">{row.user_new}</TableCell>
+        }
 
-
-      {isEditMode &&
-      <TableCell align="right"   style={{ whiteSpace: "nowrap"}}  >
- 
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <EditIcon />
-        </IconButton>
+        {isEditMode &&
+        <TableCell align="right"   style={{ whiteSpace: "nowrap"}}  >
+  
+          <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
+            <EditIcon />
+          </IconButton>
         </TableCell> 
-      }
+        }
 
   </TableRow>
   );
@@ -231,9 +242,9 @@ class Ordini_elenco_testataView  extends React.Component <IProps,IState> {
  
   render() { 
 
-   
+ 
 
-  return (
+    return (
 
  
 

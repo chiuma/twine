@@ -67,7 +67,7 @@ function TableRows   (props: any ) {
       
     
     
-
+      {sessionStorage.getItem("profile") === "admin" &&
       <TableCell align="right">
         <Box display="flex" flexDirection="row" flexWrap="nowrap" alignItems="center">
           <IconButton color="primary" component="span" onClick={() => { propieta.deleteScheda(row); }}>
@@ -78,7 +78,7 @@ function TableRows   (props: any ) {
           </IconButton>
         </Box>
       </TableCell> 
-    
+      }
  
  
 

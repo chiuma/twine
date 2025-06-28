@@ -387,7 +387,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               render={(props) => (
                 <ResponsiveHomePage goToPage={this.goToPage}  {...props} isMobile={this.props.isMobile} />
               )} />
-            {sessionStorage.getItem("username") === "fulladmin" &&
+            {sessionStorage.getItem("profile") === "admin" &&
               <Route path="/grafici" exact
                 render={(props) => (
                   <Grafici {...props} />
@@ -417,10 +417,12 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               render={(props) => (
                 <Ordini_elenco {...props} isMobile={this.props.isMobile}  />
               )} />
-            <Route path="/consegne_elenco" exact
-              render={(props) => (
-                <Consegne_elenco {...props} />
-              )} />
+              {sessionStorage.getItem("profile") === "admin" &&
+              <Route path="/consegne_elenco" exact
+                render={(props) => (
+                  <Consegne_elenco {...props} />
+                )} />
+              }
           </Switch>
         }
         </Box>

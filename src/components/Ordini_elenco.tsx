@@ -4,7 +4,7 @@ import { OrdineDettaglio } from '../model/OrdineDettaglio';
  
 
  
-import {   Box, CircularProgress   } from '@mui/material';
+import {   Box, CircularProgress, Radio, RadioGroup, FormControlLabel, FormLabel   } from '@mui/material';
 
  
 import { connect } from 'react-redux';
@@ -28,6 +28,7 @@ import { StampaHtml } from '../utils/StampaHtml';
 import Ordini_elenco_dettaglioView from '../views/Ordini_elenco_dettaglioView';
 import Ordini_elenco_testataView from '../views/Ordini_elenco_testataView';
  import { CommonFunctions } from '../common/CommonFunctions';
+import { CustomComponents } from '../utils/CustomComponents';
  
  
   
@@ -64,6 +65,7 @@ export interface IState {
     ordineSelected: any  | null,
     ordineDettaglioToDelete:  any | null,
     ordineToDelete:  any | null,
+    conPrezzo: "si"|"no" | null,
   
   }
 
@@ -92,11 +94,13 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       this.saveOrdine = this.saveOrdine.bind(this);
       this.handleShowStampa = this.handleShowStampa.bind(this);
       this.handleChangeTipoElenco = this.handleChangeTipoElenco.bind(this);
+      
+      this.handleChangeForm = this.handleChangeForm.bind(this);
 
  
       this.state = {  
         elenco_filtrato: [], isInProgress: false , isEditMode: true, ordineSelected:null  , 
-        ordineDettaglioToDelete:null , ordineToDelete:null, showStampa: false ,
+        ordineDettaglioToDelete:null , ordineToDelete:null, showStampa: false ,  conPrezzo: null
         }; 
 
 
@@ -127,12 +131,13 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
     }
 
+    
     handleShowStampa(showStampa:boolean, tipo_stampa:string)
     {
  
       
       this.tipo_stampa = tipo_stampa;
-      this.setState({ showStampa: showStampa   }); 
+      this.setState({ showStampa: showStampa  , conPrezzo: !showStampa ? null : this.state.conPrezzo });   
  
     }
 
@@ -183,7 +188,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       let ris = {
         ...objOrdineDettaglio , 
-        ...{note: objOrdineTestata.note, data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
+        ...{note: objOrdineTestata.note, user_new: objOrdineTestata.user_new, data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
             id_cliente: objOrdineTestata.id_cliente , id_ordine: objOrdineTestata.id_ordine},
         ...{ colore_codice: coloreSel?.codice,    colore_descrizione: coloreSel?.descrizione },
         ...{ colore_codice_2: coloreSel_2==null ? "" : coloreSel_2.codice,    colore_descrizione_2: coloreSel_2==null ? "" : coloreSel_2.descrizione },
@@ -191,7 +196,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         ...{ articolo_base_descrizione: articoloSel?.descrizione, articolo_base_codice: articoloSel?.codice },
         ...{ cliente_descrizione: clienteSel?.descrizione}
         }
- 
+ console.log("ris", ris)
         return ris;
 
     }
@@ -211,6 +216,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         let campiTestata = { id_cliente: ordine.id_cliente, 
                              id_ordine: ordine.id_ordine, 
                              note: ordine.note, 
+                             user_new: ordine.user_new, 
                             data_ricezione : ordine.data_ricezione, 
                              data_consegna : ordine.data_consegna, 
                             id_provenienza: ordine.id_provenienza  }
@@ -314,6 +320,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         (
           (curr: any) => 
           {
+          
               var ris = true;
 
               if ( filtroInizialiCliente !== "")
@@ -464,12 +471,14 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     handleOrdineDettaglioSelected (scheda:any |null)
     {
       let ordineSelected = new Ordine();
-     console.log("handleOrdineDettaglioSelected",scheda)
+  
       if ( scheda != null)
       {
         ordineSelected.id_ordine = scheda.id_ordine;
         ordineSelected.id_cliente = scheda.id_cliente;
         ordineSelected.note = scheda.note;
+        ordineSelected.user_new = scheda.user_new;
+        
         ordineSelected.data_ricezione = scheda.data_ricezione;
         ordineSelected.data_consegna = scheda.data_consegna;
         ordineSelected.id_provenienza = scheda.id_provenienza;
@@ -638,6 +647,8 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                   data_consegna: ordineDettaglio.data_consegna,
                   id_provenienza: ordineDettaglio.id_provenienza,
                   note: ordineDettaglio.note,
+                  user_new: ordineDettaglio.user_new,
+                  
                   cliente_descrizione: ordineDettaglio.cliente_descrizione,
                   id_cliente: ordineDettaglio.id_cliente})
 
@@ -668,7 +679,14 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
     }  
    
-
+    handleChangeForm = (event) => {
+      const { conPrezzo } = this.state;
+   
+  
+   
+      this.setState({ conPrezzo: event.target.value });
+      
+    }  
     render() {    
    
 // console.log("OrdiniElenco - render - this.lastFiltri" , this.lastFiltri)
@@ -676,26 +694,45 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       const finalQueryString = this.tipo_stampa !== "singolo_ordine"
             ? objectToQueryString(this.lastFiltri)
-            : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine });
+            : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine , conPrezzo: this.state.conPrezzo });
           return (
             <Box width="100%" display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
   
 
-              {this.state.showStampa &&
+      {this.state.showStampa &&
               <Box mt={2} ml={1} mr={1}>
-                <StampaHtml 
-                    handleShowStampa={this.handleShowStampa}
-                      urlToPrint={ConstantUtils.url.SERVER_URL + 
-                      (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
-                      this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
-                      this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
-                      "ordini_articoli_stampa.php?")
-                      
-                      + 
-                      finalQueryString
-                      
-                      }
-                    />
+          
+  {this.state.conPrezzo == null  && this.tipo_stampa == "singolo_ordine" ?
+    <>
+      <FormLabel component="legend" style={{color:'red', fontWeight:'bold'}} >Stampa prezzi</FormLabel>
+      <RadioGroup
+          row
+          aria-label="conPrezzo"
+          name="conPrezzo"
+          value={this.state.conPrezzo === null ? '' : this.state.conPrezzo}
+          onChange={(event:any) => {
+              const value = event.target.value === '' ? null : event.target.value;
+              this.handleChangeForm({ target: { name: 'conPrezzo', value } });
+          }} >
+          <FormControlLabel value="si" control={<Radio size="small" />} label="Si" />
+          <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
+      </RadioGroup>
+    </>
+    :
+    <>
+      <StampaHtml 
+          handleShowStampa={this.handleShowStampa}
+            urlToPrint={ConstantUtils.url.SERVER_URL + 
+            (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
+            this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
+            this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
+            "ordini_articoli_stampa.php?")
+            + 
+            finalQueryString
+            }
+        />
+    </>
+  }
                 </Box>
               }
 

@@ -20,7 +20,7 @@ import { CustomComponents } from '../utils/CustomComponents';
 interface Props   {
     initFiltri: any; 
     handleExecRicerca: any,  
-    handleStampaOrdine:any
+    handleStampa:any
   }
 
 export function QrCode_elencoFiltriView (props: Props ) {
@@ -103,7 +103,7 @@ export function QrCode_elencoFiltriView (props: Props ) {
 
         <Box mt={2}>
                         <Button startIcon={<IconsMenu.StampaIcon />} 
-                        onClick={ e=>  props.handleStampaOrdine(true, "qrcode")  } 
+                        onClick={ e=>  props.handleStampa(true, "qrcode")  } 
                              size="small" color="primary" variant="contained" >
                            Qr Code
                         </Button>

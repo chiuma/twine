@@ -6,6 +6,7 @@ import parse from 'html-react-parser';
  
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 import { IconsMenu } from '../common/Icons';
+import { CustomComponents } from './CustomComponents';
 
 export interface IProps { 
  urlToPrint?: string,
@@ -15,7 +16,7 @@ export interface IProps {
 }
    
 export interface IState { 
-   html: string,
+   html: string, 
    isInProgress: boolean
 }
 
@@ -25,7 +26,7 @@ class Stampa  extends React.Component <IProps,IState> {
     constructor(props: any) {
       super(props);  
  
-      this.state={   html: '', isInProgress:false}
+      this.state={   html: '', isInProgress:false }
 
     }
  
@@ -96,7 +97,7 @@ export class StampaHtml  extends React.Component <IProps,IState> {
     constructor(props: any) {
       super(props);  
  
-      this.state={   html: '', isInProgress:false}
+      this.state={   html: '', isInProgress:false   }
 
     }
  
@@ -109,7 +110,7 @@ export class StampaHtml  extends React.Component <IProps,IState> {
     }
  
  
- 
+
 
      
   
@@ -125,14 +126,23 @@ export class StampaHtml  extends React.Component <IProps,IState> {
                  
 
             <>
+
             <ReactToPrint content={() => this.componentRef} onAfterPrint={( ) => {this.props.handleShowStampa(false, '')}}>
               <PrintContextConsumer>
                 {({ handlePrint }) => (
                   <>
-                  <Button startIcon={<IconsMenu.StampaIcon />}  size="small" color="primary" variant="contained" onClick={handlePrint}>Stampa</Button>
-                  <Button   onClick={e=>this.props.handleShowStampa(false,'')} size="small" color="primary" variant="contained" style={{marginLeft: '4px'}}>
-                  Chiudi
-                  </Button>
+
+                  <Box  display="flex" flexDirection="row" alignItems="flex-start"  
+                          justifyContent="left"  > 
+                      
+                      <Button startIcon={<IconsMenu.StampaIcon />}  size="small" color="primary" variant="contained" onClick={handlePrint}>Stampa</Button>
+                      
+                      <Button   onClick={e=>this.props.handleShowStampa(false,'')} size="small" color="primary" variant="contained" style={{marginLeft: '4px'}}>
+                      Chiudi
+                      </Button>
+
+          
+                  </Box> 
                   </>
                 )}
               </PrintContextConsumer>

@@ -21,8 +21,9 @@ import { CustomComponents } from '../utils/CustomComponents';
 function FormSm   (props: any  ) {
   let that = props;
    return (   
-  
-<FormControl> 
+    <Box  width="100%" 
+    sx={{ backgroundColor: props.isNewRow ? '#f0f6fa' : 'transparent',  }}> 
+  <FormControl> 
   <Grid container spacing={1}  >
       {props.isNewRow  && 
       <Grid item xs={12}  >
@@ -63,7 +64,7 @@ function FormSm   (props: any  ) {
 
       
  
-      <Grid item xs={3.7} >
+      <Grid item xs={3.6} >
           <Box> 
                 <CustomComponents.CustomAutocomplete
                   disabled={props.readOnly}
@@ -87,7 +88,7 @@ function FormSm   (props: any  ) {
       </Grid>
       
       
-      <Grid item xs={3.7} >
+      <Grid item xs={3.6} >
       <Box>
             <CustomComponents.CustomAutocomplete
               disabled={props.readOnly}
@@ -107,7 +108,7 @@ function FormSm   (props: any  ) {
 
         
 
-      <Grid item xs={3.3} >
+      <Grid item xs={3} >
 
       <Box> 
             <CustomComponents.CustomAutocomplete
@@ -129,7 +130,7 @@ function FormSm   (props: any  ) {
 
 
 
-      <Grid item xs={1.3} >
+      <Grid item xs={1.8} >
 
               <Box> 
                 <CustomComponents.NumberFormatCustom
@@ -150,13 +151,15 @@ function FormSm   (props: any  ) {
 
   </Grid>
   </FormControl>
+  </Box>
   );
 }
  
 function Form  (props: any  ) {
   let that = props;
    return (   
-  
+  <Box  width="100%" 
+    sx={{ backgroundColor: props.isNewRow ? '#f0f6fa' : 'transparent',  }}>
 <FormControl>
   <Grid container spacing={1}  >
       <Grid item xs={3}  >
@@ -326,6 +329,7 @@ function Form  (props: any  ) {
 
   </Grid>
   </FormControl>
+  </Box>
   );
 }
 export interface IProps { 

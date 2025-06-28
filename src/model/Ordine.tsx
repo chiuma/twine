@@ -49,6 +49,7 @@ export class Ordine {
     data_consegna: string = ""; 
     id_ordine: number = -1 ;
     note: string = ""; 
+    user_new: string = ""; 
     ordineDettaglio : OrdineDettaglio[] = [];
 
 

@@ -22,17 +22,17 @@ function SchedaSm   (props: any  ) {
 //  console.log("Scheda", props )
   let propieta = props ;
   return (   
-    <Box width="100%">
+    <Box width="100%" >
       {propieta.isInProgress &&   
           <Box mt={2}><CircularProgress color="primary"/></Box>   }
 
-       
+ 
 
       <Box mb={2} mt={2}  width="100%">
 
           <FormControl style={{width: '100%'}}>
 
-          <Grid container spacing={2} >
+          <Grid container spacing={3} >
     
                 <Grid item xs={12} > 
                         <CustomComponents.CustomTextField  
@@ -551,7 +551,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={1}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -573,8 +573,9 @@ function SchedaTabs (props: any  ) {
       <AppBar position="static">
 
       <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="space-between"  > 
+      {!props.isMobile &&
         <Box>
-          {!props.isMobile &&
+          
           <Tabs value={value} onChange={handleChange} aria-label="Scheda"    
               TabIndicatorProps={{ style: { background: "white"  } }}>
             <Tab label="Scheda"    sx={{
@@ -594,16 +595,17 @@ function SchedaTabs (props: any  ) {
             }
     
           </Tabs>
+          </Box>
         }
-        </Box>
+        
 
-        <Box  mr={4} >
-          <Box  fontWeight={700} style={{color:'white'}}   >
+        <Box  ml={1} fontWeight={700} style={{color:'white'}}  >
+       
            {props.formData.id_cliente === -1 ? "Nuovo Cliente" : "" + props.formData.descrizione}
-           </Box>
+      
         </Box>
 
-        <Box    justifyContent="flex-end" display="flex">
+        <Box    >
         <Toolbar> 
         
           {!props.readOnly && props.bChangedForm &&

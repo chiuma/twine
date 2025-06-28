@@ -56,7 +56,7 @@ function TableHeader   (props: any  ) {
 
  
             
-            {isEditMode &&
+            {isEditMode && sessionStorage.getItem("profile") === "admin" &&
             <TableCell></TableCell>
             }
 
@@ -80,7 +80,7 @@ function TableRows   (props: any ) {
       
     
     
-
+      {sessionStorage.getItem("profile") === "admin" &&
       <TableCell align="right"   >
 
         <IconButton color="primary"   component="span"   
@@ -91,10 +91,8 @@ function TableRows   (props: any ) {
         <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
           <EditIcon />
         </IconButton>
- 
-           
-      
-    </TableCell> 
+      </TableCell> 
+      }
     
  
  

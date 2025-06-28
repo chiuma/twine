@@ -91,7 +91,7 @@ function elencoHeaderView (props: Props ) {
                 <Box  style={{flexGrow: 1, }} mb={1} display="flex" flexDirection="row" alignItems="center" 
                     justifyContent="flex-end">
                     
-                {props.tipo_elenco === "dettaglio" &&
+                {sessionStorage.getItem("profile") === "admin" &&props.tipo_elenco === "dettaglio" &&
                     <Box  mr={2}>
                         <Button startIcon={<IconsMenu.StampaIcon />} 
                         onClick={ e=>  props.handleStampaOrdine(true, "articoli")  } 
@@ -187,7 +187,7 @@ function elencoHeaderViewSm (props: Props ) {
                 
                 <Box width="100%" mb={1} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
                     
-                {props.tipo_elenco === "dettaglio" &&
+                {sessionStorage.getItem("profile") === "admin" && props.tipo_elenco === "dettaglio" &&
                     <Box  mr={2}>
                         <Button startIcon={<IconsMenu.StampaIcon />} 
                         onClick={ e=>  props.handleStampaOrdine(true, "articoli")  } 
@@ -196,6 +196,7 @@ function elencoHeaderViewSm (props: Props ) {
                         </Button>
                     </Box>
                 }
+                
                     <Box  mr={2}>
                         <Button startIcon={<IconsMenu.StampaIcon />} 
                         onClick={ e=>  props.handleStampaOrdine(true, props.tipo_elenco)  }  

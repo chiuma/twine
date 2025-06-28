@@ -100,15 +100,17 @@ export function Colori_elencoFiltriView (props: Props ) {
         </Container>              
 
       </Box>
-      <Box>
+      
  
-
+      {sessionStorage.getItem("profile") === "admin" &&
+      <Box>
         <Button  startIcon={<IconsMenu.NuovoIcon />}  onClick={() => { props.handleNewColore(new Colore())}} size="small" color="primary" variant="contained" >
               Nuovo
         </Button>
+        </Box>
+      }
 
-
-      </Box>
+    
     </Box>
     )
   }

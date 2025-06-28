@@ -37,7 +37,9 @@ async function   login (email,    password)
             config
         )  
       
-       return {esito: responseData.data.esito , err_code: responseData.data.err_code, token: responseData.headers.authorization };
+       return {esito: responseData.data.esito , err_code: responseData.data.err_code, 
+        profile: responseData.data.profile,
+        token: responseData.headers.authorization };
  
     } 
     catch(error) 

@@ -107,13 +107,15 @@ export function Articoli_elencoFiltriView (props: Props ) {
         </Container>              
 
       </Box>
+      {sessionStorage.getItem("profile") === "admin" &&
       <Box width="25%">
-
+      
         <Button startIcon={<IconsMenu.NuovoIcon />}  onClick={() => { props.handleNewArticolo(new Articolo())}} size="small" color="primary" variant="contained" >
               Nuovo
         </Button>
 
       </Box>
+      }
     </Box>
     )
   }

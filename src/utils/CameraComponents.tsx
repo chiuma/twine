@@ -1,8 +1,7 @@
 import React, { useState }   from 'react';
  
  
-import {   AppBar,   Box,   } 
-     from   '@mui/material';
+import {     Box,   }    from   '@mui/material';
  
   
  
@@ -44,13 +43,19 @@ export function CameraView(props: any) {
       } catch (error: unknown) {
         console.log(error); 
       } finally {
-        setPause(false);
+      setPause(false);
       }
     };
   
     return (
-      <Box display="flex" flexDirection="column" alignItems="center" width="100%">
+      <Box display="flex" flexDirection="column" alignItems="center" width="100%"
+      justifyContent="space-between">
   
+      <Box>
+
+      </Box>
+
+      <Box>
         <Scanner
           formats={[
             "qr_code",
@@ -82,18 +87,28 @@ export function CameraView(props: any) {
         //    NotificationManager.error("Errore Camera", 'Articolo', 3000);  
             console.log(`onError: ${error}'`);
           }}
-          styles={{ container: { height: "240px", width: "240px" } }}
+          styles={{ container: { height: "200px", width: "190px" } }}
           components={{ 
             onOff: false,
-            torch: false,
+            torch: true,
             zoom: true,
             finder: true,
             tracker: getTracker(),
           }}
           allowMultiple={true}
-          scanDelay={2000}
+          scanDelay={1000}
+          
           paused={pause}
         />
+
+          </Box>
+
+
+<Box>
+
+
+</Box>
+
       </Box>
     );
   }

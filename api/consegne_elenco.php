@@ -20,7 +20,21 @@ try
 			echo json_encode( $authCheck); 	
 			die();
 		}
- 
+ 	$dataToken  = JwtConfig::decodeDataToken();
+	$username =   $dataToken->username;		
+	$profile =   $dataToken->profile;		
+	if ( $profile != "admin") 
+	{
+		 	$json_response    =  array( 			         						         		  	  					         							   					         		
+			'esito' => 'NOT_OK',			   		
+			'err_code' => "001"  ,
+			'err_mex' => "Profile not allowed"    
+	 		);	
+	 
+  		echo json_encode( $json_response); 	
+  	
+			die();
+	}
 	
 	include_once './db_config.php';		
 	

@@ -25,11 +25,13 @@ try
  	
 	$data_consegna_dal = trim($obj["data_consegna_dal"]);
 	$data_consegna_al = trim($obj["data_consegna_al"]);
-			
+	$dataToken  = JwtConfig::decodeDataToken();
+	$username =   $dataToken->username;		
+	$profile =   $dataToken->profile;		
 		
-			$json_elenco    = array();	
-  		$sql = 
-  	" SELECT   ordini.id_ordine,ordini.note, ordini.id_cliente , ordini.id_provenienza,  "
+	$json_elenco    = array();	
+	$sql = 
+  	" SELECT   ordini.id_ordine,ordini.note, ordini.user_new, ordini.id_cliente , ordini.id_provenienza,  "
   	. "		DATE_FORMAT(ordini.data_ricezione, '%Y/%m/%d') as data_ricezione_formatted,   "
 		. "		  ordini_dettaglio.id_ordine_dettaglio, ordini_dettaglio.id_articolo_base, ordini_dettaglio.qta,  ordini_dettaglio.prezzo,  "
 		. " ordini_dettaglio.id_colore_2, colori_2.codice as colore_codice_2, colori_2.descrizione as colore_descrizione_2 , "
@@ -69,6 +71,11 @@ try
 		
 		. " WHERE   	DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d') >= '".$data_consegna_dal ."' ";
 		
+		
+		if ($profile != "admin")
+		{
+			$sql = $sql . " AND ordini.user_new = '".$username ."'";
+		}
 		if ( $data_consegna_al != "")
 		{
 			$sql = $sql . " AND DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d') <= '".$data_consegna_al ."' ";
@@ -82,9 +89,9 @@ try
 		**/
 		
 		
-		$sql = $sql 
-		. "	ORDER BY ordini.data_ricezione , articoli_base.codice, colori.codice   ";
- 
+			$sql = $sql 
+				. "	ORDER BY ordini.data_ricezione , articoli_base.codice, colori.codice   ";
+	 
  
 			$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -112,7 +119,8 @@ try
 						'id_ordine'=>     intval ( $row["id_ordine"]) ,
 		  			
 		  			'id_cliente'=>     intval ( $row["id_cliente"]) ,
-		  			'note'=>      $row["note"]  ,
+		  			'note'=>  $row["note"]  ,
+		  			'user_new'=>  $row["user_new"] == null ? "" :  $row["user_new"], 
 		  			'cliente_descrizione'=>     $row["cliente_descrizione"]  , 
  					 
 		  			

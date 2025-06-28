@@ -108,14 +108,14 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Colori" onClick={() => props.goToPage("colori_elenco")} />
         </ListItem>
-
+        {sessionStorage.getItem("profile") === "admin" && 
         <ListItem button  >
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Nuovo Colore" onClick={() => props.goToPage("colori_new")} />
         </ListItem>
-
+        }
         <Divider  variant="middle"  />
 
         <ListItem button  >
@@ -124,14 +124,14 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Provenienze" onClick={() => props.goToPage("provenienze_elenco")} />
         </ListItem>
-
+        {sessionStorage.getItem("profile") === "admin" && 
         <ListItem button  >
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>                
           <ListItemText sx={listItemTextStyles} primary="Nuova Provenienza" onClick={() => props.goToPage("provenienze_new")} />
         </ListItem>
-
+ }
         <Divider  variant="middle"  />
 
         <ListItem button  >
@@ -140,14 +140,14 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Articoli" onClick={() => props.goToPage("articoli_elenco")} />
         </ListItem>
-
+        {sessionStorage.getItem("profile") === "admin" && 
         <ListItem button  >
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Nuovo Articolo" onClick={() => props.goToPage("articoli_new")} />
         </ListItem>
-
+        }
         <Divider  variant="middle"  />
 
         <ListItem button  >
@@ -163,7 +163,8 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>                
           <ListItemText sx={listItemTextStyles} primary="Nuovo Ordine" onClick={() => props.goToPage("ordini_new")} />
         </ListItem>
-
+        {sessionStorage.getItem("profile") === "admin" && 
+        <>
         <Divider  variant="middle"  />
         <ListItem button  >
           <ListItemIcon>
@@ -172,8 +173,7 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           <ListItemText sx={listItemTextStyles} primary="Consegne" onClick={() => props.goToPage("consegne_elenco")} />
         </ListItem>
 
-        {  sessionStorage.getItem("username") === "fulladmin" && 
-        <>
+
         <Divider  variant="middle"  />
 
         <ListItem button  >

@@ -115,7 +115,7 @@ try
 {
 	include_once './db_config.php';		
 			$json_elenco    = array();	
-			
+			$conPrezzo = $_GET["conPrezzo"];
 			$where = " WHERE ordini.id_ordine = " .($_GET["id_ordine"]);
 			  
  
@@ -215,8 +215,14 @@ try
 			    <td  class="cell_articolo" style="vertical-align: bottom;" >ARTICOLO</td>    
 			    <td   class="cell_colore"  style="vertical-align: bottom;" >COLORE</td>
 			    <td  class="cell_qta"  style="vertical-align: bottom;" >QTA</td>
+			    <?php if ($conPrezzo == "si" )
+			    {
+			    ?>
 			    <td  class="cell_prezzo"  style="vertical-align: bottom;" >PREZZO</td>
 			    <td  class="cell_prezzo"  style="vertical-align: bottom;" >TOTALE</td>
+			    <?php
+			    }
+			    ?>
 			  </tr>	
 			  
 <?php
@@ -235,8 +241,14 @@ try
 			    	)
 			    	 ?></td>
 			    <td  class="cell_qta"  ><?php echo ($row["qta"]) ?></td>
+			    <?php if ($conPrezzo == "si" )
+			    {
+			    ?>
 			    <td  class="cell_prezzo"  >€&nbsp;<?php echo ($prezzo) ?></td>
 			    <td  class="cell_prezzo"  >€&nbsp;<?php echo ($prezzo_totale ) ?></td>
+			    <?php
+			    }
+			    ?>
 			  </tr>	
 			
 <?php			
@@ -244,11 +256,19 @@ try
 		}   
 		
 ?>
-
+			    <?php if ($conPrezzo == "si" )
+			    {
+			    ?>
 				  <tr >
 				    <td   colspan="5"  >  &nbsp; 	</td>
 				    <td  class="cell_prezzo"  >€&nbsp;<?php echo (  number_format($importo_totale , 2 , ",",".") ) ?></td>
 				  </tr>	
+				  			
+<?php			
+			 
+		}   
+		
+?>
 				   </table>
 				   
 				   </div>

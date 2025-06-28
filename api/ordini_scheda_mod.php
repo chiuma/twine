@@ -77,7 +77,7 @@ function isOrdineCancellabile($conn, $id_ordine)
 	$json = file_get_contents('php://input'); 	
 	$obj = json_decode($json, TRUE);
 	$scheda =  $obj["scheda"] ; 	
-	
+	$user_new = $scheda["user_new"];	 
 	 
 	$action = trim($obj["action"]);
 	
@@ -85,7 +85,9 @@ function isOrdineCancellabile($conn, $id_ordine)
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$dettagli =  array ();
 	$testata =  array ();
-
+ 	$dataToken  = JwtConfig::decodeDataToken();
+ 	$username =   $dataToken->username;
+		
 	$log = "";
 	if ($action == "ORDINE_DETTAGLIO_ADD" )
 	{
@@ -118,13 +120,16 @@ function isOrdineCancellabile($conn, $id_ordine)
 		 	$conn->beginTransaction();
 		 	$id_ordine = $obj["scheda"]["id_ordine"];
 		 	
-		 	
+
+		 
 		 	if ( $id_ordine == "-1")
 		 	{
+				$user_new = $username; 
 		 		$id_ordine =  DbGetNewId ($conn, "ordini", "id_ordine") + 1;
 		 		$testata["id_ordine"] = $id_ordine;
-				$sql = "INSERT INTO ordini (id_ordine, id_provenienza, id_cliente, data_consegna, data_ricezione, note) VALUES (   " 
+				$sql = "INSERT INTO ordini (id_ordine, user_new,  id_provenienza, id_cliente, data_consegna, data_ricezione, note) VALUES (   " 
 						. $id_ordine
+						. ", " . "'" . addslashes ($username) . "'"
 				 		. ","  .    $obj["scheda"]["id_provenienza"]  
 				 		. ","  .    $obj["scheda"]["id_cliente"]  
 				 		. ", " . "'" . addslashes ($obj["scheda"]["data_consegna"]) . "'"
@@ -141,6 +146,7 @@ function isOrdineCancellabile($conn, $id_ordine)
 					. "," .  "data_consegna  = " . "'" . addslashes ($obj["scheda"]["data_consegna"]) . "'"
 	
 					. "," .  "data_ricezione  = " . "'" . addslashes ($obj["scheda"]["data_ricezione"]) . "'"
+					. "," . " user_mod  = " . "'" . addslashes ($username) . "'"
 					. "," . " note  = " . "'" . addslashes ($scheda["note"]) . "'"
 				. " WHERE id_ordine  =".trim($id_ordine);
 			}
@@ -199,7 +205,7 @@ function isOrdineCancellabile($conn, $id_ordine)
 						  .")";
 	 			}	
 	 			$conn->exec($sql) ;
-	 		 $log = $log  . $sql . "  **** ";
+	 		 	$log = $log  . $sql . "  **** ";
 	 			array_push($dettagli, $scheda);
 	 			
 	 			
@@ -250,6 +256,7 @@ function isOrdineCancellabile($conn, $id_ordine)
  	{
  		$testata["id_ordine"] = $id_ordine;
  		$testata["note"] = $obj["scheda"]["note"];
+ 		$testata["user_new"] = $user_new;
  		$testata["id_provenienza"] = $obj["scheda"]["id_provenienza"];
  		$testata["id_cliente"] = $obj["scheda"]["id_cliente"];
  		$testata["data_ricezione"] = $obj["scheda"]["data_ricezione"];

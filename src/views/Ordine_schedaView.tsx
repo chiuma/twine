@@ -24,14 +24,7 @@ import GoTop from '@mui/icons-material/ArrowUpward';
 import GoBottom from '@mui/icons-material/ArrowDownward';
 import { IconsMenu } from '../common/Icons';
 import { withStyles } from '@mui/styles';
- 
-import {
-  Scanner,
-  useDevices,
-  outline,
-  boundingBox,
-  centerText,
-} from "@yudiel/react-qr-scanner";
+
 import { CameraView } from '../utils/CameraComponents';
 
 
@@ -61,19 +54,19 @@ function TestataSm   (propieta: any  ) {
     
     <Box width="100%">
 
-      <Box   width="100%"    > 
+    
         
         <AppBar position="static"  className={props.classes.barBackground} color="primary">
         <Toolbar>
-        <Box   width="100%"   display="flex" flexDirection="row" alignItems="center" justifyContent={"space-between"} > 
-          <Box      > 
+        <Box   width="100%"  display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" > 
+          <Box> 
             <Typography variant="h6" className={props.classes.title}>
               {props.formOrdine.ordineDettaglio[0].id_ordine_dettaglio === -1 ? "Nuovo " : ""}Ordine   
             </Typography>
           </Box>
 
  
-          <Box      > 
+          <Box > 
           {!props.readOnly && 
             <Button   
             startIcon={props.isCameraShow ? <HideIcon  /> : <ShowIcon  />}  
@@ -114,25 +107,13 @@ function TestataSm   (propieta: any  ) {
             <Button onClick={ e => props.handleSaveOrdine (null)} style={{marginRight:4}}  size="small" color="primary" variant="contained"> 
             Chiudi
             </Button>
-
-            {props.formOrdine.ordineDettaglio.length > 5 && 
-          
-          <IconButton color="primary" title=""  component="span"  
-            onClick={() => {   goBottom( );}}>
-            <GoBottom />
-          </IconButton>
-        
-        }
-  </Box>
-</Box>
+ 
+          </Box>
+        </Box>
         </Toolbar>
       </AppBar>
 
-
-
-  
-
-      </Box>
+ 
     </Box>
    );
 }
@@ -147,16 +128,16 @@ function Testata   (propieta: any  ) {
   return (   
     
     <Box width="100%">
-
-      <Box   width="100%"    > 
         
         <AppBar position="static"  className={props.classes.barBackground} color="primary">
         <Toolbar>
-        
+        <Box   width="100%" display="flex" flexDirection="row" alignItems="center"  justifyContent="space-between"  > 
+            <Box>
             <Typography variant="h6" className={props.classes.title}>
             {props.formOrdine.ordineDettaglio[0].id_ordine_dettaglio === -1 ? "Nuovo " : ""}Ordine   
             </Typography>
-
+            </Box>
+            <Box>
             {!props.readOnly && 
             <Button   
             startIcon={props.isCameraShow ? <HideIcon  /> : <ShowIcon  />}  
@@ -165,7 +146,7 @@ function Testata   (propieta: any  ) {
             </Button>
             }
    
-          {!props.readOnly && 
+            {sessionStorage.getItem("profile") === "admin" && !props.readOnly && 
             !(props.formOrdine.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex ) =>   
             accumulator && (currentIndex !==  props.formOrdine.ordineDettaglio.length-1 ? currentValue.evaso : true )  , true ))   &&
             <Button style={{marginRight:10}}   onClick={   props.handleEvadiAll   }  
@@ -174,7 +155,7 @@ function Testata   (propieta: any  ) {
             </Button>
           }
 
-            {!props.bChangedForm && props.formOrdine.id_ordine !== -1 && 
+          {!props.bChangedForm && props.formOrdine.id_ordine !== -1 && 
 
                 <>
 
@@ -220,7 +201,8 @@ function Testata   (propieta: any  ) {
           </IconButton>
         
         }
-
+            </Box>
+        </Box>
         </Toolbar>
       </AppBar>
 
@@ -228,7 +210,7 @@ function Testata   (propieta: any  ) {
 
   
 
-      </Box>
+     
     </Box>
    );
 }       
@@ -591,8 +573,7 @@ export interface IProps {
 }
  
 export interface IState {
-  isCameraShow: boolean
-
+  isCameraShow: boolean;
 }
 class Ordine_schedaView  extends React.Component <IProps,IState> {
     tempo:any;
@@ -603,17 +584,14 @@ class Ordine_schedaView  extends React.Component <IProps,IState> {
       
       this.tempo = Date.now();
      
-      this.state={          isCameraShow: false,   }
-      this.handleShowCamera = this.handleShowCamera.bind(this);      
-     // console.log("1 formOrdine" , this.props.formOrdine)
+      this.state={ isCameraShow: false }
+      this.handleShowCamera = this.handleShowCamera.bind(this);     
+      this.handleScan = this.handleScan.bind(this);     
     }
  
- 
-
     componentDidMount()
     {
       let tempo = Date.now();
-  
       this.bShow = true; 
     }
 
@@ -622,43 +600,35 @@ class Ordine_schedaView  extends React.Component <IProps,IState> {
       this.setState({ isCameraShow : show });
     }
  
+    handleScan = (e: any) => {
+      // Prima gestisco il risultato della scansione
+      this.props.handleScan(e);
+      // Poi chiudo la camera dopo un breve delay
+      setTimeout(() => {
+        this.setState({ isCameraShow: false });
+      }, 100);
+    }
 
  render() {    
-
-   
-        let that = this;
-
-
-
-
-
         return (
-
         <> 
- 
  {!this.props.isMobile ? (
   <Scheda {...this.props} 
-  handleScan={this.props.handleScan} 
+  handleScan={this.handleScan} 
   isCameraShow={this.state.isCameraShow} 
   handleShowCamera={e => this.handleShowCamera(!this.state.isCameraShow)}/>
 ) : (
   <SchedaSm 
     {...this.props} 
-    handleScan={this.props.handleScan} 
+    handleScan={this.handleScan} 
     isCameraShow={this.state.isCameraShow} 
     handleShowCamera={e => this.handleShowCamera(!this.state.isCameraShow)}
   />
 )}
-
           </> 
     )}
-
- 
 }
 
- 
- 
- 
 export default withStyles(styles) (Ordine_schedaView) ;
 
  

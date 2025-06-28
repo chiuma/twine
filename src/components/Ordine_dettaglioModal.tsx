@@ -47,12 +47,7 @@ class Ordine_dettaglioModal  extends React.Component <IProps,IState> {
     
         const formDettaglio = this.state.formDettaglio;
        
-        if ( event.target.name === "data_ricezione")
-        {
-            formDettaglio[event.target.name] = event.target.value.replaceAll("-","/") ;
-        }
- 
-        else if ( event.target.name === "id_colore_2")
+       if ( event.target.name === "id_colore_2")
         {
             if ( event.target.value === -1) 
             {

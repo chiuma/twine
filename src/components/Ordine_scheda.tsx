@@ -66,6 +66,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
       if (this.azione === "NEW")
       { 
         formOrdine.data_ricezione = CommonFunctions.getDateNowFormatted();
+        
       }
       
 
@@ -161,7 +162,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
  
  
    
-         if ( event.target.name === "data_ricezione")
+         if ( event.target.name === "data_ricezione" || event.target.name === "data_consegna")
             formOrdine[event.target.name] = event.target.value.replaceAll("-","/") ;
          else
             formOrdine[event.target.name] = event.target.value;
@@ -180,13 +181,13 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
  
     handleChangeFormDettaglio = (event, idx) => {
-    console.log("handleChangeFormDettaglio", event, idx)
+  
 
 
         const formDettaglio = this.state.formOrdine.ordineDettaglio[idx];
  
  
-        if ( event.target.name === "data_ricezione")
+        if ( event.target.name === "data_ricezione" ||  event.target.name === "data_consegna")
         {
             formDettaglio[event.target.name] = event.target.value.replaceAll("-","/") ;
         }
@@ -202,12 +203,12 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
         }
          else if ( event.target.name === "id_articolo_base")
          {
-            console.log("event.target.value", event.target.value)
+           
                 let articolo = this.props.elenco_articoli.find(x => x.id_articolo_base === event.target.value)
                 if ( articolo != null)
                 {
                     formDettaglio["prezzo"]  = articolo.prezzo 
-                    formDettaglio[""] = articolo?.descrizione;
+                   
                     formDettaglio["articolo_base_codice"] = articolo?.codice        
                     formDettaglio["articolo_base_descrizione"] = articolo?.descrizione  
                     
@@ -287,7 +288,8 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                 newOrdine.ordineDettaglio[newOrdine.ordineDettaglio.length-1]["articolo_base_descrizione"] = formDettaglio["articolo_base_descrizione"] 
 
                 newOrdine.ordineDettaglio[newOrdine.ordineDettaglio.length-1]["articolo_base_codice"] = formDettaglio["articolo_base_codice"] 
-        
+                NotificationManager.success('Aggiunto articolo ' + (newOrdine.ordineDettaglio.length-1) , 'Ordini',  1500);  
+       
             
             }
             else
@@ -300,7 +302,6 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             { 
               changed = true;
             } 
-            
             this.setState({ arrFormDettaglioErrors : arrFormDettaglioErrors ,    formOrdine:  newOrdine, bChangedForm: changed  });
         
         }
@@ -331,6 +332,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
     handleScan (scan:string)
     {
+        
         if (!scan.startsWith('ART-') && !!scan.startsWith('COL-')) {
        
             NotificationManager.error("QR Code non valido", 'Ordine', 2000);  
@@ -341,7 +343,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
         const parts = scan.split('*');
         const prefix = parts[0] || '';  
 
-console.log("xxxxx")
+ 
 
         if ( prefix === 'ART')
         {
@@ -365,7 +367,7 @@ console.log("xxxxx")
                 formDettaglio[""] = articolo_base?.descrizione;
                 formDettaglio["articolo_base_codice"] = articolo_base?.codice        
                 formDettaglio["articolo_base_descrizione"] = articolo_base?.descrizione  
-                
+                NotificationManager.success("QR: " + scan, 'Ordine', 2000);  
             }
             else
             {
@@ -398,6 +400,7 @@ console.log("xxxxx")
                  
 
                 this.setState({  formOrdine: this.state.formOrdine  });
+                NotificationManager.success("QR: " + scan, 'Ordine', 2000);  
             }
             else
             {

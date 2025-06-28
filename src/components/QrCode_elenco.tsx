@@ -250,8 +250,8 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
         sHtml += `
             <td>
                 <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(item.code)}&size=150x150" alt="QR Code for ${item.code}" />
-                <div style="margin-top: 5px;">${item.code}</div>
-                <div style="margin-top: 5px;">${descrizione}</div>
+                <div style="margin-top: 7px;font-size:120%;">${item.code}</div>
+                <div style="margin-top: 4px;font-size:120%;">${descrizione}</div>
             </td>
         `;
 
@@ -305,7 +305,7 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
                <>
                <Box  width={{ xs: '98%', sm: '90%' , md: '80%', lg: '75%', xl: '60%',}} >
                   <QrCode_elencoFiltriView   
-                  handleStampaOrdine ={e => this.handleShowStampa(true)} 
+                  handleStampa ={e => this.handleShowStampa(true)} 
                       initFiltri={this.lastFiltri}  
                       handleExecRicerca={this.handleExecRicerca}   />
               </Box>
