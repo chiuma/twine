@@ -6,7 +6,7 @@ import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
  
 import { QrCode_elencoFiltriView } from '../views/QrCode_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { qrCodeServices } from '../services/qrCodeServices';
 import {NotificationManager} from 'react-notifications'; 
  
@@ -286,7 +286,7 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
 
 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare il QrCode: ' +      

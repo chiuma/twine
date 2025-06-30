@@ -77,7 +77,7 @@ function SchedaSm(props: any) {
           <AccountCircle className={props.classes.icon} />
         </Box>
         
-        <Box className={props.classes.username}>
+        <Box className={props.classes.username} mr={.5}>
           {sessionStorage.getItem("username")}
         </Box>
       </Toolbar>
@@ -104,7 +104,10 @@ class HeaderPage extends   React.Component <Props,State> {
       ris ="Home"
      
     }
-    
+    else if (page === "/changePwd")
+      {
+        ris ="Cambio Password"
+      }
     else if (page === "/grafici")
     {
       ris ="Grafici"
@@ -155,6 +158,10 @@ class HeaderPage extends   React.Component <Props,State> {
       return <IconsMenu.HomeIcon />
      
     }
+    else if (page === "/changePwd")
+      {
+        return <IconsMenu.ChamgePwdIcon />
+      }
     else if (page === "/grafici")
     {
       return <IconsMenu.GraficiIcon />

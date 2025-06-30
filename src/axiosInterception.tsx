@@ -27,7 +27,7 @@ export default {
         axios.interceptors.response.use(
             (response) => 
             {
-                 
+             //   console.log("SessionExpired 1",response)
                 
                 if ( response.data.esito === "NOT_OK" &&  
                     (response.data.err_code === "-001" || response.data.err_code === "-002"))
@@ -50,7 +50,7 @@ export default {
                         sessionStorage.clear(); 
                    //     console.log("SessionExpired 2",response )
       
-                        window.location.href = ConstantUtils.url.HOME_URL +  'SessionExpired.html'
+                      window.location.href = ConstantUtils.url.HOME_URL +  'SessionExpired.html'
                     }
                 }
                  

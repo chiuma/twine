@@ -4,7 +4,7 @@ import { Box, CircularProgress } from '@mui/material';
  
 import { connect } from 'react-redux';
 import { Articoli_elencoFiltriView } from '../views/Articoli_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { articoliServices } from '../services/articoliServices';
 import { NotificationManager } from 'react-notifications';
 import { articoliActions } from '../actions/articoli.action';
@@ -183,7 +183,7 @@ class Articoli_elencoPage  extends React.Component <IProps,IState> {
             <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare il Articolo: ' +      

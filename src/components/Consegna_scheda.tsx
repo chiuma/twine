@@ -21,7 +21,7 @@ import { ConstantUtils } from '../ConstantUtils';
 import { StampaHtml } from '../utils/StampaHtml';
 import { clientiActions } from '../actions/clienti.action';
 import { ordiniServices } from '../services/ordiniServices';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 
 import { OrdineDettaglio, OrdineDettaglioErrors } from '../model/OrdineDettaglio';
 import Ordine_dettaglioModal from '../components/Ordine_dettaglioModal';
@@ -540,7 +540,7 @@ class Consegna_schedaPage  extends React.Component <IProps,IState> {
        }
 
       {this.state.ordineDettaglioToDelete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteOrdineDettaglio}
                           handleAnnulla={() => { this.handleOrdineDettaglioToDelete(null)}}
                           contextText={"Sei sicuro di vole cancellare dall'Ordine "       

@@ -362,12 +362,17 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             
             if ( articolo_base != null)
             {
+                formDettaglio["id_colore"]  = id_colore;
+                formDettaglio["id_colore_2"]  = id_colore_2;
+                formDettaglio["id_colore_3"]  = id_colore_3;
+                
                 formDettaglio["id_articolo_base"]  = articolo_base.id_articolo_base;
                 formDettaglio["prezzo"]  = articolo_base.prezzo 
                 formDettaglio[""] = articolo_base?.descrizione;
                 formDettaglio["articolo_base_codice"] = articolo_base?.codice        
-                formDettaglio["articolo_base_descrizione"] = articolo_base?.descrizione  
-                NotificationManager.success("QR: " + scan, 'Ordine', 2000);  
+                formDettaglio["articolo_base_descrizione"] = articolo_base?.descrizione 
+                this.setState({  formOrdine: this.state.formOrdine  }); 
+              //  NotificationManager.success("QR: " + scan, 'Ordine', 2000);  
             }
             else
             {
@@ -377,11 +382,9 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                 formDettaglio["articolo_base_codice"] = ""       
                 formDettaglio["prezzo"]  = 0;
             }
-            formDettaglio["id_colore"]  = id_colore;
-            formDettaglio["id_colore_2"]  = id_colore_2;
-            formDettaglio["id_colore_3"]  = id_colore_3;
+     
             
-            this.setState({  formOrdine: this.state.formOrdine  });
+
         }
         
         else if ( prefix === 'COL')
@@ -400,7 +403,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                  
 
                 this.setState({  formOrdine: this.state.formOrdine  });
-                NotificationManager.success("QR: " + scan, 'Ordine', 2000);  
+                NotificationManager.success("QR COLORE: " + scan, 'Ordine', 2000);  
             }
             else
             {

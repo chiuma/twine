@@ -6,7 +6,7 @@ import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
 import { Cliente_scheda } from './Cliente_scheda';
 import { Clienti_elencoFiltriView } from '../views/Clienti_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { clientiServices } from '../services/clientiServices';
 import {NotificationManager} from 'react-notifications'; 
 import { clientiActions } from '../actions/clienti.action';
@@ -184,7 +184,7 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
             <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"   > 
 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare il Cliente: ' +      
@@ -221,7 +221,7 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
 
               {this.state.scheda_selected !== null  &&
                 <Cliente_scheda  
-                  showConsegne={true}
+                  showConsegne={sessionStorage.getItem("profile") === "admin" ? true : false }
                   isModal={false}
                   isMobile={this.props.isMobile}
                   handleClose={() => { this.handleSchedaSelected(null)}}

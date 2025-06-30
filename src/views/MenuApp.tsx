@@ -188,11 +188,29 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
       
       <Divider  variant="middle" />
 
+
       <List>   
         <ListItem button  >
+        <ListItemIcon>
+            <IconsMenu.ChamgePwdIcon />
+          </ListItemIcon>
+          <ListItemText sx={listItemTextStyles} primary="Cambia Password" onClick={() => props.goToPage("changePwd")} />
+        </ListItem>
+      </List>  
+
+
+   
+
+
+      <List>   
+        <ListItem button  >
+        <ListItemIcon>
+            <IconsMenu.LogoutIcon />
+          </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Logout" onClick={() => props.goToPage("logout")} />
         </ListItem>
       </List>    
+      
       <Divider  variant="middle" />
     </Box>
   );

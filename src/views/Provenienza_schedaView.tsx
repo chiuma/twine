@@ -108,12 +108,15 @@ class Provenienza_schedaView extends React.Component<IProps, IState> {
     
             </DialogContent>
           </Dialog>
-        )}
+        )} 
         {!this.props.isModal && (
- 
+           <Box display="flex" flexDirection="row" alignItems="center" height="70%"
+           width={{xs:'85%', sm: '80%' , md: '60%', lg: '50%', xl: '540%',}}
+             mt={4} justifyContent="center">
             <Paper className={this.props.classes.paperElenco} variant="outlined"> 
               <Scheda propieta={this.props} />
             </Paper>
+            </Box>
  
         )}
       </>

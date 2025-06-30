@@ -309,7 +309,26 @@ theme = createTheme (theme,{
 
       MuiInputLabel:{
         styleOverrides: {
-        shrink: {fontSize: "small", color: theme.palette.primary.main, fontWeight:"bold",whiteSpace:'nowrap',  }
+        root: {
+          fontSize: "90%", 
+          color: theme.palette.primary.main, 
+          fontWeight:"bold",
+          "&.MuiInputLabel-root": {
+            fontSize: "90%"
+          },
+          "&.MuiFormLabel-root": {
+            fontSize: "90%"
+          }
+        },
+        shrink: {
+          fontSize: "small", 
+          color: theme.palette.primary.main, 
+          fontWeight:"bold",
+          whiteSpace:'nowrap'
+        },
+        formControl: {
+          fontSize: "90%"
+        }
         }
       },
 

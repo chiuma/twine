@@ -10,7 +10,7 @@ import {   Box, CircularProgress, Radio, RadioGroup, FormControlLabel, FormLabel
 import { connect } from 'react-redux';
 // import { Ordine_scheda } from './Ordine_scheda';
 import { Ordini_elencoFiltriView } from '../views/Ordini_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { ordiniServices } from '../services/ordiniServices';
 import {NotificationManager} from 'react-notifications'; 
  
@@ -312,7 +312,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       let filtroConsegnato =   formFilter.consegnato;
       let filtroIdProvenienza=   formFilter.id_provenienza ;
       let filtroInizialiCliente=   formFilter.iniziali_cliente.toLocaleUpperCase ();
-       
+
 
       if (this.elenco_ordini)
       {
@@ -336,14 +336,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               if (this.tipo_elenco === "dettaglio" )
               {
 
-                if ( filtroConsegnato !== "Tutti")
-                {
-                  if ( curr.consegnato  ===   (filtroConsegnato=== "Si" ? false : true))
-                  {
-                    return false;
-                  }
-                    
-                }  
+
 
                 if ( filtroIdArticoloBase !== -1)
                 {
@@ -368,7 +361,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
 
 
-                if ( filtroDataConsegnaDal !== "")
+              }
+
+              
+              if ( filtroDataConsegnaDal !== "")
                 {
                   if ( curr.data_consegna.substring(0,10)  <   filtroDataConsegnaDal   )
                   {
@@ -385,7 +381,15 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                     return false;
                   }
                 } 
-              }
+                
+              if ( filtroConsegnato !== "Tutti")
+                {
+                  if ( curr.consegnato  ===   (filtroConsegnato=== "Si" ? false : true))
+                  {
+                    return false;
+                  }
+                    
+                }  
 
               if ( filtroDataRicezioneDal !== "")
               {
@@ -428,6 +432,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
           }
         )
 
+        console.log("elenco_filtrato",elenco_filtrato.length)
 
         if (this.tipo_elenco === "dettaglio" )
         {
@@ -717,6 +722,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
           <FormControlLabel value="si" control={<Radio size="small" />} label="Si" />
           <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
       </RadioGroup>
+      
     </>
     :
     <>
@@ -739,7 +745,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       {!this.state.showStampa &&
       <>
               {this.state.ordineDettaglioToDelete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteOrdineDettaglio}
                           handleAnnulla={() => { this.handleOrdineDettaglioToDelete(null)}}
                           contextText={"Sei sicuro di vole cancellare l'Ordine "       
@@ -751,7 +757,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               }
 
               {this.state.ordineToDelete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteOrdine }
                           handleAnnulla={() => { this.handleOrdineToDelete(null)}}
                           contextText={"Sei sicuro di vole cancellare l'Ordine"                      

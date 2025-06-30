@@ -601,12 +601,10 @@ class Ordine_schedaView  extends React.Component <IProps,IState> {
     }
  
     handleScan = (e: any) => {
-      // Prima gestisco il risultato della scansione
+ 
       this.props.handleScan(e);
-      // Poi chiudo la camera dopo un breve delay
-      setTimeout(() => {
-        this.setState({ isCameraShow: false });
-      }, 100);
+       
+     // setTimeout(() => {   this.setState({ isCameraShow: false });   }, 100);
     }
 
  render() {    

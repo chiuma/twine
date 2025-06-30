@@ -163,7 +163,7 @@ function Form   (props: any  ) {
   let that = props;
    return ( 
     <Grid container spacing={2} >
-    <Grid item xs={4} md={4} >
+    <Grid item xs={5}  sm={5}  md={3} >
           <FormControl  >
            
           <CustomComponents.CustomAutocomplete
@@ -190,7 +190,7 @@ function Form   (props: any  ) {
               } 
               </FormControl>
       </Grid>
-      <Grid item xs={2} md={1.5} >
+      <Grid item xs={2}  sm={2.5}  md={1.5} >
             <FormControl  >
             <CustomComponents.CustomTextField   
              disabled={props.readOnly}
@@ -205,7 +205,7 @@ function Form   (props: any  ) {
             </FormControl>
       </Grid>
 
-      <Grid item xs={2} md={1.5} >
+      <Grid item xs={2}  sm={2.5}  md={1.5} >
             <FormControl  >
             <CustomComponents.CustomTextField  
              disabled={props.readOnly}
@@ -220,7 +220,7 @@ function Form   (props: any  ) {
             </FormControl>
       </Grid>
 
-      <Grid item xs={2} md={1} >
+      <Grid item xs={2}  sm={2}  md={1} >
           <FormControl  >
           
           <CustomComponents.CustomAutocomplete
@@ -243,37 +243,15 @@ function Form   (props: any  ) {
               </FormControl>
       </Grid>  
   
-      <Grid item xs={2} md={1} >
 
-
-          <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
-                
-                <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
-                <Box   fontWeight={500} color="text.primary"  >
-                      <NumberFormat decimalSeparator=","   prefix={'€ '}
-                        thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                        value={props.importo}  
-                        displayType={'text'}  />   
-                          
-                </Box>
-          </Box>
-
-      </Grid>
 
 
  
-      <Grid item xs={6} md={3}>
+      <Grid item xs={6}  sm={10}   md={4}>
           <FormControl  >
            
-          <CustomComponents.CustomTextField 
-                      size="small"
-                      disabled={props.readOnly}  
-                      InputProps={{
-                        classes: {
-                          root: props.classes.inputRoot,
-                          disabled: props.classes.disabled,
-                        },
-                      }}
+          <CustomComponents.CustomTextField  
+                      disabled={props.readOnly}   
                       id="note"
                       name="note"
                       maxlength={500}
@@ -285,6 +263,24 @@ function Form   (props: any  ) {
   
               </FormControl>
       </Grid>
+
+      <Grid item xs={2}   sm={2}  md={1} >
+
+
+        <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
+              
+              <Box  fontWeight={700} style={{color:'red', fontSize:'90%'}}   >Totale</Box>
+              <Box   fontWeight={500} color="text.primary"  >
+                    <NumberFormat decimalSeparator=","   prefix={'€ '}
+                      thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
+                      value={props.importo}  
+                      displayType={'text'}  />   
+                        
+              </Box>
+        </Box>
+
+      </Grid>
+
   </Grid>
 
   );

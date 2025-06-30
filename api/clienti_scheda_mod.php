@@ -10,9 +10,7 @@ function isClienteCancellabile($conn, $id_cliente)
 {
  
  	$sql = "SELECT  count(*)   "
- 		. "	FROM ordini_dettaglio  "
-		. "	INNER  JOIN ordini "
-		. "	ON ordini_dettaglio.id_ordine = ordini.id_ordine  "
+ 		. "	FROM ordini "  
 		.	" WHERE ordini.id_cliente=" .$id_cliente;
 		  
 	$statement = $conn->prepare($sql);

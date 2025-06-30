@@ -8,7 +8,7 @@ import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
  
 
-import { ConfirmFialog } from '../utils/ConfirmDialog'; 
+import { ConfirmDialog } from '../utils/ConfirmDialog'; 
 import {NotificationManager} from 'react-notifications'; 
 
 import { Cliente } from '../model/Cliente';
@@ -424,7 +424,7 @@ class Consegne_elencoPage  extends React.Component <IProps,IState> {
               }
 
               {this.state.consegnaToDelete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteConsegna}
                           handleAnnulla={() => { this.handleConsegnaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare la Consegna'       

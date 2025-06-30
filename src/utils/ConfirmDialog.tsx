@@ -3,7 +3,7 @@ import React  from 'react';
  
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle  } from '@mui/material';
 
-export function ConfirmFialog(props ) {
+export function ConfirmDialog(props ) {
 
  
     return (

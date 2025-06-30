@@ -10,7 +10,8 @@ import StampaIcon from '@mui/icons-material/PrintRounded';
 import GraficiIcon from '@mui/icons-material/BarChart';
 import QrCodeIcon from '@mui/icons-material/CropFree';
 import SaveIcon from '@mui/icons-material/Save';
-
+import LogoutIcon from '@mui/icons-material/Logout';  
+import ChamgePwdIcon from '@mui/icons-material/Key';  
 export   const IconsMenu = {
     ClientiIcon  ,
     ArticoliIcon,
@@ -23,6 +24,8 @@ export   const IconsMenu = {
     HomeIcon,
     GraficiIcon,
     SaveIcon,
-    QrCodeIcon
+    QrCodeIcon,
+    LogoutIcon,
+    ChamgePwdIcon
    
 };

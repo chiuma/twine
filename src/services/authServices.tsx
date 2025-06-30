@@ -8,23 +8,65 @@ export const authServices = {
  
     login,
     logout,
-    
+    changePassword,
      
 
 };
+
+
+async function   changePassword (   username:string, password:string, new_password:string, ) 
+{
+
+    try {
+       
+        const sUrl = ConstantUtils.url.SERVER_URL + "/login.php";   
+
+       
+        const params = { username : username, password : password, new_password:new_password, 
+                        action:"CHANGE_PWD" };
+        const config = {
+            headers: {
+            'Content-type': 'application/json',
+            'Authorization': sessionStorage.getItem('token')
+            }
+             
+        };
+
+       
+        
+        let responseData = await  axios.post(sUrl,params,   config   )  
+
+        if ( responseData.data.esito === "OK"   )
+        {
+             
+        } 
+        // OFFLINE
+       //   responseData.data.esito = "OK" 
+        
+        return  responseData.data ;
+   
+ 
+    } 
+    catch(error) 
+    {
+        
+        return {esito: 'NOT_OK', error: error, err_code: '002'};
+    }
+
+}
 
 function logout()
 {
 
 }
 
-async function   login (email,    password) 
+async function   login (username,    password) 
 {
     try {
         const sUrl = ConstantUtils.url.SERVER_URL + "/login.php";
 
          
-        const params = { email : email,  password: password };
+        const params = {action:'LOGIN', username : username,  password: password };
         const config = {
             headers: {
             'Content-type': 'application/json'
@@ -36,9 +78,9 @@ async function   login (email,    password)
             JSON.stringify(  params   ),
             config
         )  
-      
+ 
        return {esito: responseData.data.esito , err_code: responseData.data.err_code, 
-        profile: responseData.data.profile,
+        profile: responseData.data.scheda.profile,
         token: responseData.headers.authorization };
  
     } 

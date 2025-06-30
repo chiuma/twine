@@ -30,7 +30,7 @@ function isAricoloCancellabile($conn, $id_articolo_base)
  	$sql = 	" SELECT count(*)    " .
 	" FROM   ordini_dettaglio " .
 	 " WHERE ordini_dettaglio.id_articolo_base =" .$id_articolo_base;
-		  
+		 
 	$statement = $conn->prepare($sql);
 	$statement->execute();  
 	$conteggio = $statement->fetchColumn();
@@ -67,13 +67,13 @@ try
 	$prezzo = trim($scheda["prezzo"]);
 	$id_articolo_base = $scheda["id_articolo_base"];
 	
-	$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
+	$conn  = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	if ($action == "DEL_ARTICOLO" )
 	{
 
 		$id_articolo_base =  trim($obj["id_articolo_base"]);
-		if ( isAricoloCancellabile( $conn , $id_articolo_base))
+		if ( !isAricoloCancellabile( $conn , $id_articolo_base))
 		{
 			$json_response =  array ('esito' => "NOT_OK" ,'err_code' => "003"  	 );
 			echo json_encode( $json_response);die();
@@ -82,6 +82,14 @@ try
 		$sql = "DELETE FROM articoli_base "
 			. " WHERE id_articolo_base = " .trim($obj["id_articolo_base"]);
 			
+	}
+	
+	
+	else if ($action == "UPD_PREZZO_ORDINI" )
+	{
+			$sql = "UPDATE ordini_dettaglio set "
+			. " prezzo = " .    $prezzo
+			. " WHERE evaso = 0 and id_articolo_base = " .$id_articolo_base;
 	}
 	  
 	else if ($id_articolo_base ===  -1 )
@@ -117,6 +125,8 @@ try
 			. "," . "prezzo = " .    $prezzo  
 			. " WHERE id_articolo_base=".$id_articolo_base;
 	}
+	
+	
  	$conn->exec($sql) ;
 	$json_response =  array ('esito' => "OK" );
 	 

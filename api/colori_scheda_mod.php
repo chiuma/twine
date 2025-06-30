@@ -2,7 +2,7 @@
 
 error_reporting(0);
 require_once "./JwtConfig.php";
- require_once "./cors.php";
+require_once "./cors.php";
 header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -68,7 +68,7 @@ try
  
 	$id_colore = $scheda["id_colore"];
 	
-	$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
+	$conn  = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 	

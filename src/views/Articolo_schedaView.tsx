@@ -6,9 +6,10 @@ import styles from '../common/globalStyle';
 import { IconsMenu } from '../common/Icons';
 import { CustomComponents } from '../utils/CustomComponents';
 import { withStyles } from '@mui/styles';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 
 function SchedaArticolo(props: any) {
-  const { propieta } = props;
+  const { propieta, handleSchedaUpdate , handleSchedaUpdatePrezzi} = props;
 
   return (
     <Box width="100%">
@@ -17,35 +18,53 @@ function SchedaArticolo(props: any) {
           <CircularProgress color="primary" />
         </Box>
       )}
-      <Box width="100%" p={2}>
+      <Box width="100%" p={1}>
         <AppBar position="static" className={propieta.classes.barBackground} color="primary">
           <Toolbar>
-            <Typography variant="h6" className={propieta.classes.title}>
-              Articolo - {propieta.formData.id_articolo_base === -1 ? "Nuovo" : "Modifica"}
-            </Typography>
+          <Box   width="100%" display="flex" flexDirection="row" alignItems="center"  justifyContent="space-between"  > 
+              <Box  >
+              <Typography variant="h6" className={propieta.classes.title}>
+                Articolo - {propieta.formData.id_articolo_base === -1 ? "Nuovo" : "Modifica"}
+              </Typography>
+              </Box>
+             
+              <Box>
+              {!propieta.readOnly && propieta.bChangedForm && (
+                <Button
+                  startIcon={<IconsMenu.SaveIcon />}
+                  onClick={propieta.saveScheda}
+                  style={{ marginRight: 10 }}
+                  size="small"
+                  color="primary"
+                  variant="contained"  >
+                  Salva
+                </Button>
+              )}
+            </Box>
 
-            {!propieta.readOnly && propieta.bChangedForm && (
-              <Button
-                startIcon={<IconsMenu.SaveIcon />}
-                onClick={propieta.saveScheda}
-                style={{ marginRight: 10 }}
-                size="small"
-                color="primary"
-                variant="contained"
-              >
-                Salva
+            <Box   >
+            {!propieta.isMobile && !propieta.readOnly && !propieta.bChangedForm  && propieta.formData.id_articolo_base !== -1 && (
+                <Button 
+                  onClick={() => handleSchedaUpdatePrezzi(propieta.formData)}
+                  style={{ marginRight: 10 }}
+                  size="small"
+                  color="primary"
+                  variant="contained" >
+                  AGGIORNA ORDINI
+                </Button>
+              )}
+  
+              <Button onClick={propieta.handleClose} size="small" color="primary" variant="contained">
+                Chiudi
               </Button>
-            )}
-
-            <Button onClick={propieta.handleClose} size="small" color="primary" variant="contained">
-              Chiudi
-            </Button>
+            </Box>
+          </Box>
           </Toolbar>
         </AppBar>
 
         <Box mt={2} width="100%">
           <Paper elevation={1} variant="outlined">
-            <FormArticolo propieta={propieta} />
+            <FormArticolo propieta={{...propieta, handleSchedaUpdate}} />
           </Paper>
         </Box>
       </Box>
@@ -118,6 +137,7 @@ export interface IProps {
   formData: any;
   formDataError: any;
   handleChangeForm: any;
+  handleUpdatePrezzoOrdini: any;
   scheda: any;
   elenco_colori: any;
   classes: any;
@@ -130,22 +150,42 @@ export interface IProps {
 }
 
 export interface IState {
-  // ... (existing state properties)
+  schedaArticolo: any | null;
 }
 
 class Articolo_schedaView extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
+    this.handleSchedaUpdatePrezzi = this.handleSchedaUpdatePrezzi.bind(this);
+
+    this.state = {  schedaArticolo: null }; 
+
   }
 
   componentDidMount() {
     // ... (existing componentDidMount logic)
   }
 
+  handleSchedaUpdatePrezzi = (value: any) => {
+    console.log("handleSchedaUpdatePrezzi", value);
+    this.setState({ schedaArticolo: value  });
+  }
+
   render() {
     return (
       <>
-        {this.props.isModal && (
+      
+      {this.state.schedaArticolo !== null &&
+                <ConfirmDialog
+                          handleConfirm={(e) => {this.props.handleUpdatePrezzoOrdini(this.state.schedaArticolo);  this.handleSchedaUpdatePrezzi(null);}}
+                          handleAnnulla={() => { this.handleSchedaUpdatePrezzi(null)}}
+                          contextText={'Procedere con l\'aggiornamento dei prezzi per tutti gli ordini non evasi? ' }
+                          title="Articoli" />
+              }
+
+
+
+        {this.state.schedaArticolo === null && this.props.isModal && (
           <Dialog scroll="body" open={true} onClose={this.props.handleClose} aria-labelledby="form-dialog-title"   classes={{ paperWidthSm: this.props.classes.paperDialogArticoli }}>
             <DialogContent style={{ overflow: "hidden" }}>
               <SchedaArticolo propieta={this.props} />
@@ -153,11 +193,11 @@ class Articolo_schedaView extends React.Component<IProps, IState> {
           </Dialog>
         )}
 
-        {!this.props.isModal && (
+        {this.state.schedaArticolo === null &&  !this.props.isModal && (
           <Box display="flex" flexDirection="row" alignItems="center" width={{ xs: '80%', sm: '70%', md: '65%', lg: '55%', xl: '40%' }} mt={4} justifyContent="center">
             <Paper className={this.props.classes.paperFullWidth} variant="outlined">
               <Box width="100%">
-                <SchedaArticolo propieta={this.props} />
+                <SchedaArticolo propieta={this.props}  handleSchedaUpdatePrezzi={this.handleSchedaUpdatePrezzi} />
               </Box>
             </Paper>
           </Box>

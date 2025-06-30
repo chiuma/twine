@@ -40,6 +40,7 @@ import { Ordine_scheda } from './Ordine_scheda';
 import { OrdineDettaglio } from '../model/OrdineDettaglio';
 import { ordiniServices } from '../services/ordiniServices';
 import { Ordine } from '../model/Ordine';
+import { ChangePassword } from './ChangePassword';
 
 function HomePageSm(propieta: any) {
   return (
@@ -115,7 +116,9 @@ function HomePage(propieta: any) {
           <img className="img-fluid d-block mx-auto" alt="Twine"
             src={ConstantUtils.url.HOME_URL + "img/logo.png"} />
         </Grid>
+
         <Grid item xs={3}>
+        {sessionStorage.getItem("profile") === "admin" &&
           <Box width="100%" textAlign="right">
             <Tooltip title="Consegne" arrow>
               <Link component="button" onClick={() => { propieta.goToPage("consegne_elenco") }} color="inherit">
@@ -123,6 +126,7 @@ function HomePage(propieta: any) {
               </Link>
             </Tooltip>
           </Box>
+        }
         </Grid>
         <Grid item xs={12} />
         <Grid item xs={3}>
@@ -289,7 +293,11 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
     } else if (page === "logout") {
       sessionStorage.clear();
       window.location.reload();
-    } else if (page === "home") {
+    } else if (page === "changePwd") {
+      this.props.history.push("/changePwd");
+    }
+    
+    else if (page === "home") {
       this.props.history.push("/home");
     } else if (page === "grafici") {
       this.props.history.push("/grafici");
@@ -397,6 +405,13 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               render={(props) => (
                 <Clienti_elenco {...props} isMobile={this.props.isMobile} />
               )} />
+
+             <Route path="/changePwd" exact
+              render={(props) => (
+                <ChangePassword {...props}  />
+              )} />
+
+
             <Route path="/colori_elenco" exact
               render={(props) => (
                 <Colori_elenco {...props} />
