@@ -4,7 +4,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { Box, IconButton, ListItemIcon } from '@mui/material';
+import { Box, IconButton, ListItemButton, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconsMenu } from '../common/Icons';
 import { ConstantUtils } from '../ConstantUtils';
@@ -70,132 +70,142 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
       <List  >
         <Divider />
-        <ListItem button  >
+        <ListItemButton  >
           <ListItemIcon>
             <IconsMenu.HomeIcon />
           </ListItemIcon>
           <ListItemText  primary="Home" onClick={() => props.goToPage("home")} />
-        </ListItem>
+        </ListItemButton>
         
         <Divider />
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.ClientiIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Clienti" onClick={() => props.goToPage("clienti_elenco")} />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Nuovo Cliente" onClick={() => props.goToPage("clienti_new")} />
-        </ListItem>
+        </ListItemButton>
 
         <Divider  variant="middle" />
 
-        <ListItem button  >
-          <ListItemIcon>
-            <IconsMenu.QrCodeIcon />
-          </ListItemIcon>
-          <ListItemText sx={listItemTextStyles} primary="Elenco QrCode" onClick={() => props.goToPage("qrcode_elenco")} />
-        </ListItem> 
-        <Divider  variant="middle" />
 
-        <ListItem button  >
+
+        <ListItemButton    >
           <ListItemIcon>
             <IconsMenu.ColoriIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Colori" onClick={() => props.goToPage("colori_elenco")} />
-        </ListItem>
+        </ListItemButton>
         {sessionStorage.getItem("profile") === "admin" && 
-        <ListItem button  >
+        <ListItemButton >
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Nuovo Colore" onClick={() => props.goToPage("colori_new")} />
-        </ListItem>
+        </ListItemButton>
         }
-        <Divider  variant="middle"  />
 
-        <ListItem button  >
-          <ListItemIcon>
-            <IconsMenu.ProvenienzeIcon />
-          </ListItemIcon>
-          <ListItemText sx={listItemTextStyles} primary="Elenco Provenienze" onClick={() => props.goToPage("provenienze_elenco")} />
-        </ListItem>
         {sessionStorage.getItem("profile") === "admin" && 
-        <ListItem button  >
-          <ListItemIcon>
-            <IconsMenu.NuovoIcon />
-          </ListItemIcon>                
-          <ListItemText sx={listItemTextStyles} primary="Nuova Provenienza" onClick={() => props.goToPage("provenienze_new")} />
-        </ListItem>
- }
+        <>
+          <Divider  variant="middle"  />
+
+          <ListItemButton    >
+            <ListItemIcon>
+              <IconsMenu.ProvenienzeIcon />
+            </ListItemIcon>
+            <ListItemText sx={listItemTextStyles} primary="Elenco Provenienze" onClick={() => props.goToPage("provenienze_elenco")} />
+          </ListItemButton>
+
+          <ListItemButton  >
+            <ListItemIcon>
+              <IconsMenu.NuovoIcon />
+            </ListItemIcon>                
+            <ListItemText sx={listItemTextStyles} primary="Nuova Provenienza" onClick={() => props.goToPage("provenienze_new")} />
+          </ListItemButton>
+        </>
+        }
+
         <Divider  variant="middle"  />
 
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.ArticoliIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Articoli" onClick={() => props.goToPage("articoli_elenco")} />
-        </ListItem>
+        </ListItemButton>
         {sessionStorage.getItem("profile") === "admin" && 
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Nuovo Articolo" onClick={() => props.goToPage("articoli_new")} />
-        </ListItem>
+        </ListItemButton>
         }
         <Divider  variant="middle"  />
 
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.OrdiniIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Ordini" onClick={() => props.goToPage("ordini_elenco")} />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
           </ListItemIcon>                
           <ListItemText sx={listItemTextStyles} primary="Nuovo Ordine" onClick={() => props.goToPage("ordini_new")} />
-        </ListItem>
+        </ListItemButton>
         {sessionStorage.getItem("profile") === "admin" && 
         <>
         <Divider  variant="middle"  />
-        <ListItem button  >
+        <ListItemButton>
           <ListItemIcon>
             <IconsMenu.ConsegneIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Consegne" onClick={() => props.goToPage("consegne_elenco")} />
-        </ListItem>
+        </ListItemButton>
 
 
-        <Divider  variant="middle"  />
 
-        <ListItem button  >
+
+        <Divider  variant="middle" />
+
+        <ListItemButton   >
           <ListItemIcon>
             <IconsMenu.GraficiIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Grafici" onClick={() => props.goToPage("grafici")} />
-        </ListItem>
+        </ListItemButton>
         </>
         }
       </List>
       
+      <Divider  variant="middle"  />
+
+<ListItemButton    >
+  <ListItemIcon>
+    <IconsMenu.QrCodeIcon />
+  </ListItemIcon>
+  <ListItemText sx={listItemTextStyles} primary="QrCode" onClick={() => props.goToPage("qrcode_elenco")} />
+</ListItemButton> 
+
       <Divider  variant="middle" />
 
 
       <List>   
-        <ListItem button  >
+        <ListItemButton   >
         <ListItemIcon>
             <IconsMenu.ChamgePwdIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Cambia Password" onClick={() => props.goToPage("changePwd")} />
-        </ListItem>
+        </ListItemButton>
       </List>  
 
 
@@ -203,12 +213,12 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 
       <List>   
-        <ListItem button  >
+        <ListItemButton   >
         <ListItemIcon>
             <IconsMenu.LogoutIcon />
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Logout" onClick={() => props.goToPage("logout")} />
-        </ListItem>
+        </ListItemButton>
       </List>    
       
       <Divider  variant="middle" />

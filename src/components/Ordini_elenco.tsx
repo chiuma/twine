@@ -504,7 +504,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       }
       else
       {
-        ordineSelected.ordineDettaglio.push (new OrdineDettaglio( ))
+        ordineSelected.ordineDettaglio.push (new OrdineDettaglio( {qta:1}))
       }
 
       this.setState({ ordineSelected: ordineSelected   }); 

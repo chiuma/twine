@@ -26,7 +26,8 @@ function FormSm   (props: any  ) {
   <FormControl> 
   <Grid container spacing={1}  >
       {props.isNewRow  && 
-      <Grid item xs={12}  >
+      <>
+      <Grid item xs={8}  >
       
 
           <Box  display="flex" flexDirection="row" alignItems="flex-start"  
@@ -59,12 +60,30 @@ function FormSm   (props: any  ) {
        
     
       </Grid>
- 
+
+      <Grid item xs={4} >
+
+              <Box> 
+                <CustomComponents.NumberFormatCustom
+                    prefix=""  
+                    value={props.formData.qta}  
+                    error={props.formDataError.qta !== ""}
+                    helperText={props.formDataError.qta}
+                    onChange={props.handleChangeForm}  
+                    disabled={props.readOnly}
+                    id="qta"
+                    name="qta"
+                    label="Qta"
+                  />
+              </Box>
+      </Grid>
+
+      </>
       }
 
       
  
-      <Grid item xs={3.6} >
+      <Grid item xs={props.isNewRow  ? 4 : 3.6} >
           <Box> 
                 <CustomComponents.CustomAutocomplete
                   disabled={props.readOnly}
@@ -88,7 +107,7 @@ function FormSm   (props: any  ) {
       </Grid>
       
       
-      <Grid item xs={3.6} >
+      <Grid item xs={props.isNewRow  ? 4 : 3.6} >
       <Box>
             <CustomComponents.CustomAutocomplete
               disabled={props.readOnly}
@@ -107,8 +126,8 @@ function FormSm   (props: any  ) {
       </Grid>
 
         
-
-      <Grid item xs={3} >
+     
+      <Grid item xs={props.isNewRow  ? 4 : 3} >
 
       <Box> 
             <CustomComponents.CustomAutocomplete
@@ -129,7 +148,7 @@ function FormSm   (props: any  ) {
 
 
 
-
+      {!props.isNewRow  && 
       <Grid item xs={1.8} >
 
               <Box> 
@@ -146,7 +165,7 @@ function FormSm   (props: any  ) {
                   />
               </Box>
       </Grid>
-
+      }
 
 
   </Grid>
@@ -167,9 +186,6 @@ function Form  (props: any  ) {
 
           <Box  display="flex" flexDirection="row" alignItems="flex-start"  
                   justifyContent="flex-start"  > 
-        
- 
-       
                       
                 <Box ml={1} width={'100%'}>
   

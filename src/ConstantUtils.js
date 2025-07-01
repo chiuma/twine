@@ -6,8 +6,8 @@ export const ConstantUtils = {
        
     
   // PRODUZIONE
-   SERVER_URL                : "https://www.cimicapp.com/temp/twineMobile/api/", 
-   HOME_URL                  : "https://www.cimicapp.com/temp/twineMobile/",
+   SERVER_URL                : "https://www.cimicapp.com/temp/twine/api/", 
+   HOME_URL                  : "https://www.cimicapp.com/temp/twine/",
 
    
     }

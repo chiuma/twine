@@ -275,7 +275,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
 
   handleHideSchedaOrdine() {
     let ordineSelected = new Ordine();
-    ordineSelected.ordineDettaglio.push(new OrdineDettaglio());
+    ordineSelected.ordineDettaglio.push(new OrdineDettaglio({qta:1}));
     this.setState({ ordine_show: ordineSelected });
   }
 

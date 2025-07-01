@@ -31,13 +31,12 @@ function CheckLogin($conn, $username, $password)
 				
 }		
 
-function DbChangePassword($conn, $username, $password, $new_password)
+function DbChangePassword($conn, $username,   $new_password)
 { 
  			
 	      	$sql = "UPDATE utenti  " 
 	      		. "SET  password = PASSWORD ('".addslashes($new_password)."') "
-	        		. " WHERE  username = '".addslashes($username)."'"
-	        	 . " and password = PASSWORD ('".addslashes($password)."') " ;
+	        		. " WHERE  username = '".addslashes($username)."'" ;
 	        	 
  
 					$conn->exec($sql) ;
@@ -53,6 +52,8 @@ try
 	$obj = json_decode($json, TRUE);
 	$username =  trim($obj["username"]) ; 	
 	$password = trim( $obj["password"] ); 
+	$new_password = trim( $obj["new_password"] ); 
+	
 	$action = trim($obj["action"]);	
 // afcanforever - afcannumberone
  
@@ -99,9 +100,55 @@ try
 	
 	
 	}
-	elseif ($action == "xxxLOGIN" )
-	{ 
+	elseif ($action == "CHANGE_PWD" )
+	{  	 
+		if ($username == "" || $password  == "" || $new_password  == "" )
+		{
+			throw new Exception('Parametro mancante '.$username."-".$new_password);
+		}
 		
+		$authCheck = JwtConfig::checkToken();
+		
+		if (  $authCheck["esito"] === "NOT_OK")
+		{
+			echo json_encode( $authCheck); 	
+			die();
+		}
+ 		$dataToken  = JwtConfig::decodeDataToken();
+		$username_token =   $dataToken->username;			
+		if ($username !=   $username_token  )
+		{
+			throw new Exception('Username errata');
+		}
+	 
+		$scheda =  CheckLogin( $conn, $username,$password  );
+	 
+		$mex = ""; 
+		if ( $scheda)
+		{
+			DbChangePassword( $conn, $username, $new_password  );
+			$ris = "OK";
+			  
+		}
+		else
+		{
+			$ris = "NOT_OK";
+			$mex = "Username e/o Password errata "   ;
+		}
+	  
+		$json_response =  array ('esito' => $ris,    
+		 'mex' => $mex);
+	
+		
+						
+		echo json_encode( $json_response); 	
+	}
+	
+	else
+	{ 
+	 	$json_response =  array (			'esito' => 'NOT_OK',			   		
+		'err_code' => "001" ,  'mex' => "Parametri non validi");
+		echo json_encode( $json_response); 	
 	}
 		 
 	

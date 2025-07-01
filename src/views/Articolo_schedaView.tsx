@@ -40,9 +40,7 @@ function SchedaArticolo(props: any) {
                   Salva
                 </Button>
               )}
-            </Box>
-
-            <Box   >
+ 
             {!propieta.isMobile && !propieta.readOnly && !propieta.bChangedForm  && propieta.formData.id_articolo_base !== -1 && (
                 <Button 
                   onClick={() => handleSchedaUpdatePrezzi(propieta.formData)}

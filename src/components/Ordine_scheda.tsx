@@ -90,7 +90,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
     { 
         
         let thisOrdine = Object.assign ( {}, this.state.formOrdine, {ordineDettaglio : [...this.state.formOrdine.ordineDettaglio.slice(0,this.state.formOrdine.ordineDettaglio.length-1) ] } );
-        
+        console.log("thisOrdine", thisOrdine    )
         this.precForm  =  JSON.stringify(thisOrdine ) ;
  
 
@@ -284,7 +284,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                         id_articolo_base: formDettaglio.id_articolo_base,
                         
                     })) 
- 
+
                 newOrdine.ordineDettaglio[newOrdine.ordineDettaglio.length-1]["articolo_base_descrizione"] = formDettaglio["articolo_base_descrizione"] 
 
                 newOrdine.ordineDettaglio[newOrdine.ordineDettaglio.length-1]["articolo_base_codice"] = formDettaglio["articolo_base_codice"] 
