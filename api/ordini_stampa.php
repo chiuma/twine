@@ -2,6 +2,7 @@
 // https://www.cimicapp.com/temp/twine/api/ordini_stampa.php
 error_reporting(0);
 require_once "./JwtConfig.php";
+require_once "./cors.php"; 
 	$authCheck = JwtConfig::checkToken();
 	if (  $authCheck["esito"] === "NOT_OK")
 	{

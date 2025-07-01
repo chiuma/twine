@@ -1,24 +1,23 @@
 import React from 'react'; 
 
-import {     Box,  IconButton, TableHead, TableSortLabel} from '@material-ui/core';
-
+import {     Box,  IconButton,   TableHead, TableSortLabel} from '@mui/material';
+import { withStyles } from "@mui/styles";
 import   styles   from '../common/globalStyle'
  
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
  
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
  
  
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
   
-import EditIcon from '@material-ui/icons/Search';
+import EditIcon from '@mui/icons-material/Search';
  
-import { withStyles } from "@material-ui/core/styles";
- 
+
  
 import {    Order, tableUtility,   } from '../common/tableUtility';
  
@@ -52,7 +51,15 @@ function TableHeader   (props: any  ) {
               </TableSortLabel>
             </TableCell>
             
- 
+            <TableCell   key="data_consegna"  align="left"   sortDirection={orderBy === "data_consegna" ? order : false}>
+
+              <TableSortLabel
+                active={orderBy ===  "data_consegna"}
+                direction={orderBy === "data_consegna" ? order : 'asc'}
+                onClick={createSortHandler("data_consegna")}>
+                    Data Consegna
+              </TableSortLabel>
+            </TableCell> 
 
             <TableCell width="50%"   key="cliente_descrizione"  align="left" 
                 sortDirection={orderBy === "cliente_descrizione" ? order : false}>
@@ -92,8 +99,17 @@ function TableHeader   (props: any  ) {
               </TableSortLabel>
             </TableCell>
             
- 
+            {sessionStorage.getItem("profile") === "admin" && 
+              <TableCell    key="user_new"  align="left" sortDirection={orderBy === "user_new" ? order : false}>
 
+                <TableSortLabel
+                  active={orderBy ===  "user_new"}
+                  direction={orderBy === "user_new" ? order : 'asc'}
+                  onClick={createSortHandler("user_new")}>
+                      Utente
+                </TableSortLabel>
+              </TableCell>
+            }
             
             <TableCell></TableCell>
            
@@ -107,13 +123,14 @@ function TableHeader   (props: any  ) {
 function TableRows   (props: any ) {
   const {   row  , isEditMode , propieta } = props;
  
+
   return (   
     <TableRow     hover       tabIndex={-1}>
 
  
     
         <TableCell  align="left"  width="7%">{CommonFunctions.FormatDateDDMMYYYY ( row.data_ricezione)}</TableCell>
- 
+        <TableCell  align="left"  width="7%">{CommonFunctions.FormatDateDDMMYYYY ( row.data_consegna)}</TableCell> 
         <TableCell   align="left" width="20%">
  
         {row.cliente_descrizione }
@@ -140,17 +157,18 @@ function TableRows   (props: any ) {
 
    
         <TableCell   align="left" >{row.consegnato  === true ? "Si" : "No"}</TableCell>
-       
+        {sessionStorage.getItem("profile") === "admin" && 
+        <TableCell   align="left" width="10%">{row.user_new}</TableCell>
+        }
 
-
-      {isEditMode &&
-      <TableCell align="right"   style={{ whiteSpace: "nowrap"}}  >
- 
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <EditIcon />
-        </IconButton>
+        {isEditMode &&
+        <TableCell align="right"   style={{ whiteSpace: "nowrap"}}  >
+  
+          <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
+            <EditIcon />
+          </IconButton>
         </TableCell> 
-      }
+        }
 
   </TableRow>
   );
@@ -224,15 +242,14 @@ class Ordini_elenco_testataView  extends React.Component <IProps,IState> {
  
   render() { 
 
-   
-
-  return (
-
  
 
+    return (
+
+ 
 
 <Box  display="flex" flexDirection="row" alignItems="center"    width="100%"    justifyContent="center" mb={1} > 
- 
+
           <Paper className={this.props.classes.paperFullWidth} variant="outlined" >
 
               <TableContainer  >
@@ -284,8 +301,6 @@ class Ordini_elenco_testataView  extends React.Component <IProps,IState> {
   }
 }
 
- 
- 
-export default withStyles(styles) (Ordini_elenco_testataView);
+ export default withStyles(styles) (Ordini_elenco_testataView); 
 
  

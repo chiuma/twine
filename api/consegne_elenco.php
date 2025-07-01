@@ -4,7 +4,7 @@
 
  error_reporting(0);
  require_once "./JwtConfig.php";
- 
+ require_once "./cors.php"; 
  header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -20,7 +20,21 @@ try
 			echo json_encode( $authCheck); 	
 			die();
 		}
- 
+ 	$dataToken  = JwtConfig::decodeDataToken();
+	$username =   $dataToken->username;		
+	$profile =   $dataToken->profile;		
+	if ( $profile != "admin") 
+	{
+		 	$json_response    =  array( 			         						         		  	  					         							   					         		
+			'esito' => 'NOT_OK',			   		
+			'err_code' => "001"  ,
+			'err_mex' => "Profile not allowed"    
+	 		);	
+	 
+  		echo json_encode( $json_response); 	
+  	
+			die();
+	}
 	
 	include_once './db_config.php';		
 	

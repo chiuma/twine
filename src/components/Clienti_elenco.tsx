@@ -2,11 +2,11 @@ import React  from 'react';
  
 import { Cliente, ClienteFiltri } from '../model/Cliente';
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
 import { Cliente_scheda } from './Cliente_scheda';
 import { Clienti_elencoFiltriView } from '../views/Clienti_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { clientiServices } from '../services/clientiServices';
 import {NotificationManager} from 'react-notifications'; 
 import { clientiActions } from '../actions/clienti.action';
@@ -16,7 +16,7 @@ import Clienti_elencoView from '../views/Clienti_elencoView';
 export interface IProps { 
     actDelCliente: any,
     elenco_clienti: Cliente[];
-  
+    isMobile:boolean,
   }
      
 export interface IState { 
@@ -178,13 +178,13 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
     }
  
     render() {    
-        // console.log("XXXXXXXX - " ,   this.props.status , this.props.elenco_storico);
+      //   console.log("isMobile - " ,   this.props.isMobile);
           return ( 
             
             <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"   > 
 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare il Cliente: ' +      
@@ -221,13 +221,14 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
 
               {this.state.scheda_selected !== null  &&
                 <Cliente_scheda  
-                  showConsegne={true}
+                  showConsegne={sessionStorage.getItem("profile") === "admin" ? true : false }
                   isModal={false}
+                  isMobile={this.props.isMobile}
                   handleClose={() => { this.handleSchedaSelected(null)}}
                   scheda={this.state.scheda_selected } />
               }
 
-</Box>
+          </Box>
           
             )
           }
@@ -237,8 +238,7 @@ class Clienti_elencoPage  extends React.Component <IProps,IState> {
 
   
 function mapStateToProps(state) {
-  console.log("state.clientiReducer.elenco_clienti", state.clientiReducer.elenco_clienti)
-  return {
+   return {
     elenco_clienti: state.clientiReducer.elenco_clienti 
   };
 }

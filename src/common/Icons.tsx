@@ -1,17 +1,17 @@
-import ClientiIcon from '@material-ui/icons/People';
-import ArticoliIcon from '@material-ui/icons/Bookmarks';
-import ColoriIcon from '@material-ui/icons/ColorLens';
-import ConsegneIcon from '@material-ui/icons/LocalShipping';
-import OrdiniIcon from '@material-ui/icons/Assignment';
-import ProvenienzeIcon from '@material-ui/icons/WhatsApp';
-import NuovoIcon from '@material-ui/icons/Add';
-import HomeIcon from '@material-ui/icons/Home';
-import StampaIcon from '@material-ui/icons/PrintRounded';
-import GraficiIcon from '@material-ui/icons/BarChart';
-
-import QrCodeIcon from '@material-ui/icons/CropFree';
-
-import SaveIcon from '@material-ui/icons/Save';
+import ClientiIcon from '@mui/icons-material/People';
+import ArticoliIcon from '@mui/icons-material/Bookmarks';
+import ColoriIcon from '@mui/icons-material/ColorLens';
+import ConsegneIcon from '@mui/icons-material/LocalShipping';
+import OrdiniIcon from '@mui/icons-material/Assignment';
+import ProvenienzeIcon from '@mui/icons-material/WhatsApp';
+import NuovoIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home';
+import StampaIcon from '@mui/icons-material/PrintRounded';
+import GraficiIcon from '@mui/icons-material/BarChart';
+import QrCodeIcon from '@mui/icons-material/CropFree';
+import SaveIcon from '@mui/icons-material/Save';
+import LogoutIcon from '@mui/icons-material/Logout';  
+import ChamgePwdIcon from '@mui/icons-material/Key';  
 export   const IconsMenu = {
     ClientiIcon  ,
     ArticoliIcon,
@@ -24,6 +24,8 @@ export   const IconsMenu = {
     HomeIcon,
     GraficiIcon,
     SaveIcon,
-    QrCodeIcon
+    QrCodeIcon,
+    LogoutIcon,
+    ChamgePwdIcon
    
 };

@@ -2,6 +2,7 @@
 // https://www.cimicapp.com/temp/twine/api/ordini_stampa.php
 error_reporting(0);
 require_once "./JwtConfig.php";
+require_once "./cors.php"; 
 	$authCheck = JwtConfig::checkToken();
 	if (  $authCheck["esito"] === "NOT_OK")
 	{
@@ -139,14 +140,14 @@ try
 		
 			if ($_GET["data_consegna_dal"] != "")
 			{
-				$where = $where. " AND 	DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y-%m-%d')   >= '" . $_GET["data_consegna_dal"] . "' ";
+				$where = $where. " AND 	DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d')   >= '" . $_GET["data_consegna_dal"] . "' ";
 			}
 		
 			if ($_GET["data_consegna_al"] != "")
 			
 			{ 
  
-				$where = $where. " AND 	DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y-%m-%d' ) <= '"  . $_GET["data_consegna_al"] . "' ";
+				$where = $where. " AND 	DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d' ) <= '"  . $_GET["data_consegna_al"] . "' ";
 			}
 			
 			
@@ -186,9 +187,9 @@ try
 		. " ordini_dettaglio.id_colore_2, colori_2.codice as colore_codice_2, colori_2.descrizione as colore_descrizione_2 , "
 		. " ordini_dettaglio.id_colore_3, colori_3.codice as colore_codice_3, colori_3.descrizione as colore_descrizione_3 , "
 		
-		. "		DATE_FORMAT(ordini_dettaglio.data_consegna, '%d/%m/%Y') as data_consegna_formatted,   "
+		. "		DATE_FORMAT(ordini.data_consegna, '%d/%m/%Y') as data_consegna_formatted,   "
 		. "		DATE_FORMAT(ordini.data_ricezione, '%Y/%m/%d') as data_ricezione_formatted,   "
-		. "		ordini_dettaglio.evaso,  ordini_dettaglio.nota,  "
+		. "		ordini_dettaglio.evaso,     "
 		. "		articoli_base.id_articolo_base, articoli_base.codice, articoli_base.descrizione,  "
 		. "		colori.codice as colore_codice, colori.descrizione as colore_descrizione , "
 		. "		clienti.descrizione as cliente_descrizione   "
@@ -216,7 +217,7 @@ try
 		. "	ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio    "
 				
 		. $where	
-		. "	ORDER BY  clienti.descrizione, ordini_dettaglio.data_consegna , articoli_base.codice, colori.codice   ";
+		. "	ORDER BY  clienti.descrizione, ordini.data_consegna , articoli_base.codice, colori.codice   ";
 
      // echo $sql; die();
 
@@ -264,8 +265,7 @@ try
 				<tr>
 					<td  class="cell_data_consegna"  ><?php echo ($row["data_consegna_formatted"]) ?></td>
 					<td   class="cell_codice"   ><?php echo ($row["codice"] . "-". $row["colore_codice"]) ?></td>
-			    <td class="cell_articolo"  ><?php echo ($row["descrizione"]
-			    	. ($row["nota"] != "" ? "<br>Nota:<i>".$row["nota"] ."</i>": "") ) ?></td>    
+			    <td class="cell_articolo"  ><?php echo ($row["descrizione"]  ) ?></td>    
 			    <td  class="cell_colore"  ><?php echo (
 			    	$row["colore_descrizione"] 
 			    	. ($row["colore_descrizione_2"] != "" ? "+". $row["colore_descrizione_2"] : "")

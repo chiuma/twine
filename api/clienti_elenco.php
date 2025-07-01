@@ -1,31 +1,38 @@
 ﻿<?php
+// https://www.cimicapp.com/temp/twine/api/clienti_elenco.php
+error_reporting(1);
+require_once "./cors.php"; 
 
-error_reporting(0);
-header('Content-Type: application/json; charset=utf-8');
-
-$sql = "";
+ 
 
 
-
+$sql ="";
 try
 {
 	include_once './db_config.php';		
+//	$_POST['descrizione'] = chr(0xbf) .chr(0x27) . " OR id_cliente > 1 -- ";
+ 
+ 
+ 
+ 
+
 $json_elenco    = array();	
   		$sql = "SELECT clienti.*    " .
-						" FROM clienti " .
+						" FROM clienti   " .
 						" ORDER BY  clienti.descrizione "; 
-	
-			$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
+	 
+			$conn  = new PDO ('mysql:host='.HOST.';  dbname='.DB, DB_USER, DB_PASSWORD); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
-			$sth = $conn->prepare($sql);
+			$sth = $conn->prepare($sql);   
+			//print_r ($sth);
 			$sth->execute();
 			$result = $sth->fetchAll(PDO::FETCH_ASSOC);		
 			
 			foreach ($result as $row)
 			{	//	$date = new DateTime($row["last_update"]);
 				
-				
+			 
 				$item    =  array( 			
 					'id_cliente' => intval ( $row["id_cliente"]) ,					         
 	  			'descrizione'=>  (  $row["descrizione"]), 
@@ -49,7 +56,8 @@ $json_elenco    = array();
  			 
 	  
 	 	
-	 	$json_response    =  array ('esito' => "OK", 'elenco' =>  $json_elenco   ) ;
+	 	$json_response    =  array ('esito' => "OK",   'elenco' =>  $json_elenco    ) ;
+	 
 	 	 echo json_encode( $json_response); 	
 } 
 catch (Exception $e) 
@@ -57,8 +65,7 @@ catch (Exception $e)
 
  	$json_response    =  array( 			         						         		  	  					         							   					         		
 			'esito' => 'NOT_OK',			   		
-			'err_code' => "001"  ,	
-			'sql'=> $sql				,
+			'err_code' => "001"  ,	 
 			'msg' => $e->getMessage(),	
 	 		);	
 	 

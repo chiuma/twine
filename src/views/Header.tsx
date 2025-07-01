@@ -1,18 +1,16 @@
 import React  from 'react';
- 
-
-import { AppBar,  Box, Toolbar,  Typography } from '@material-ui/core';
- 
-import { withStyles } from "@material-ui/core/styles";
-import { AccountCircle } from '@material-ui/icons';
+import { AppBar,  Box,   Toolbar,  Typography   } from '@mui/material';
+  
+import { AccountCircle } from '@mui/icons-material';
  
 import { withRouter } from "react-router";
 
  
 import {IconsMenu} from '../common/Icons'
+import { withStyles } from '@mui/styles';
 interface Props { 
   classes: any,
- 
+  isMobile:boolean,
   history: any,
 }
 
@@ -31,6 +29,61 @@ const styles =  theme => ({
   },
 });
 
+ 
+
+function Scheda(props: any) { 
+  return (   
+    <AppBar position="static" className={props.classes.barBackground} color="primary">
+      <Toolbar>
+        <Box mr={2}>
+          {props.children}
+        </Box>
+        
+        <Box mr={2}>
+          {props.iconPage}
+        </Box>
+        
+        <Typography variant="h6" className={props.classes.title}>
+          TWINE - {props.descPage}
+        </Typography>
+
+        <Box mr={2}>
+          <AccountCircle />
+        </Box>
+        
+        <Box mr={1}>{sessionStorage.getItem("username")}</Box>
+      </Toolbar>
+    </AppBar>
+  );
+}
+
+function SchedaSm(props: any) { 
+  return (   
+    <AppBar position="static" className={props.classes.barBackground} color="primary">
+      <Toolbar className={props.classes.toolbar}>
+        <Box mr={1}>
+          {props.children}
+        </Box>
+        
+        <Box mr={1}>
+          {props.iconPage}
+        </Box>
+        
+        <Typography variant="subtitle1" className={props.classes.title}>
+          TWINE - {props.descPage}
+        </Typography>
+
+        <Box mr={1}>
+          <AccountCircle className={props.classes.icon} />
+        </Box>
+        
+        <Box className={props.classes.username} mr={.5}>
+          {sessionStorage.getItem("username")}
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+}
 
 class HeaderPage extends   React.Component <Props,State> {
 
@@ -51,7 +104,10 @@ class HeaderPage extends   React.Component <Props,State> {
       ris ="Home"
      
     }
-    
+    else if (page === "/changePwd")
+      {
+        ris ="Cambio Password"
+      }
     else if (page === "/grafici")
     {
       ris ="Grafici"
@@ -102,6 +158,10 @@ class HeaderPage extends   React.Component <Props,State> {
       return <IconsMenu.HomeIcon />
      
     }
+    else if (page === "/changePwd")
+      {
+        return <IconsMenu.ChamgePwdIcon />
+      }
     else if (page === "/grafici")
     {
       return <IconsMenu.GraficiIcon />
@@ -139,53 +199,29 @@ class HeaderPage extends   React.Component <Props,State> {
   }
  
 
+
   render() {
-
- 
-      return (
-
-
-        <React.Fragment>
-
-<AppBar position="static" className={this.props.classes.barBackground} color="primary">
-  <Toolbar>
-
-    <Box mr={2}>
-    {this.props.children}
-    </Box>
-
-    
-    <Box mr={2}>
-    {this.getIconPage()}
-    </Box>
-    
-    <Typography variant="h6" className={this.props.classes.title}>
-      TWINE - {this.getDescPage() }
-    </Typography>
- 
-
-
-
-    <Box mr={2}>
-    <AccountCircle />
-    </Box>
-    
-    <Box mr={1}>{sessionStorage.getItem("username")}</Box>
-
-
-  </Toolbar>
-</AppBar>
-
- 
-    
- 
-        </React.Fragment>
-      ) 
-   
+    return (
+      <React.Fragment>
+        {this.props.isMobile ? (
+          <SchedaSm
+            {...this.props}
+            descPage={this.getDescPage()}
+            iconPage={this.getIconPage()}
+          />
+        ) : (
+          <Scheda
+            {...this.props}
+            descPage={this.getDescPage()}
+            iconPage={this.getIconPage()}
+          />
+        )}
+      </React.Fragment>
+    );
   }
 }
 
  
 const Header =  withRouter(HeaderPage);
-
-export default    withStyles(styles) (Header) ;
+  export default withStyles(styles) (Header) ;  
+ 

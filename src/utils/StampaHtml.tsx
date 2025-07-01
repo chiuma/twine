@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import React  from 'react';
 import parse from 'html-react-parser';
@@ -6,15 +6,17 @@ import parse from 'html-react-parser';
  
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 import { IconsMenu } from '../common/Icons';
+import { CustomComponents } from './CustomComponents';
 
 export interface IProps { 
- urlToPrint: string,
+ urlToPrint?: string,
+ html?: string,
  handleShowStampa:any
     
 }
    
 export interface IState { 
-   html: string,
+   html: string, 
    isInProgress: boolean
 }
 
@@ -24,14 +26,15 @@ class Stampa  extends React.Component <IProps,IState> {
     constructor(props: any) {
       super(props);  
  
-      this.state={   html: '', isInProgress:false}
+      this.state={   html: '', isInProgress:false }
 
     }
  
 
     componentDidMount()
     {  
-
+      if (this.props.urlToPrint !== undefined )
+      {
         this.setState({   isInProgress: true });
         
         const config = {
@@ -46,7 +49,11 @@ class Stampa  extends React.Component <IProps,IState> {
        
             this.setState({   html: response.data  , isInProgress:false});
         });
-
+      }
+      else if (this.props.html !== undefined )
+      {
+        this.setState({   html: this.props.html , isInProgress:false});
+      }
     }
  
  
@@ -90,7 +97,7 @@ export class StampaHtml  extends React.Component <IProps,IState> {
     constructor(props: any) {
       super(props);  
  
-      this.state={   html: '', isInProgress:false}
+      this.state={   html: '', isInProgress:false   }
 
     }
  
@@ -103,7 +110,7 @@ export class StampaHtml  extends React.Component <IProps,IState> {
     }
  
  
- 
+
 
      
   
@@ -119,14 +126,23 @@ export class StampaHtml  extends React.Component <IProps,IState> {
                  
 
             <>
+
             <ReactToPrint content={() => this.componentRef} onAfterPrint={( ) => {this.props.handleShowStampa(false, '')}}>
               <PrintContextConsumer>
                 {({ handlePrint }) => (
                   <>
-                  <Button startIcon={<IconsMenu.StampaIcon />}  size="small" color="primary" variant="contained" onClick={handlePrint}>Stampa</Button>
-                  <Button   onClick={e=>this.props.handleShowStampa(false,'')} size="small" color="primary" variant="contained" style={{marginLeft: '4px'}}>
-                  Chiudi
-                  </Button>
+
+                  <Box  display="flex" flexDirection="row" alignItems="flex-start"  
+                          justifyContent="left"  > 
+                      
+                      <Button startIcon={<IconsMenu.StampaIcon />}  size="small" color="primary" variant="contained" onClick={handlePrint}>Stampa</Button>
+                      
+                      <Button   onClick={e=>this.props.handleShowStampa(false,'')} size="small" color="primary" variant="contained" style={{marginLeft: '4px'}}>
+                      Chiudi
+                      </Button>
+
+          
+                  </Box> 
                   </>
                 )}
               </PrintContextConsumer>

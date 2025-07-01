@@ -45,10 +45,12 @@ class Login  extends React.Component <IProps,IState> {
        
       this.setState({  isInProgress: true  });
       let ris = await authServices.login(this.state.formData.email, this.state.formData.password);
-  
+ 
       if ( ris.esito === "OK")
       { 
-        this.props.execLogin({username: this.state.formData.email,  token: ris.token })
+        this.props.execLogin({username: this.state.formData.email,  
+          profile: ris.profile,
+          token: ris.token })
       
       
       }

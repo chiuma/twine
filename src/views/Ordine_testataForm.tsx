@@ -1,26 +1,290 @@
-import React   from 'react';
- 
- 
-import {     Box,         FormControl,        FormHelperText,    Grid,      } from '@material-ui/core';
- 
-import TextField from '@material-ui/core/TextField/TextField';
- 
-import { withStyles } from "@material-ui/core/styles";
- 
-import   styles   from '../common/globalStyle'
- 
- 
-import { Autocomplete } from '@material-ui/lab';
- 
+import React from 'react';
+import { 
+  Box,
+  FormControl,
+  FormHelperText,
+  Grid, 
+} from '@mui/material';
+
+ import styles from '../common/globalStyle'
 import { Cliente } from '../model/Cliente';
 import { Articolo } from '../model/Articolo';
 import { Ordine, OrdineTestataErrors } from '../model/Ordine';
 import { Provenienza } from '../model/Provenienza';
 import NumberFormat from 'react-number-format';
 import { Colore } from '../model/Colore';
+import { withStyles } from '@mui/styles';
+ 
+import { CustomComponents } from '../utils/CustomComponents';
 
-    
+function FormSm   (props: any  ) {
+  let that = props;
+   return ( 
+    <Grid container spacing={2} >
+    <Grid item xs={12} >
+          <FormControl  >
+          <CustomComponents.CustomAutocomplete
+                disabled={props.readOnly}
+                value={  props.formData.id_cliente === -1 ? null :   props.elenco_clienti.find( x=> x.id_cliente === props.formData.id_cliente) }
+                 options={props.elenco_clienti}
+                 isOptionEqualToValue={(option: Cliente, value: Cliente) => 
+                  {
+                    return option?.id_cliente === value?.id_cliente
+                  }
+                }
+                
+                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
+                id="id_cliente" 
+                onChange={ (event:any, option:any)  => 
+                    props.handleChangeForm ({target: {name: 'id_cliente', value:  option != null ? option.id_cliente : -1 }}  ) 
+                }    
+                label="Cliente"
+              />
+              { props.formDataError.id_cliente !== '' && 
+                <Box>
+                <FormHelperText style={{color: 'red'}}>{props.formDataError.id_cliente}</FormHelperText> 
+                </Box>
+              } 
+              </FormControl>
+      </Grid>
+      <Grid item xs={6}  >
+            <FormControl  >
+            <CustomComponents.CustomTextField   
+             disabled={props.readOnly}
+                        id="data_ricezione"
+                        name="data_ricezione"
+                        label="Data ricezione"
+                        type="date"
+                        error={props.formDataError.data_ricezione !== ""}
+                        helperText={props.formDataError.data_ricezione} 
+                        value={props.formData.data_ricezione.replaceAll("/","-")}  
+                        onChange={props.handleChangeForm}         />
+            </FormControl>
+      </Grid>
 
+      <Grid item xs={6}  >
+            <FormControl  >
+            <CustomComponents.CustomTextField  
+             disabled={props.readOnly}
+                        id="data_consegna"
+                        name="data_consegna"
+                        label="Data consegna"
+                        type="date"
+                        error={props.formDataError.data_consegna !== ""}
+                        helperText={props.formDataError.data_consegna} 
+                        value={props.formData.data_consegna.replaceAll("/","-")}  
+                        onChange={props.handleChangeForm}         />
+            </FormControl>
+      </Grid>
+      <Grid item xs={6} >
+          <FormControl  >
+          
+          <CustomComponents.CustomAutocomplete
+                disabled={props.readOnly}
+                value={  props.formData.id_provenienza === -1 ? null :   props.elenco_provenienze.find( x=> x.id_provenienza === props.formData.id_provenienza) }
+                 options={props.elenco_provenienze}
+                 isOptionEqualToValue={(option: Provenienza, value: Provenienza) => 
+                  {
+                    return option?.id_provenienza === value?.id_provenienza
+                  }
+                }
+                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
+                id="id_provenienza" 
+                onChange={ (event:any, option:any)  => 
+                    props.handleChangeForm ({target: {name: 'id_provenienza', value:  option != null ? option.id_provenienza : -1 }}  ) 
+                }    
+                label="Provenienza"
+              />
+ 
+              </FormControl>
+      </Grid> 
+
+
+ 
+  
+      <Grid item xs={6}  >
+
+          <Box display="flex" flexDirection="row" alignItems="left" justifyContent="space-around">
+          <Box  display="flex" flexDirection="column" alignItems="left" justifyContent="space-around">
+                      <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
+                      <Box   fontWeight={500} color="text.primary"  >
+                           <NumberFormat decimalSeparator=","   prefix={'€ '}
+                              thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
+                              value={props.importo}  
+                              displayType={'text'}  />   
+                          
+                          </Box>
+          </Box>
+          <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
+                
+                <Box  fontWeight={700} style={{color:'red'}}   >Qta</Box>
+                <Box   fontWeight={500} color="text.primary"  >
+                      <NumberFormat decimalSeparator=","   prefix={''}
+                        thousandSeparator="."  decimalScale={0} fixedDecimalScale={true}
+                        value={props.qtaTotale}  
+                        displayType={'text'}  />   
+                          
+                </Box>
+          </Box>
+          </Box>
+      </Grid>
+
+      <Grid item xs={12} >
+          <FormControl  >
+           
+          <CustomComponents.CustomTextField 
+                      size="small"
+                      disabled={props.readOnly}  
+                      InputProps={{
+                        classes: {
+                          root: props.classes.inputRoot,
+                          disabled: props.classes.disabled,
+                        },
+                      }}
+                      id="note"
+                      name="note"
+                      label="Note ordine"
+                      maxlength={500}
+                      value={props.formData.note}
+                      onChange={props.handleChangeForm}
+                    />
+
+  
+              </FormControl>
+      </Grid>
+ 
+
+  </Grid>
+
+  );
+}
+
+function Form   (props: any  ) {
+  let that = props;
+   return ( 
+    <Grid container spacing={2} >
+    <Grid item xs={5}  sm={5}  md={3} >
+          <FormControl  >
+           
+          <CustomComponents.CustomAutocomplete
+                disabled={props.readOnly}
+                value={  props.formData.id_cliente === -1 ? null :   props.elenco_clienti.find( x=> x.id_cliente === props.formData.id_cliente) }
+                 options={props.elenco_clienti}
+                 isOptionEqualToValue={(option: Cliente, value: Cliente) => 
+                  {
+                    return option?.id_cliente === value?.id_cliente
+                  }
+                }
+                
+                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
+                id="id_cliente" 
+                onChange={ (event:any, option:any)  => 
+                    props.handleChangeForm ({target: {name: 'id_cliente', value:  option != null ? option.id_cliente : -1 }}  ) 
+                }    
+                label="Cliente"
+              />
+              { props.formDataError.id_cliente !== '' && 
+                <Box>
+                <FormHelperText style={{color: 'red'}}>{props.formDataError.id_cliente}</FormHelperText> 
+                </Box>
+              } 
+              </FormControl>
+      </Grid>
+      <Grid item xs={2}  sm={2.5}  md={1.5} >
+            <FormControl  >
+            <CustomComponents.CustomTextField   
+             disabled={props.readOnly}
+                        id="data_ricezione"
+                        name="data_ricezione"
+                        label="Data ricezione"
+                        type="date"
+                        error={props.formDataError.data_ricezione !== ""}
+                        helperText={props.formDataError.data_ricezione} 
+                        value={props.formData.data_ricezione.replaceAll("/","-")}  
+                        onChange={props.handleChangeForm}         />
+            </FormControl>
+      </Grid>
+
+      <Grid item xs={2}  sm={2.5}  md={1.5} >
+            <FormControl  >
+            <CustomComponents.CustomTextField  
+             disabled={props.readOnly}
+                        id="data_consegna"
+                        name="data_consegna"
+                        label="Data consegna"
+                        type="date"
+                        error={props.formDataError.data_consegna !== ""}
+                        helperText={props.formDataError.data_consegna} 
+                        value={props.formData.data_consegna.replaceAll("/","-")}  
+                        onChange={props.handleChangeForm}         />
+            </FormControl>
+      </Grid>
+
+      <Grid item xs={2}  sm={2}  md={1} >
+          <FormControl  >
+          
+          <CustomComponents.CustomAutocomplete
+                disabled={props.readOnly}
+                value={  props.formData.id_provenienza === -1 ? null :   props.elenco_provenienze.find( x=> x.id_provenienza === props.formData.id_provenienza) }
+                 options={props.elenco_provenienze}
+                 isOptionEqualToValue={(option: Provenienza, value: Provenienza) => 
+                  {
+                    return option?.id_provenienza === value?.id_provenienza
+                  }
+                }
+                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
+                id="id_provenienza" 
+                onChange={ (event:any, option:any)  => 
+                    props.handleChangeForm ({target: {name: 'id_provenienza', value:  option != null ? option.id_provenienza : -1 }}  ) 
+                }    
+                label="Provenienza"
+              />
+ 
+              </FormControl>
+      </Grid>  
+  
+
+
+
+ 
+      <Grid item xs={6}  sm={10}   md={4}>
+          <FormControl  >
+           
+          <CustomComponents.CustomTextField  
+                      disabled={props.readOnly}   
+                      id="note"
+                      name="note"
+                      maxlength={500}
+                      label="Note ordine"
+                      value={props.formData.note}
+                      onChange={props.handleChangeForm}
+                    />
+
+  
+              </FormControl>
+      </Grid>
+
+      <Grid item xs={2}   sm={2}  md={1} >
+
+
+        <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
+              
+              <Box  fontWeight={700} style={{color:'red', fontSize:'90%'}}   >Totale</Box>
+              <Box   fontWeight={500} color="text.primary"  >
+                    <NumberFormat decimalSeparator=","   prefix={'€ '}
+                      thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
+                      value={props.importo}  
+                      displayType={'text'}  />   
+                        
+              </Box>
+        </Box>
+
+      </Grid>
+
+  </Grid>
+
+  );
+}
 export interface IProps { 
     elenco_colori: Colore[],
     elenco_articoli: Articolo[],
@@ -29,10 +293,9 @@ export interface IProps {
     formData: Ordine ,
     formDataError:  OrdineTestataErrors  ,
     readOnly: boolean ,
-    
+    isMobile: boolean ,
     classes: any,
     handleChangeForm: any,
-  
 
 }
    
@@ -57,117 +320,22 @@ class Ordine_testataForm  extends React.Component <IProps,IState> {
 
  
 
+
     render() {    
- 
+      let qtaTotale = this.props.formData.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex) => accumulator + 
+      (  currentIndex !==  this.props.formData.ordineDettaglio.length-1 ?    ( currentValue.qta  )  : 0)
+              , 0 ) 
         let importo = this.props.formData.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex) => accumulator + 
                          (  currentIndex !==  this.props.formData.ordineDettaglio.length-1 ?    (currentValue.prezzo*currentValue.qta  )  : 0)
                                  , 0 ) 
         return (
+          this.props.isMobile ? 
+            <FormSm  {...this.props}   importo={importo} qtaTotale={qtaTotale} /> 
+            : 
+            <Form  {...this.props}   importo={importo} /> 
+        );
  
-       
-   
-    <Grid container spacing={2} >
-    <Grid item xs={4} >
-          <FormControl  >
-           
-          <Autocomplete
-                disabled={this.props.readOnly}
-                value={  this.props.formData.id_cliente === -1 ? null :   this.props.elenco_clienti.find( x=> x.id_cliente === this.props.formData.id_cliente) }
-                 options={this.props.elenco_clienti}
-                 getOptionSelected={ (option: Cliente ) => 
-                  {
-                    return option?.id_cliente === this.props.formData.id_cliente
-                  }
-                }
-                
-                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
-                id="id_cliente" 
-                onChange={ (event:any, option:any)  => 
-                    this.props.handleChangeForm ({target: {name: 'id_cliente', value:  option != null ? option.id_cliente : -1 }}  ) 
-                }    
-
-                clearOnEscape
-                renderInput={(params) => <TextField {...params}    InputLabelProps={{shrink: true }} label="Cliente" margin="normal" />}
-              />
-              { this.props.formDataError.id_cliente !== '' && 
-                <Box>
-                <FormHelperText style={{color: 'red'}}>{this.props.formDataError.id_cliente}</FormHelperText> 
-                </Box>
-              } 
-              </FormControl>
-      </Grid>
-      <Grid item xs={2}  >
-            <FormControl  >
-            <TextField   size="small"   
-             disabled={this.props.readOnly}
-                        id="data_ricezione"
-                        name="data_ricezione"
-                        label="Data ricezione"
-                        type="date"
-                        error={this.props.formDataError.data_ricezione !== ""}
-                        helperText={this.props.formDataError.data_ricezione}
-
-                        InputLabelProps={{shrink: true }}
-                        value={this.props.formData.data_ricezione.replaceAll("/","-")}  
-                        onChange={this.props.handleChangeForm}         />
-            </FormControl>
-      </Grid>
-
-      <Grid item xs={2} >
-          <FormControl  >
-          
-          <Autocomplete
-                disabled={this.props.readOnly}
-                value={  this.props.formData.id_provenienza === -1 ? null :   this.props.elenco_provenienze.find( x=> x.id_provenienza === this.props.formData.id_provenienza) }
-                 options={this.props.elenco_provenienze}
-                 getOptionSelected={ (option: Provenienza ) => 
-                  {
-                    return option?.id_provenienza === this.props.formData.id_provenienza
-                  }
-                }
-                getOptionLabel={ (option: any) => option != null ?  option.descrizione : ''}
-                id="id_provenienza" 
-                onChange={ (event:any, option:any)  => 
-                    this.props.handleChangeForm ({target: {name: 'id_provenienza', value:  option != null ? option.id_provenienza : -1 }}  ) 
-                }    
-
-                clearOnEscape
-                renderInput={(params) => <TextField {...params}   InputLabelProps={{shrink: true }}  label="Provenienza" margin="normal" />}
-              />
- 
-              </FormControl>
-      </Grid>  
-  
-      <Grid item xs={2}  >
-
-
-          <Box  display="flex" flexDirection="column" alignItems="center" justifyContent="space-around">
-                      <Box  fontWeight={700} style={{color:'red'}}   >Totale</Box>
-                      <Box   fontWeight={500} color="text.primary"  >
-                           <NumberFormat decimalSeparator=","   prefix={'€ '}
-                              thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
-                              value={importo}  
-                              displayType={'text'}  />   
-                          
-                          </Box>
-          </Box>
-
-      </Grid>
-
-
-      <Grid item xs={2}  >
-
-
-
-      </Grid>
-
-  </Grid>
-
- 
-     
-    ) 
- 
-}
+  }
 }
  
  
@@ -175,4 +343,4 @@ class Ordine_testataForm  extends React.Component <IProps,IState> {
     
 
 
-export default withStyles(styles) (Ordine_testataForm);
+export default withStyles(styles) (Ordine_testataForm) ;

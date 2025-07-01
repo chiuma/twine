@@ -1,15 +1,9 @@
- 
-
-import {    Accordion, AccordionDetails, AccordionSummary, Box, Button,    FormControl,   Grid,     TextField, Typography } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
- 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, TextField, Typography, Autocomplete } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
- 
 import { Cliente } from '../model/Cliente';
 import { ConsegnaFiltri } from '../model/Consegna';
- 
- 
+import { CustomComponents } from '../utils/CustomComponents';
 
 interface Props   {
     initFiltri: any; 
@@ -55,12 +49,11 @@ export function Consegne_elencoFiltriView (props: Props ) {
    
           
             <Grid item  xs={2}>
-                <TextField   size="small"   
+              <CustomComponents.CustomTextField   
                               id="data_consegna_effettuata_dal"
                               name="data_consegna_effettuata_dal"
                               label="Data consegna dal"
-                              type="date"
-                              InputLabelProps={{shrink: true }}
+                              type="date" 
                               value={filtri.data_consegna_effettuata_dal}   
                               onBlur={ ( ) => {  
                                 props.handleExecRicerca (filtri ) ;
@@ -73,13 +66,11 @@ export function Consegne_elencoFiltriView (props: Props ) {
             </Grid>
 
             <Grid item  xs={2}>
-                <TextField   size="small"   
+                <CustomComponents.CustomTextField   
                               id="data_consegna_effettuata_al"
                               name="data_consegna_effettuata_al"
                               label="Data consegna al"
-                              type="date" 
-
-                              InputLabelProps={{shrink: true }}
+                              type="date"  
                               value={filtri.data_consegna_effettuata_al}   
 
                               onBlur={ ( ) => {  
@@ -98,26 +89,22 @@ export function Consegne_elencoFiltriView (props: Props ) {
             { props.showFiltroCliente && 
             <FormControl  >
          
-            <Autocomplete
-                  value={  filtri.id_cliente === -1 ? null :   props.elenco_clienti.find( x=> x.id_cliente === filtri.id_cliente) }
+         <CustomComponents.CustomAutocomplete
+                  value={filtri.id_cliente === -1 ? null : props.elenco_clienti.find(x => x.id_cliente === filtri.id_cliente)}
                    options={props.elenco_clienti}
-                   getOptionSelected={ (option: Cliente ) => 
-                    {
-                      return option.id_cliente === filtri.id_cliente
-                    }
-                  }
-                   getOptionLabel={ (option: any) => option  !== null ?    option.descrizione : ''}
-                   onChange={ (event:any, option:any) => {  
+                   isOptionEqualToValue={(option: Cliente, value: Cliente) => 
+                     option?.id_cliente === value?.id_cliente
+                   }
+                   getOptionLabel={(option: any) => option !== null ? option.descrizione : ''}
+                   onChange={(event: any, option: any) => {  
  
-                    let newFiltri =  {...filtri , ...{id_cliente: ( option != null ? option.id_cliente : -1) }}
+                    let newFiltri =  {...filtri , ...{id_cliente: (option != null ? option.id_cliente : -1) }}
                     setFiltri( newFiltri); 
                     props.handleExecRicerca (newFiltri ) ;
  
                     } }  
                   id="id_cliente" 
-                  clearOnEscape
-                  renderInput={(params) => <TextField {...params}   InputLabelProps={{shrink: true }} label="Cliente" margin="normal" />}
-                />
+                  label="Cliente"  />
              </FormControl>
                }
             </Grid>

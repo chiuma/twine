@@ -1,7 +1,9 @@
 ﻿<?php
 // https://www.cimicapp.com/temp/twine/api/ordini_elenco.php
   error_reporting(0);
+  
  require_once "./JwtConfig.php";
+ require_once "./cors.php"; 
   header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -23,19 +25,21 @@ try
  	
 	$data_consegna_dal = trim($obj["data_consegna_dal"]);
 	$data_consegna_al = trim($obj["data_consegna_al"]);
-			
+	$dataToken  = JwtConfig::decodeDataToken();
+	$username =   $dataToken->username;		
+	$profile =   $dataToken->profile;		
 		
-			$json_elenco    = array();	
-  		$sql = 
-  	" SELECT   ordini.id_ordine, ordini.id_cliente , ordini.id_provenienza,  "
+	$json_elenco    = array();	
+	$sql = 
+  	" SELECT   ordini.id_ordine,ordini.note, ordini.user_new, ordini.id_cliente , ordini.id_provenienza,  "
   	. "		DATE_FORMAT(ordini.data_ricezione, '%Y/%m/%d') as data_ricezione_formatted,   "
 		. "		  ordini_dettaglio.id_ordine_dettaglio, ordini_dettaglio.id_articolo_base, ordini_dettaglio.qta,  ordini_dettaglio.prezzo,  "
 		. " ordini_dettaglio.id_colore_2, colori_2.codice as colore_codice_2, colori_2.descrizione as colore_descrizione_2 , "
 		. " ordini_dettaglio.id_colore_3, colori_3.codice as colore_codice_3, colori_3.descrizione as colore_descrizione_3 , "
 		. "		ordini_dettaglio.id_colore  , "
-		. "		DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y/%m/%d') as data_consegna_formatted,   "
+		. "		DATE_FORMAT(ordini.data_consegna, '%Y/%m/%d') as data_consegna_formatted,   "
 		
-		. "		ordini_dettaglio.evaso,  ordini_dettaglio.nota,  "
+		. "		ordini_dettaglio.evaso,    "
 		. "		consegne_dettaglio.id_consegna_dettaglio ,   "
 		. "		articoli_base.id_articolo_base, articoli_base.codice, articoli_base.descrizione,  "
 		. "		colori.codice as colore_codice, colori.descrizione as colore_descrizione , "
@@ -45,8 +49,7 @@ try
 		. "	INNER  JOIN ordini_dettaglio "
 		. "	ON ordini.id_ordine = ordini_dettaglio.id_ordine  "
 				
-		. "	INNER  JOIN qr_ordini_data_consegna "
-		. "	ON ordini.id_ordine = qr_ordini_data_consegna.id_ordine  " 
+ 
 		
 		. "	INNER  JOIN clienti "
 		. "	ON ordini.id_cliente = clienti.id_cliente  "
@@ -66,11 +69,16 @@ try
 		. "	LEFT JOIN consegne_dettaglio  "
 		. "	ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio    "
 		
-		. " WHERE   	DATE_FORMAT(qr_ordini_data_consegna.data_consegna_max, '%Y-%m-%d') >= '".$data_consegna_dal ."' ";
+		. " WHERE   	DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d') >= '".$data_consegna_dal ."' ";
 		
+		
+		if ($profile != "admin")
+		{
+			$sql = $sql . " AND ordini.user_new = '".$username ."'";
+		}
 		if ( $data_consegna_al != "")
 		{
-			$sql = $sql . " AND DATE_FORMAT(qr_ordini_data_consegna.data_consegna_min, '%Y-%m-%d') <= '".$data_consegna_al ."' ";
+			$sql = $sql . " AND DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d') <= '".$data_consegna_al ."' ";
 		}
 		
 		/**
@@ -81,8 +89,9 @@ try
 		**/
 		
 		
-		$sql = $sql 
-		. "	ORDER BY ordini.data_ricezione , articoli_base.codice, colori.codice   ";
+			$sql = $sql 
+				. "	ORDER BY ordini.data_ricezione , articoli_base.codice, colori.codice   ";
+	 
  
 			$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -110,6 +119,8 @@ try
 						'id_ordine'=>     intval ( $row["id_ordine"]) ,
 		  			
 		  			'id_cliente'=>     intval ( $row["id_cliente"]) ,
+		  			'note'=>  $row["note"]  ,
+		  			'user_new'=>  $row["user_new"] == null ? "" :  $row["user_new"], 
 		  			'cliente_descrizione'=>     $row["cliente_descrizione"]  , 
  					 
 		  			
@@ -137,8 +148,7 @@ try
 		  			'data_consegna'=>     $row["data_consegna_formatted"] , 
 		  			'data_ricezione'=>     $row["data_ricezione_formatted"] , 
 		  			'evaso'=>    ( $row["evaso"] ==  1 ? true : false), 
-		  			'consegnato'=>    ( $row["id_consegna_dettaglio"]   ? true : false), 
-		  			'nota' =>     $row["nota"]  ,
+		  			'consegnato'=>    ( $row["id_consegna_dettaglio"]   ? true : false),  
 		  			'prezzo'=> floatval ($row["prezzo"]) ,
 		  			'qta'=> intval ($row["qta"]) , 
 		  		 

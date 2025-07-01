@@ -27,8 +27,9 @@ class JwtConfig
 {
 	static $KEY    = '_TWINE@CHIUma@SEC_';
 	static $DOMAIN    = 'https://localhost';
-	static $tokenDuration = 3400; // in secondi
-	public static function makeToken($payload)
+	static $tokenDuration = 18000; // in secondi
+	
+	public static function makeToken($data)
 	{
 			
 			$issuedAt   = time();
@@ -109,7 +110,18 @@ class JwtConfig
 		
 	}
 	
-	 
+	  public static function decodeDataToken( )
+    {
+        try {
+        	$token = getTokenFromHeader();
+        		
+            $decoded = JWT::decode($token, JwtConfig::$KEY, array('HS256'));
+             
+            return $decoded->data;
+        } catch (Exception $e) {
+            return null;
+        }
+    }	 
 }
 
 ?>

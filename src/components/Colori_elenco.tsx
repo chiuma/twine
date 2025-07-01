@@ -4,13 +4,13 @@ import { Colore } from '../model/Colore';
  
 
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 
  
 import { connect } from 'react-redux';
 import { Colore_scheda } from './Colore_scheda';
 import { Colori_elencoFiltriView } from '../views/Colori_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { coloriServices } from '../services/coloriServices';
 import {NotificationManager} from 'react-notifications'; 
 import { coloriActions } from '../actions/colori.action';
@@ -182,10 +182,10 @@ class Colori_elencoPage  extends React.Component <IProps,IState> {
         // console.log("XXXXXXXX - " ,   this.props.status , this.props.elenco_storico);
           return (
             
-            <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
-
+            <Box  display="flex" flexDirection="column" p={1} alignItems="center"  justifyContent="center"  > 
+ 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare il Colore: ' +      
@@ -227,7 +227,7 @@ class Colori_elencoPage  extends React.Component <IProps,IState> {
                   scheda={this.state.scheda_selected } />
               }
 
-</Box>
+          </Box>
           
             )
           }

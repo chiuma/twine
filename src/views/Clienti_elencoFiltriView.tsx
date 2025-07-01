@@ -1,13 +1,14 @@
 import React from 'react'; 
 
 
-import {    Accordion, AccordionDetails, AccordionSummary, Box, Button, Container,   Grid,         TextField, Typography } from '@material-ui/core';
+import {    Accordion, AccordionDetails, AccordionSummary, Box, Button, Container,   Grid,         TextField, Typography } from '@mui/material';
  
  
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 import { Cliente, ClienteFiltri } from '../model/Cliente';
 import { IconsMenu } from '../common/Icons';
+import { CustomComponents } from '../utils/CustomComponents';
  
  
 
@@ -48,12 +49,11 @@ export function Clienti_elencoFiltriView (props: Props ) {
   
           <Grid container spacing={3}      alignItems="flex-end"   >
             <Grid item xs={12} sm={12} md={4}>
-              <TextField  size="small"  
+               <CustomComponents.CustomTextField  
                                 id="descrizione"
                                 name="descrizione"
                                 type="string"
-                                label="Descrizione"
-                                InputLabelProps={{shrink: true}}
+                                label="Descrizione" 
                                 value={filtri.descrizione}   
 
                                 onChange={ (event:any) => { 
@@ -66,12 +66,11 @@ export function Clienti_elencoFiltriView (props: Props ) {
                             />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <TextField  size="small"  
+               <CustomComponents.CustomTextField   
                                 id="comune"
                                 name="comune"
                                 type="string"
-                                label="Comune"
-                                InputLabelProps={{shrink: true}}
+                                label="Comune" 
                                 value={filtri.comune}   
 
                                 onChange={ (event:any) => { 
@@ -83,12 +82,11 @@ export function Clienti_elencoFiltriView (props: Props ) {
             </Grid>
 
             <Grid item xs={12} sm={12} md={4}>
-                <TextField   size="small"   
+                 <CustomComponents.CustomTextField    
                               id="piva"
                               name="piva"
                               label="P. Iva o Cod. fiscale"
-                              type="string"
-                              InputLabelProps={{shrink: true}}
+                              type="string" 
                               value={filtri.piva}   
 
                               onChange={ (event:any) => { 
@@ -131,7 +129,7 @@ export function Clienti_elencoFiltriView (props: Props ) {
 
         <Button startIcon={<IconsMenu.NuovoIcon />} 
         onClick={() => { props.handleNewCliente(new Cliente())}}  size="small" color="primary" variant="contained" >
-              Nuovo Cliente
+              Nuovo
         </Button>
 
       </Box>

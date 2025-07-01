@@ -4,13 +4,35 @@ import React  from 'react';
 import { connect } from 'react-redux';
  
  
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@mui/material';
 import { consegneServices } from '../services/consegneServices';
 import {NotificationManager} from 'react-notifications';  
 import { CommonFunctions } from '../common/CommonFunctions';
 import { Consegne_elencoFiltriView } from '../views/Consegne_elencoFiltriView';
 import { ConsegnaFiltri } from '../model/Consegna';
+ import { Bar,   } from 'react-chartjs-2';
+import { createFalse } from 'typescript';
+
+import {
+  Chart as ChartJS,
+  CategoryScale, // <<< ESSENZIALE per l'asse 'category'
+  LinearScale,   // <<< ESSENZIALE per l'asse numerico (Y)
+  BarElement,    // <<< ESSENZIALE per disegnare le barre
+  Title,         // Stai usando il plugin title
+  Tooltip,       // Anche se non esplicitamente configurato, è bene registrarlo
+  Legend         // Stai usando il plugin legend (anche se display: false)
+} from 'chart.js';
  
+
+// 2. Registra i componenti con ChartJS
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export interface IProps {  
     classes: any,  
@@ -21,9 +43,9 @@ export interface IProps {
 export interface IState { 
     chartDataConsegneClienti: any,
     chartDataConsegneMeseAnno: any,
-    chartDataOrdiniClienti: any, 
+ 
     chartDataConsegneArticoli: any,
-    chartDataArticoli:any,
+ 
     isInProgress: boolean,
 }
 
@@ -81,7 +103,8 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
     
     constructor(props: any) {
       super(props);  
-      this.state = {  chartDataConsegneArticoli: [], chartDataConsegneMeseAnno: [] , chartDataConsegneClienti: [],  chartDataArticoli:[], chartDataOrdiniClienti :[], isInProgress: false ,}; 
+      this.state = {  chartDataConsegneArticoli: [], chartDataConsegneMeseAnno: [] , chartDataConsegneClienti: [], 
+         isInProgress: true ,}; 
       this.handleExecRicerca = this.handleExecRicerca.bind(this);
       this.lastFiltri.data_consegna_effettuata_dal = "";
     }
@@ -91,15 +114,15 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
         this._isMounted = false;
       }
      
-      componentDidMount()
-      { 
-        this._isMounted = true;
-         
-        this.loadDati();
+    componentDidMount()
+    { 
+      this._isMounted = true;
         
-        
-        
-      }
+      this.loadDati();
+      
+      
+      
+    }
 
     async loadDati()
     {
@@ -111,13 +134,8 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
       if ( resp.esito === "OK" )
       {
  
-        let chartDataArticoli = formatToChartData ( 
-          resp.elenco_consegne_articoli_annomese.map ( x => Object.assign( {},x, {id: x.articolo_base_codice,  totale: x.importo_totale}))); 
-
-
-        let chartDataOrdiniClienti = formatToChartData ( 
-          resp.elenco_consegne_clienti_annomese.map ( x => Object.assign( {},x, {id: x.id_cliente,  totale: x.importo_totale}))); 
-
+ 
+ 
         let chartLabelsConsegneMeseAnno =  resp.elenco_consegne_annomese.map ( x => x.anno_mese); 
         let chartColorsConsegneMeseAnno =  resp.elenco_consegne_annomese.map ( x =>  getRandomColor());        
         let chartDataConsegneMeseAnno  = {
@@ -166,7 +184,10 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
 
 
-       this.setState({chartDataConsegneArticoli: chartDataConsegneArticoli, isInProgress: false , chartDataConsegneMeseAnno:  chartDataConsegneMeseAnno, chartDataConsegneClienti: chartDataConsegneClienti,  chartDataArticoli: chartDataArticoli , chartDataOrdiniClienti: chartDataOrdiniClienti  }); 
+       this.setState({chartDataConsegneArticoli: chartDataConsegneArticoli,
+         isInProgress: false , chartDataConsegneMeseAnno:  chartDataConsegneMeseAnno, 
+         chartDataConsegneClienti: chartDataConsegneClienti 
+           }); 
       }
       else
       {
@@ -196,60 +217,9 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
     render() {    
       const that = this;
-
-      const    optionsOrdiniCLienti = {
-        indexAxis: 'x' as const,
-        elements: {
-            bar: {
-                borderWidth: 2,
-            },
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-                label: function(context) { 
-                return  context.dataset.label + " - " +  that.props.elenco_clienti.find( (x :any) => x.id_cliente === parseInt(context.dataset.label))?.descrizione
-                } 
-              } 
-            }    ,
-                  
-          legend: {
-             display: false,
-          },
-          title: {
-            display: true,
-            text: 'CONSEGNE CLIENTI x MESE ANNO',
-          },
-        },
  
-      };
-
-      const optionsArticoliOrdinati = {
-        indexAxis: 'x' as const,
-        elements: {
-            bar: {
-                borderWidth: 2,
-            },
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-                label: function(context:any) {  
-                return  context.dataset.label + " - " +  that.props.elenco_articoli.find( (x :any) => x.codice === context.dataset.label)?.descrizione
-                } 
-              } 
-            }    ,
-          legend: {
-             display: false,
-          },
-          title: {
-            display: true,
-            text: 'CONSEGNE ARTICOLI X MESE ANNO',
-          },
-        },
+  
  
-      };
-      
 
  
    const optionsConsegneMeseAnno = {
@@ -376,8 +346,8 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
       };
 
 
-
-
+ if  (this.state.isInProgress==false) 
+    console.log("this.state.chartDataConsegneMeseAnno",   this.state.chartDataConsegneMeseAnno )
 
         return (
 
@@ -406,9 +376,19 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
 
  
   
-            
+            <Box width={'60%'} mt={6}>
+              <Bar data={this.state.chartDataConsegneMeseAnno} options={optionsConsegneMeseAnno} /> 
+            </Box>
  
 
+            <Box width={'95%'} mt={6}>
+                <Bar data={this.state.chartDataConsegneClienti} options={optionsConsegneCliente}  />      
+            </Box>
+
+
+            <Box width={'95%'} mt={6}>
+                <Bar data={this.state.chartDataConsegneArticoli} options={optionsConsegneArticoli}  />      
+            </Box>
 
  
       

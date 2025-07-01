@@ -1,6 +1,7 @@
 ﻿<?php
 
 error_reporting(0);
+require_once "./cors.php"; 
 header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -15,7 +16,7 @@ $json_elenco    = array();
 						" FROM colori " .
 						" ORDER BY colori.codice, colori.descrizione "; 
 	
-			$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
+			$conn   = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 			$sth = $conn->prepare($sql);

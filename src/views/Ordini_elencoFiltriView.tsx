@@ -1,15 +1,13 @@
-import {    Accordion, AccordionDetails, AccordionSummary, Box, Button,   FormControl,   Grid,          InputLabel,     MenuItem,     Select,     TextField, Typography } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
- 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React from 'react';
+import {    Accordion, AccordionDetails, AccordionSummary, Box, Button,   Container,   FormControl,   Grid,          InputLabel,     MenuItem,     Select,     TextField, Typography } from '@mui/material';
+import { Autocomplete } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
- 
 import { Cliente } from '../model/Cliente';
 import { Options, OrdineFiltri } from '../model/Ordine';
- 
 import { Articolo } from '../model/Articolo';
 import { Provenienza } from '../model/Provenienza';
- 
+import { CustomComponents } from '../utils/CustomComponents';
 
 interface Props   {
     initFiltri: any; 
@@ -17,7 +15,8 @@ interface Props   {
     elenco_clienti: Cliente[],
     elenco_articoli:Articolo[],
     elenco_provenienze:Provenienza[]
-    tipo_elenco:string
+    tipo_elenco:string,
+    
     
   }
 
@@ -33,8 +32,10 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
 
       <Box  display="flex" flexDirection="row" alignItems="center"  justifyContent="center"  width="100%" >
-      <Box width="100%"> 
- 
+     <Box width="100%"> 
+  
+        
+  
           
         <Accordion>
           <AccordionSummary
@@ -51,13 +52,12 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
           <Grid container spacing={3}      >
 
-          <Grid item xs={2}  >
-                <TextField   size="small"   
+          <Grid item xs={4} sm={3} md={2}>
+                 <CustomComponents.CustomTextField  
                               id="data_ricezione_dal"
                               name="data_ricezione_dal"
                               label="Data ricezione dal"
-                              type="date"
-                              InputLabelProps={{shrink: true }}
+                              type="date" 
                               value={filtri.data_ricezione_dal}   
                               onChange={ (event:any) => { 
                                 let newFiltri =  {...filtri , ...{data_ricezione_dal: event.target.value }}
@@ -66,13 +66,12 @@ export function Ordini_elencoFiltriView (props: Props ) {
                                 } }     />
             </Grid>
 
-            <Grid item xs={2} >
-                <TextField   size="small"   
+            <Grid item  xs={4} sm={3} md={2} >
+                 <CustomComponents.CustomTextField  
                               id="data_ricezione_al"
                               name="data_ricezione_al"
                               label="Data ricezione al"
-                              type="date"
-                              InputLabelProps={{shrink: true }}
+                              type="date" 
                               value={filtri.data_ricezione_al}   
                               onChange={ (event:any) => {   
                                   let newFiltri =  {...filtri , ...{data_ricezione_al: event.target.value }}
@@ -81,13 +80,12 @@ export function Ordini_elencoFiltriView (props: Props ) {
                                 }} />
             </Grid>
 
-            <Grid item  xs={2}>
-                <TextField   size="small"   
+            <Grid item  xs={4} sm={3} md={2}>
+                 <CustomComponents.CustomTextField   
                               id="data_consegna_dal"
                               name="data_consegna_dal"
                               label="Data consegna dal"
-                              type="date"
-                              InputLabelProps={{shrink: true }}
+                              type="date" 
                               value={filtri.data_consegna_dal}   
                               onChange={ (event:any) => {                                 
                                 let newFiltri =  {...filtri , ...{data_consegna_dal: event.target.value }}
@@ -98,13 +96,12 @@ export function Ordini_elencoFiltriView (props: Props ) {
                                 } }     />
             </Grid>
 
-            <Grid item  xs={2}>
-                <TextField   size="small"   
+            <Grid item  xs={4} sm={3} md={2}>
+                 <CustomComponents.CustomTextField    
                               id="data_consegna_al"
                               name="data_consegna_al"
                               label="Data consegna al"
-                              type="date"
-                              InputLabelProps={{shrink: true }}
+                              type="date" 
                               value={filtri.data_consegna_al}   
                               onChange={ (event:any) => {  
                                 
@@ -118,8 +115,8 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
             {props.tipo_elenco==="dettaglio" &&
  
-            <Grid item xs={1}>
-              <FormControl >
+            <Grid item xs={3} sm={2} md={1}>
+              <FormControl variant="standard">
               <InputLabel shrink id="demo-simple-select-label">Evasi</InputLabel>
               <Select 
                   id="evaso"
@@ -140,9 +137,9 @@ export function Ordini_elencoFiltriView (props: Props ) {
             </Grid>
              
           }     
-            <Grid item xs={1}>
+            <Grid item  xs={3} sm={2} md={1}>
             
-            <FormControl >
+            <FormControl  variant="standard"> 
               <InputLabel shrink id="demo-simple-select-label">Consegnati</InputLabel>
               <Select 
                   id="consegnato "
@@ -167,13 +164,13 @@ export function Ordini_elencoFiltriView (props: Props ) {
   
 
             
-            <Grid item  xs={3}>
-            <FormControl  >
+            <Grid item   xs={5} sm={4} md={3}>
+            <FormControl  variant="standard">
        
-            <Autocomplete
+            <CustomComponents.CustomAutocomplete
                   value={  filtri.id_cliente === -1 ? null :   props.elenco_clienti.find( x=> x.id_cliente === filtri.id_cliente) }
                    options={props.elenco_clienti}
-                   getOptionSelected={ (option: Cliente ) => 
+                   isOptionEqualToValue={ (option: Cliente ) => 
                     {
                       return option.id_cliente === filtri.id_cliente
                     }
@@ -187,20 +184,18 @@ export function Ordini_elencoFiltriView (props: Props ) {
  
                     } }  
                   id="id_cliente" 
-                  clearOnEscape
-                  renderInput={(params) => <TextField {...params}  InputLabelProps={{shrink: true }}  label="Cliente" margin="normal" />}
+                  label="Cliente"
                 />
              </FormControl>
             </Grid>
   
 
-            <Grid item  xs={2}>
-                <TextField  size="small"  
+            <Grid item   xs={4} sm={3} md={2}>
+                <CustomComponents.CustomTextField  
                                 id="iniziali_cliente"
                                 name="iniziali_cliente"
                                 type="string"
-                                label="Cliente iniziali"
-                                InputLabelProps={{shrink: true}}
+                                label="Cliente iniziali" 
                                 value={filtri.iniziali_cliente}   
 
                                 onChange={ (event:any) => { 
@@ -217,13 +212,13 @@ export function Ordini_elencoFiltriView (props: Props ) {
 
             {props.tipo_elenco==="dettaglio" &&
             <>
-            <Grid item  xs={3}>
+            <Grid item   xs={5} sm={4} md={3}>
             <FormControl  >
            
-            <Autocomplete
+            <CustomComponents.CustomAutocomplete
                   value={  filtri.id_articolo_base === -1 ? null :   props.elenco_articoli.find( x=> x.id_articolo_base === filtri.id_articolo_base) }
                    options={props.elenco_articoli}
-                   getOptionSelected={ (option: Articolo ) => 
+                   isOptionEqualToValue={ (option: Articolo ) => 
                     {
                       return option.id_articolo_base === filtri.id_articolo_base
                     }
@@ -245,8 +240,7 @@ return  option  !== null && option.id_articolo_base !== -1 ? option.codice  + "-
  
                     } }  
                   id="id_articolo" 
-                  clearOnEscape
-                  renderInput={(params) => <TextField {...params}  InputLabelProps={{shrink: true }}  label="Articolo" margin="normal" />}
+                  label="Articolo"
                 />
                 </FormControl>
 
@@ -254,13 +248,13 @@ return  option  !== null && option.id_articolo_base !== -1 ? option.codice  + "-
               </>
             }
 
-            <Grid item  xs={2}>
+            <Grid item   xs={4} sm={3} md={2}>
             <FormControl  >
       
-            <Autocomplete
+            <CustomComponents.CustomAutocomplete
                   value={  filtri.id_provenienza === -1 ? null :   props.elenco_provenienze.find( x=> x.id_provenienza === filtri.id_provenienza) }
                    options={props.elenco_provenienze}
-                   getOptionSelected={ (option: Provenienza ) => 
+                   isOptionEqualToValue={ (option: Provenienza ) => 
                     {
                       return option.id_provenienza === filtri.id_provenienza
                     }
@@ -282,14 +276,13 @@ return  option  !== null && option.id_provenienza !== -1 ?  option.descrizione :
  
                     } }  
                   id="id_provenienza" 
-                  clearOnEscape
-                  renderInput={(params) => <TextField {...params}   InputLabelProps={{shrink: true }} label="Provenienza" margin="normal" />}
+                  label="Provenienza"
                 />
                 </FormControl>
 
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} >
               <Box  display="flex" flexDirection="row" alignItems=""  justifyContent="flex-end">
                <Button onClick={ e => 
                         {                           
@@ -312,9 +305,7 @@ return  option  !== null && option.id_provenienza !== -1 ?  option.descrizione :
           </AccordionDetails>
         </Accordion>
 
-
-            
-
+ 
       </Box>
  
     </Box>

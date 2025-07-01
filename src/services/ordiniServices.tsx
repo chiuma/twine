@@ -61,7 +61,7 @@ async function   getElenco  (   data_consegna_dal , data_consegna_al  )
 {
 
     try {
-       
+  
         const sUrl = ConstantUtils.url.SERVER_URL + "/ordini_elenco.php";   
         const params = {  username: sessionStorage.getItem("username"),  data_consegna_dal : data_consegna_dal  , data_consegna_al: data_consegna_al};
         const config = {

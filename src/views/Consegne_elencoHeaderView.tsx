@@ -1,20 +1,12 @@
- 
-import {     Box, Button,      Paper,      } from '@material-ui/core';
- 
- 
- 
+import { Box, Button, Paper } from '@mui/material';
 import NumberFormat from 'react-number-format';
 import { IconsMenu } from '../common/Icons';
- 
 
 interface Props   {
     handleStampaEtichette:any,
     handleNewConsegna:any,
     elenco: any, 
- 
-    
-    
-  } 
+} 
 
 export function Consegne_elencoHeaderView (props: Props ) {
  
@@ -49,8 +41,7 @@ export function Consegne_elencoHeaderView (props: Props ) {
                         </Box>    
                     </>
                 
-                {sessionStorage.getItem("username")==="fulladmin" &&
-                    <>
+    
                         <Box ml={2} fontWeight={700} style={{color:'red'}}   >Totale</Box>
                         <Box   fontWeight={500} color="text.primary"  ml={1} >
                             <NumberFormat decimalSeparator=","  style={{ whiteSpace: "nowrap" }}
@@ -99,9 +90,7 @@ export function Consegne_elencoHeaderView (props: Props ) {
                                 displayType={'text'}  />   
                             
                             </Box>
-                  
-                    </>
-                    } 
+                 
                 </Box>
 
                 <Box width="20%" display="flex" flexDirection="row" alignItems="center" justifyContent="flex-end">

@@ -1,28 +1,19 @@
 import React from 'react'; 
 
-import {     Box,  IconButton, TableHead, TableSortLabel} from '@material-ui/core';
+ 
 
-import   styles   from '../common/globalStyle'
+import styles from '../common/globalStyle'
  
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
- 
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
- 
- 
-import Paper from '@material-ui/core/Paper';
-  
-import EditIcon from '@material-ui/icons/Search';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from "@material-ui/core/styles";
- 
+import EditIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import { Articolo } from '../model/Articolo';
 import {    Order, tableUtility,   } from '../common/tableUtility';
  
 import NumberFormat from 'react-number-format';
+import { withStyles } from '@mui/styles';
+import { TableHead, TableRow, TableCell, TableSortLabel, IconButton, Box, Paper, TableContainer, TableBody, TablePagination } from '@mui/material';
+import { Table } from 'react-bootstrap';
  
  
 
@@ -68,7 +59,7 @@ function TableHeader   (props: any  ) {
 
  
             
-            {isEditMode &&
+            {isEditMode && sessionStorage.getItem("profile") === "admin" &&
             <TableCell></TableCell>
             }
 
@@ -97,17 +88,17 @@ function TableRows   (props: any ) {
 
         </TableCell> 
         
-      {isEditMode &&
-      <TableCell align="right"   >
-
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.deleteScheda(row);}}>
-          <DeleteIcon />
-        </IconButton>    
-   
-        <IconButton color="primary"   component="span"   onClick={() => { propieta.showScheda(row);}}>
-          <EditIcon />
-        </IconButton>
-        </TableCell> 
+      {isEditMode &&  sessionStorage.getItem("profile") === "admin" &&
+      <TableCell align="right">
+        <Box display="flex" flexDirection="row" flexWrap="nowrap" alignItems="center">
+          <IconButton color="primary" component="span" onClick={() => { propieta.deleteScheda(row); }}>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton color="primary" component="span" onClick={() => { propieta.showScheda(row); }}>
+            <EditIcon />
+          </IconButton>
+        </Box>
+      </TableCell> 
       }
            
       
@@ -189,11 +180,10 @@ class Articoli_elencoView  extends React.Component <IProps,IState> {
   return (
 
  
+ 
 
-
-<Box  display="flex" flexDirection="row" alignItems="center"    
-width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}} 
-    justifyContent="center" > 
+<Box  display="flex" flexDirection="row" alignItems="center"    justifyContent="center"
+    width={'100%'}  > 
  
           <Paper className={this.props.classes.paperElenco} variant="outlined" >
 
@@ -206,7 +196,6 @@ width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}}
 
                   <TableHeader
                     isEditMode={this.props.isEditMode}
-                    classes={this.props.classes} 
                     order={this.state.order}
                     orderBy={this.state.orderBy} 
                     onRequestSort={this.handleRequestSort}
@@ -246,8 +235,6 @@ width={{ xs: '98%', sm: '90%' , md: '75%', lg: '65%', xl: '60%',}}
   }
 }
 
- 
- 
-export default withStyles(styles) (Articoli_elencoView);
+export default withStyles(styles) (Articoli_elencoView) ;
 
  

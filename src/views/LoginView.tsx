@@ -1,16 +1,11 @@
 import React  from 'react';
- 
- 
-import {     Box,   Button, CircularProgress,        FormControl,    Grid,    Paper } from '@material-ui/core';
- 
-import TextField from '@material-ui/core/TextField/TextField';
- 
-import { withStyles } from "@material-ui/core/styles";
-import Alert from '@material-ui/lab/Alert';
- 
- 
-import   styles   from '../common/globalStyle'
+import { TextField, Box, Button, CircularProgress, FormControl, Grid, Paper } from '@mui/material';
+import Alert from '@mui/material/Alert'; 
+import { withStyles } from '@mui/styles';
+import styles from '../common/globalStyle';
 import { ConstantUtils } from '../ConstantUtils';
+import { CustomComponents } from '../utils/CustomComponents';
+
 export interface IProps { 
     formData: any,
     error_message: string,
@@ -65,9 +60,8 @@ class LoginView  extends React.Component <IProps,IState> {
 
 
     render() {    
- //  console.log(this.state.mex_letto, this.props.error_message)
-       
-        
+ 
+ 
         return (
 
     <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
@@ -103,16 +97,15 @@ class LoginView  extends React.Component <IProps,IState> {
 
                         <Grid container spacing={4} >
 
-                        <Grid item xs={12} >
-                            <TextField  size="small"  
+                        <Grid item xs={12} > 
+                            <CustomComponents.CustomTextField  
                                 InputLabelProps={{shrink: true}} 
                                 InputProps={{ 
                                     classes:{
                                     root: this.props.classes.inputRoot,
                                     disabled: this.props.classes.disabled,
                                     }
-                                }}
-                                
+                                }} 
                                 id="email"
                                 name="email"
                                 label="Utente"
@@ -123,7 +116,7 @@ class LoginView  extends React.Component <IProps,IState> {
                         </Grid>
 
                         <Grid item xs={12} >
-                            <TextField  size="small"  
+                            <CustomComponents.CustomTextField  
                                 InputLabelProps={{shrink: true}} 
                                 InputProps={{ 
                                     classes:{
@@ -170,6 +163,5 @@ class LoginView  extends React.Component <IProps,IState> {
  
  
  
-
-
-export default withStyles(styles) (LoginView);
+export default withStyles(styles) (LoginView) ;
+ 

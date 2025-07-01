@@ -2,6 +2,7 @@
 // https://www.cimicapp.com/temp/twine/api/ordini_stampa.php
 error_reporting(0);
 require_once "./JwtConfig.php";
+require_once "./cors.php"; 
 	$authCheck = JwtConfig::checkToken();
 	if (  $authCheck["esito"] === "NOT_OK")
 	{
@@ -130,14 +131,14 @@ try
 		
 			if ($_GET["data_consegna_dal"] != "")
 			{
-				$where = $where. " AND 	DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y-%m-%d')   >= '" . $_GET["data_consegna_dal"] . "' ";
+				$where = $where. " AND 	DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d')   >= '" . $_GET["data_consegna_dal"] . "' ";
 			}
 		
 			if ($_GET["data_consegna_al"] != "")
 			
 			{ 
  
-				$where = $where. " AND 	DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y-%m-%d' ) <= '"  . $_GET["data_consegna_al"] . "' ";
+				$where = $where. " AND 	DATE_FORMAT(ordini.data_consegna, '%Y-%m-%d' ) <= '"  . $_GET["data_consegna_al"] . "' ";
 			}
 			
 			

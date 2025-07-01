@@ -1,13 +1,14 @@
 import React from 'react'; 
 
 
-import {    Accordion, AccordionDetails, AccordionSummary, Box, Button, Container,   Grid,         TextField, Typography } from '@material-ui/core';
+import {    Accordion, AccordionDetails, AccordionSummary, Box, Button, Container,   Grid,         TextField, Typography } from '@mui/material';
  
  
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 import { Articolo } from '../model/Articolo';
 import { IconsMenu } from '../common/Icons';
+import { CustomComponents } from '../utils/CustomComponents';
 
 
 interface Props   {
@@ -51,12 +52,11 @@ export function Articoli_elencoFiltriView (props: Props ) {
           <Grid container spacing={3}      alignItems="flex-end"   >
 
           <Grid item xs={12} sm={12} md={4}>
-                <TextField   size="small"   
+                 <CustomComponents.CustomTextField  
                               id="codice"
                               name="codice"
                               label="Codice"
-                              type="string"
-                              InputLabelProps={{shrink: true}}
+                              type="string" 
                               value={codice}   
                               onChange={ (event:any) => { 
                                 setCodice( ( event.target.value));
@@ -66,12 +66,11 @@ export function Articoli_elencoFiltriView (props: Props ) {
             </Grid>
 
             <Grid item xs={12} sm={12} md={6}>
-              <TextField  size="small"  
+               <CustomComponents.CustomTextField  
                                 id="descrizione"
                                 name="descrizione"
                                 type="string"
-                                label="Descrizione"
-                                InputLabelProps={{shrink: true}}
+                                label="Descrizione" 
                                 value={descrizione}   
                                 onChange={ (event:any) => { setDescrizione( ( event.target.value));   
                                   props.handleExecRicerca ( {  descrizione:  event.target.value,   codice: codice } )
@@ -108,13 +107,15 @@ export function Articoli_elencoFiltriView (props: Props ) {
         </Container>              
 
       </Box>
+      {sessionStorage.getItem("profile") === "admin" &&
       <Box width="25%">
-
+      
         <Button startIcon={<IconsMenu.NuovoIcon />}  onClick={() => { props.handleNewArticolo(new Articolo())}} size="small" color="primary" variant="contained" >
-              Nuovo Articolo
+              Nuovo
         </Button>
 
       </Box>
+      }
     </Box>
     )
   }

@@ -2,6 +2,7 @@
 // http://127.0.0.1/react/twine/api/export_fattura.php?id_consegna=1
 
  error_reporting(0);
+ require_once "./cors.php"; 
 class DataException extends Exception
 {
 }

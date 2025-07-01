@@ -58,8 +58,8 @@ class Articolo_schedaPage  extends React.Component <IProps,IState> {
       super(props);  
       this.saveScheda = this.saveScheda.bind(this);
       this.handleChangeForm = this.handleChangeForm.bind(this);
- 
-       
+      this.handleUpdatePrezzoOrdini = this.handleUpdatePrezzoOrdini.bind(this);
+      
       
       this.state={           
             isInProgress: false, bChangedForm: false,
@@ -206,6 +206,37 @@ class Articolo_schedaPage  extends React.Component <IProps,IState> {
         
     }
 
+    async handleUpdatePrezzoOrdini(scheda)
+    {
+      this.setState({isInProgress: true});
+ 
+           let ris = await articoliServices.updatePrezzoOrdini( scheda);
+           this.setState({ isInProgress: false })   ;
+           if ( ris.esito === "OK")
+           { 
+    
+  
+                 NotificationManager.success('Operazione eseguita con successo.' , 'Articoli', 3000);  
+      
+           }
+           else
+           {
+               
+               let mex = ""
+               if (ris.err_code === "001" )
+                 mex = "Errore server."; 
+         
+               else
+                 mex = "Errore durante l'elaborazione.";
+               NotificationManager.error(mex, 'Articolo', 3000);  
+           }
+
+       
+              
+
+ 
+    }
+
 
     render() {    
  
@@ -223,7 +254,7 @@ class Articolo_schedaPage  extends React.Component <IProps,IState> {
                 bChangedForm={this.state.bChangedForm}
                 readOnly={  false }
                 handleClose={this.props.handleClose}
-       
+                handleUpdatePrezzoOrdini={this.handleUpdatePrezzoOrdini}
                 saveScheda={this.saveScheda}
                 isInProgress={this.state.isInProgress}
                 scheda={this.props.scheda}

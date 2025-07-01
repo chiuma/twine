@@ -1,6 +1,7 @@
 ﻿<?php
 
 error_reporting(0);
+require_once "./cors.php"; 
 header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -9,9 +10,7 @@ function isClienteCancellabile($conn, $id_cliente)
 {
  
  	$sql = "SELECT  count(*)   "
- 		. "	FROM ordini_dettaglio  "
-		. "	INNER  JOIN ordini "
-		. "	ON ordini_dettaglio.id_ordine = ordini.id_ordine  "
+ 		. "	FROM ordini "  
 		.	" WHERE ordini.id_cliente=" .$id_cliente;
 		  
 	$statement = $conn->prepare($sql);

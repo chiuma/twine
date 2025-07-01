@@ -2,7 +2,9 @@
 // https://www.cimicapp.com/temp/twine/api/consegne_scheda_get.php
 // http://127.0.0.1/react/twine/api/consegne_scheda_get.php
  error_reporting(0);
+ 
  require_once "./JwtConfig.php";
+ require_once "./cors.php"; 
  header('Content-Type: application/json; charset=utf-8');
 
 $sql = "";
@@ -81,42 +83,47 @@ try
 		}
 		
 		
-  		$sql = 
-  	" SELECT  consegne.*, articoli_base.codice as articolo_base_codice "
-  	. " , ordini_dettaglio.id_ordine "
-  	. " , ordini_dettaglio.id_colore_2, colori_2.codice as colore_codice_2, colori_2.descrizione as colore_descrizione_2  "
-  	. " , ordini_dettaglio.id_colore_3, colori_3.codice as colore_codice_3, colori_3.descrizione as colore_descrizione_3  "
-  	. " , DATE_FORMAT(ordini_dettaglio.data_consegna, '%Y/%m/%d') as data_consegna_formatted   " 
-		. "		,consegne_dettaglio.id_consegna_dettaglio  , consegne_dettaglio.qta_evasa , consegne_dettaglio.sconto   "
-		. "		,ordini_dettaglio.id_ordine_dettaglio , ordini_dettaglio.qta , ordini_dettaglio.prezzo as prezzo, consegne_dettaglio.sconto   "
-		. "		,articoli_base.id_articolo_base , articoli_base.descrizione as articolo_descrizione    "
-		. "		, colori.codice as colore_codice, colori.descrizione as colore_descrizione   "
-		. "	FROM consegne  " 
+ 
+				$base_query = "
+SELECT  articoli_base.codice AS articolo_base_codice,
+       ordini_dettaglio.id_ordine, ordini_dettaglio.id_colore_2, colori_2.codice AS colore_codice_2, colori_2.descrizione AS colore_descrizione_2,
+       ordini_dettaglio.id_colore_3, colori_3.codice AS colore_codice_3, colori_3.descrizione AS colore_descrizione_3,
+       DATE_FORMAT(ordini.data_consegna, '%Y/%m/%d') AS data_consegna_formatted,
+       consegne_dettaglio.id_consegna_dettaglio, consegne_dettaglio.qta_evasa, consegne_dettaglio.sconto,
+       ordini_dettaglio.id_ordine_dettaglio, ordini_dettaglio.qta, ordini_dettaglio.prezzo AS prezzo,
+       consegne_dettaglio.sconto, articoli_base.id_articolo_base, articoli_base.descrizione AS articolo_descrizione,
+       colori.codice AS colore_codice, colori.descrizione AS colore_descrizione
+			FROM  consegne_dettaglio  
+			RIGHT JOIN ordini_dettaglio ON consegne_dettaglio.id_ordine_dettaglio = ordini_dettaglio.id_ordine_dettaglio
+			RIGHT JOIN ordini ON ordini_dettaglio.id_ordine = ordini.id_ordine
+			INNER JOIN articoli_base ON ordini_dettaglio.id_articolo_base = articoli_base.id_articolo_base
+			INNER JOIN colori ON colori.id_colore = ordini_dettaglio.id_colore
+			LEFT JOIN colori AS colori_2 ON colori_2.id_colore = ordini_dettaglio.id_colore_2
+			LEFT JOIN colori AS colori_3 ON colori_3.id_colore = ordini_dettaglio.id_colore_3
+";
+			if ($id_consegna == "-1")
+			{  
+				
+				$sql = $base_query 
+				. " WHERE consegne_dettaglio.id_consegna  IS NULL and ordini.id_cliente = ". $id_cliente 
+				. "	ORDER BY  consegne_dettaglio.id_consegna desc, consegne_dettaglio.id_consegna_dettaglio ,  ordini.data_consegna  ";
+ 
+			}
+			else
+			{
+
+				$first_condition = "WHERE consegne_dettaglio.id_consegna = ". $id_consegna ;
+				$second_condition = "WHERE consegne_dettaglio.id_consegna IS NULL AND ordini.id_cliente = ". $id_cliente ;
+
+				$sql = $base_query . $first_condition . "
+				UNION ALL
+				" . $base_query . $second_condition . "
+				ORDER BY   id_consegna_dettaglio, data_consegna_formatted;";
+			}
+			
+					
+ 
 		
-		. "	INNER  JOIN consegne_dettaglio ON consegne.id_consegna = consegne_dettaglio.id_consegna  "
-		
-		. "	RIGHT  JOIN ordini_dettaglio ON consegne_dettaglio.id_ordine_dettaglio  = ordini_dettaglio.id_ordine_dettaglio   "
-		
-		. "	RIGHT  JOIN ordini  ON ordini_dettaglio.id_ordine   = ordini.id_ordine "
-		
-		. "	INNER JOIN articoli_base ON ordini_dettaglio.id_articolo_base = articoli_base.id_articolo_base   "
-  
-  	. "	INNER JOIN colori ON colori.id_colore  = ordini_dettaglio.id_colore    "
-		
-	  . " LEFT JOIN colori as  colori_2  	ON colori_2.id_colore  = ordini_dettaglio.id_colore_2 " 
-		. " LEFT JOIN colori as  colori_3  	ON colori_3.id_colore  = ordini_dettaglio.id_colore_3 ";
-		
-		
-		if ($id_consegna == "-1")
-			$WHEREParms =	" consegne.id_consegna  IS NULL and ordini.id_cliente = ". $id_cliente ;
-		else
-				$WHEREParms = " (consegne.id_consegna = " .$id_consegna . " OR (consegne.id_consegna  IS NULL and ordini.id_cliente = ". $id_cliente . ")) ";
-		
-		
-		$sql = $sql  
-		. " WHERE ".$WHEREParms  
-		. "	ORDER BY  consegne.id_consegna desc, consegne_dettaglio.id_consegna_dettaglio ,  ordini_dettaglio.data_consegna  ";
-	
 	
 // echo $sql;die();
 	

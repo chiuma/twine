@@ -4,13 +4,13 @@ import { OrdineDettaglio } from '../model/OrdineDettaglio';
  
 
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress, Radio, RadioGroup, FormControlLabel, FormLabel   } from '@mui/material';
 
  
 import { connect } from 'react-redux';
 // import { Ordine_scheda } from './Ordine_scheda';
 import { Ordini_elencoFiltriView } from '../views/Ordini_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { ordiniServices } from '../services/ordiniServices';
 import {NotificationManager} from 'react-notifications'; 
  
@@ -28,6 +28,7 @@ import { StampaHtml } from '../utils/StampaHtml';
 import Ordini_elenco_dettaglioView from '../views/Ordini_elenco_dettaglioView';
 import Ordini_elenco_testataView from '../views/Ordini_elenco_testataView';
  import { CommonFunctions } from '../common/CommonFunctions';
+import { CustomComponents } from '../utils/CustomComponents';
  
  
   
@@ -49,7 +50,7 @@ export interface IProps {
   elenco_clienti: Cliente[],
   elenco_articoli: Articolo[],
   elenco_provenienze: Provenienza[],
-  
+  isMobile:boolean
  
   
   }
@@ -64,6 +65,7 @@ export interface IState {
     ordineSelected: any  | null,
     ordineDettaglioToDelete:  any | null,
     ordineToDelete:  any | null,
+    conPrezzo: "si"|"no" | null,
   
   }
 
@@ -74,7 +76,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     lastFiltri : OrdineFiltri =  new OrdineFiltri();
     elenco_ordini: any;
     componentRef: any;
-    tipo_elenco: OptionsTipoElenco = "dettaglio";
+    tipo_elenco: OptionsTipoElenco = "testata";
     tipo_stampa: any="";
 
     constructor(props: any) {
@@ -92,11 +94,13 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       this.saveOrdine = this.saveOrdine.bind(this);
       this.handleShowStampa = this.handleShowStampa.bind(this);
       this.handleChangeTipoElenco = this.handleChangeTipoElenco.bind(this);
+      
+      this.handleChangeForm = this.handleChangeForm.bind(this);
 
  
       this.state = {  
         elenco_filtrato: [], isInProgress: false , isEditMode: true, ordineSelected:null  , 
-        ordineDettaglioToDelete:null , ordineToDelete:null, showStampa: false ,
+        ordineDettaglioToDelete:null , ordineToDelete:null, showStampa: false ,  conPrezzo: null
         }; 
 
 
@@ -127,12 +131,13 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
     }
 
+    
     handleShowStampa(showStampa:boolean, tipo_stampa:string)
     {
  
-      // console.log("singolo_ordine", this.state.ordineSelected);  return ;
+      
       this.tipo_stampa = tipo_stampa;
-      this.setState({ showStampa: showStampa   }); 
+      this.setState({ showStampa: showStampa  , conPrezzo: !showStampa ? null : this.state.conPrezzo });   
  
     }
 
@@ -141,8 +146,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       if (!this._isMounted)  return;
       
-  //    console.log("loadOrdini date_ordini" , this.lastFiltri.data_consegna_dal , this.lastFiltri.data_consegna_al);
-      this.setState({  isInProgress: true }); 
+       this.setState({  isInProgress: true }); 
       let resp = await ordiniServices.getElenco(this.lastFiltri.data_consegna_dal , this.lastFiltri.data_consegna_al);
       this.setState({  isInProgress: false }); 
   
@@ -184,7 +188,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
  
       let ris = {
         ...objOrdineDettaglio , 
-        ...{data_ricezione: objOrdineTestata.data_ricezione, id_provenienza: objOrdineTestata.id_provenienza, 
+        ...{note: objOrdineTestata.note, user_new: objOrdineTestata.user_new, data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
             id_cliente: objOrdineTestata.id_cliente , id_ordine: objOrdineTestata.id_ordine},
         ...{ colore_codice: coloreSel?.codice,    colore_descrizione: coloreSel?.descrizione },
         ...{ colore_codice_2: coloreSel_2==null ? "" : coloreSel_2.codice,    colore_descrizione_2: coloreSel_2==null ? "" : coloreSel_2.descrizione },
@@ -192,10 +196,11 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         ...{ articolo_base_descrizione: articoloSel?.descrizione, articolo_base_codice: articoloSel?.codice },
         ...{ cliente_descrizione: clienteSel?.descrizione}
         }
- 
+ console.log("ris", ris)
         return ris;
 
     }
+
 
     async saveOrdine(ordine:Ordine)
     {
@@ -210,7 +215,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         this.setState({  isInProgress: true }); 
         let campiTestata = { id_cliente: ordine.id_cliente, 
                              id_ordine: ordine.id_ordine, 
+                             note: ordine.note, 
+                             user_new: ordine.user_new, 
                             data_ricezione : ordine.data_ricezione, 
+                             data_consegna : ordine.data_consegna, 
                             id_provenienza: ordine.id_provenienza  }
         let arrDettagli:any  [] = [];
         ordine.ordineDettaglio.map ( (dettaglio:OrdineDettaglio) =>
@@ -234,7 +242,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               if (idx !== -1)
               {
                 this.elenco_ordini[idx] = { ...this.getOrdineDettaglioAggiornato (ris.testata, dettaglio) , ...{consegnato: this.elenco_ordini[idx].consegnato}};
-                 
+                console.log("saveOrdine",ris.testata,  this.elenco_ordini[idx])
               }
               else
               {
@@ -304,7 +312,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       let filtroConsegnato =   formFilter.consegnato;
       let filtroIdProvenienza=   formFilter.id_provenienza ;
       let filtroInizialiCliente=   formFilter.iniziali_cliente.toLocaleUpperCase ();
-       
+
 
       if (this.elenco_ordini)
       {
@@ -312,6 +320,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         (
           (curr: any) => 
           {
+          
               var ris = true;
 
               if ( filtroInizialiCliente !== "")
@@ -327,14 +336,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               if (this.tipo_elenco === "dettaglio" )
               {
 
-                if ( filtroConsegnato !== "Tutti")
-                {
-                  if ( curr.consegnato  ===   (filtroConsegnato=== "Si" ? false : true))
-                  {
-                    return false;
-                  }
-                    
-                }  
+
 
                 if ( filtroIdArticoloBase !== -1)
                 {
@@ -359,7 +361,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
 
 
-                if ( filtroDataConsegnaDal !== "")
+              }
+
+              
+              if ( filtroDataConsegnaDal !== "")
                 {
                   if ( curr.data_consegna.substring(0,10)  <   filtroDataConsegnaDal   )
                   {
@@ -376,7 +381,15 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                     return false;
                   }
                 } 
-              }
+                
+              if ( filtroConsegnato !== "Tutti")
+                {
+                  if ( curr.consegnato  ===   (filtroConsegnato=== "Si" ? false : true))
+                  {
+                    return false;
+                  }
+                    
+                }  
 
               if ( filtroDataRicezioneDal !== "")
               {
@@ -419,6 +432,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
           }
         )
 
+        console.log("elenco_filtrato",elenco_filtrato.length)
 
         if (this.tipo_elenco === "dettaglio" )
         {
@@ -462,12 +476,16 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     handleOrdineDettaglioSelected (scheda:any |null)
     {
       let ordineSelected = new Ordine();
-     // console.log("handleOrdineDettaglioSelected",scheda)
+  
       if ( scheda != null)
       {
         ordineSelected.id_ordine = scheda.id_ordine;
         ordineSelected.id_cliente = scheda.id_cliente;
+        ordineSelected.note = scheda.note;
+        ordineSelected.user_new = scheda.user_new;
+        
         ordineSelected.data_ricezione = scheda.data_ricezione;
+        ordineSelected.data_consegna = scheda.data_consegna;
         ordineSelected.id_provenienza = scheda.id_provenienza;
         this.elenco_ordini.forEach((dettaglio:any) =>
         { 
@@ -479,14 +497,14 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
           
           }
         });
-        ordineSelected.ordineDettaglio.push (new OrdineDettaglio({data_consegna :  scheda.data_consegna ? scheda.data_consegna  : "" }))
+        ordineSelected.ordineDettaglio.push (new OrdineDettaglio())
          
         
 
       }
       else
       {
-        ordineSelected.ordineDettaglio.push (new OrdineDettaglio( ))
+        ordineSelected.ordineDettaglio.push (new OrdineDettaglio( {qta:1}))
       }
 
       this.setState({ ordineSelected: ordineSelected   }); 
@@ -631,8 +649,11 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               elenco_testate.push({
                   id_ordine: ordineDettaglio.id_ordine, 
                   data_ricezione: ordineDettaglio.data_ricezione,
+                  data_consegna: ordineDettaglio.data_consegna,
                   id_provenienza: ordineDettaglio.id_provenienza,
-
+                  note: ordineDettaglio.note,
+                  user_new: ordineDettaglio.user_new,
+                  
                   cliente_descrizione: ordineDettaglio.cliente_descrizione,
                   id_cliente: ordineDettaglio.id_cliente})
 
@@ -663,40 +684,68 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
     }  
    
-
+    handleChangeForm = (event) => {
+      const { conPrezzo } = this.state;
+   
+  
+   
+      this.setState({ conPrezzo: event.target.value });
+      
+    }  
     render() {    
    
 // console.log("OrdiniElenco - render - this.lastFiltri" , this.lastFiltri)
-
+      
  
       const finalQueryString = this.tipo_stampa !== "singolo_ordine"
             ? objectToQueryString(this.lastFiltri)
-            : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine });
+            : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine , conPrezzo: this.state.conPrezzo });
           return (
-            <>
+            <Box width="100%" display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
+  
+
       {this.state.showStampa &&
-       <Box mt={2} ml={1} mr={1}>
-       <StampaHtml 
-           handleShowStampa={this.handleShowStampa}
-             urlToPrint={ConstantUtils.url.SERVER_URL + 
+              <Box mt={2} ml={1} mr={1}>
+          
+  {this.state.conPrezzo == null  && this.tipo_stampa == "singolo_ordine" ?
+    <>
+      <FormLabel component="legend" style={{color:'red', fontWeight:'bold'}} >Stampa prezzi</FormLabel>
+      <RadioGroup
+          row
+          aria-label="conPrezzo"
+          name="conPrezzo"
+          value={this.state.conPrezzo === null ? '' : this.state.conPrezzo}
+          onChange={(event:any) => {
+              const value = event.target.value === '' ? null : event.target.value;
+              this.handleChangeForm({ target: { name: 'conPrezzo', value } });
+          }} >
+          <FormControlLabel value="si" control={<Radio size="small" />} label="Si" />
+          <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
+      </RadioGroup>
+      
+    </>
+    :
+    <>
+      <StampaHtml 
+          handleShowStampa={this.handleShowStampa}
+            urlToPrint={ConstantUtils.url.SERVER_URL + 
             (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
             this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
             this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
             "ordini_articoli_stampa.php?")
-            
             + 
             finalQueryString
-             
             }
-           />
-           </Box>
-      }
+        />
+    </>
+  }
+                </Box>
+              }
 
       {!this.state.showStampa &&
-            <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
-
+      <>
               {this.state.ordineDettaglioToDelete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteOrdineDettaglio}
                           handleAnnulla={() => { this.handleOrdineDettaglioToDelete(null)}}
                           contextText={"Sei sicuro di vole cancellare l'Ordine "       
@@ -708,7 +757,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               }
 
               {this.state.ordineToDelete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteOrdine }
                           handleAnnulla={() => { this.handleOrdineToDelete(null)}}
                           contextText={"Sei sicuro di vole cancellare l'Ordine"                      
@@ -727,28 +776,34 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               { this.state.ordineSelected === null &&
               
                <>
-
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}  mt={2}> 
  
-                  <Ordini_elencoFiltriView 
+              <Box  id="filtri"   
+              sx={{ width: {xs:'98%', sm: '98%', md: '98%', lg: '96%', xl: '90%' }, mt: 2 }}
+                     mt={2}> 
+               
+                  <Ordini_elencoFiltriView  
                       tipo_elenco   ={this.tipo_elenco}   
                       elenco_clienti = {this.props.elenco_clienti}
                       elenco_articoli = {this.props.elenco_articoli}
                       elenco_provenienze = {this.props.elenco_provenienze}
                       initFiltri={this.lastFiltri}   
                       handleExecRicerca={this.handleExecRicerca}   />
-              </Box>
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}} mt={2}> 
+              </Box>       
+              
+            
+              <Box mt={2}  width={{ xs:'98%', sm: '98%' , md: '98%', lg: '96%', xl: '90%'}} >            
+                
                 <Ordini_elencoHeaderView     
+                      isMobile={this.props.isMobile}
                       elenco = {this.state.elenco_filtrato}  
                       handleStampaOrdine={this.handleShowStampa} 
                       handleChangeTipoElenco = {this.handleChangeTipoElenco}
                       tipo_elenco={this.tipo_elenco}
                       handleNewOrdine={() => { this.handleOrdineDettaglioSelected(null)}  } />
-              </Box>
-
-              <Box  width={{ sm: '98%' , md: '98%', lg: '96%', xl: '90%',}}  mt={2}> 
-
+              </Box>       
+    
+               <Box mt={2}  width={{xs:'98%',sm: '98%' , md: '98%', lg: '96%', xl: '90%'}} >
+                 
               {this.tipo_elenco === "dettaglio" &&
                   <Ordini_elenco_dettaglioView 
                     deleteScheda={this.handleOrdineDettaglioToDelete}
@@ -757,7 +812,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                     isEditMode={this.state.isEditMode}
                     elenco={this.state.elenco_filtrato}  
                     /> 
-              }
+              } 
 
               {this.tipo_elenco === "testata" &&
                   <Ordini_elenco_testataView  
@@ -767,8 +822,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
                     elenco={this.state.elenco_filtrato}  
                     /> 
               }
-              </Box>              
- 
+
+
+              </Box>       
+              
                  
               </>
               
@@ -780,8 +837,9 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
             
 
-                <Box width="96%" mt={2}> 
+                <Box width="100%" mt={2}> 
                 <Ordine_scheda    
+                  isMobile={this.props.isMobile}
                   readOnly={
                     this.state.ordineSelected.id_ordine === -1 ? false : 
                     (this.state.ordineSelected.ordineDettaglio.reduce( (accumulator, currentValue) =>   
@@ -796,10 +854,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               }
  
 
-            </Box>
+          </>
           
 }
-          </>
+          </Box>
             )
           }
 

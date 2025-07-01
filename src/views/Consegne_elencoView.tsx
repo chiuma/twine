@@ -1,30 +1,31 @@
 import React from 'react'; 
 
-import {     Box,  Checkbox,  IconButton, TableHead, TableSortLabel, Tooltip} from '@material-ui/core';
+import {     Box,  Checkbox,  IconButton, TableHead, TableSortLabel, Tooltip} from '@mui/material';
+ 
 
 import   styles   from '../common/globalStyle'
  
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
  
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
  
  
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
   
-import EditIcon from '@material-ui/icons/Search';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from "@material-ui/core/styles";
-import HideConsegna from '@material-ui/icons/VisibilityOff';
-import ShowConsegna from '@material-ui/icons/Visibility';
+import EditIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+ import HideConsegna from '@mui/icons-material/VisibilityOff';
+import ShowConsegna from '@mui/icons-material/Visibility';
  
 import {    Order, tableUtility,   } from '../common/tableUtility';
  
 import NumberFormat from 'react-number-format';
 import { CommonFunctions } from '../common/CommonFunctions';
+import { withStyles } from '@mui/styles';
  
  
 
@@ -79,8 +80,7 @@ function TableHeader   (props: any  ) {
               </TableSortLabel>
             </TableCell>
             }
-            {sessionStorage.getItem("username")==="fulladmin" &&
-              <>
+ 
               <TableCell     align="center"> 
               Totale   
               </TableCell>
@@ -89,8 +89,7 @@ function TableHeader   (props: any  ) {
               <TableCell     align="center"> 
               Totale scontato
               </TableCell>
-              </>
-            }
+  
             <TableCell     align="center"> 
              Commissione
             </TableCell>
@@ -132,8 +131,7 @@ function TableRows   (props: any ) {
         <TableCell   align="left" >{ row.cliente_descrizione     }  </TableCell>
 
         }
-         {sessionStorage.getItem("username")==="fulladmin" &&
-         <>
+ 
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
              <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
@@ -148,8 +146,7 @@ function TableRows   (props: any ) {
               value={  row.importo_scontato }  
               displayType={'text'}  />   
         </TableCell>
-        </>
-        }
+ 
         <TableCell  align="center"  style={{ whiteSpace: "nowrap" }}>   
             <NumberFormat decimalSeparator=","   prefix={'€ '}
               thousandSeparator="."  decimalScale={2} fixedDecimalScale={true}
@@ -159,7 +156,7 @@ function TableRows   (props: any ) {
  
       {isEditMode &&
         <TableCell align="right"   style={{ whiteSpace: "nowrap" }}>  
-        {sessionStorage.getItem("username")==="fulladmin" &&
+        { false &&
             <IconButton color="primary"  component="span"   
             title= {row.hide===1 ? "Clicca per renderlo visibile" : "Clicca per nascondere"} 
                 onClick={() => { propieta.hiddingScheda(row.id_consegna);}}>
@@ -177,7 +174,7 @@ function TableRows   (props: any ) {
             <IconButton color="primary"  component="span"   onClick={() => { propieta.deleteScheda(row);}}>
             <DeleteIcon />
             </IconButton>    
-            {  sessionStorage.getItem("username") === "fulladmin" && 
+            {  sessionStorage.getItem("profile") === "admin" && 
             <IconButton color="primary"  component="span"   onClick={() => { propieta.showScheda(row);}}>
             <EditIcon />
             </IconButton>
@@ -335,7 +332,6 @@ class Consegne_elencoView  extends React.Component <IProps,IState> {
 }
 
  
- 
-export default withStyles(styles) (Consegne_elencoView);
+export default withStyles(styles) (Consegne_elencoView) ; 
 
  

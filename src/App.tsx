@@ -3,13 +3,14 @@ import React from 'react';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import './App.css';
- 
+
 import { withRouter } from "react-router";
+ 
 import theme from './common/globalMuiTheme'; 
 import { connect } from 'react-redux';
-import {   ThemeProvider } from '@material-ui/core';
+
 import {NotificationManager} from 'react-notifications';
-import { Box } from '@material-ui/core';
+import { Box,   ThemeProvider } from '@mui/material';
  
    
 import Login from './components/Login';
@@ -57,8 +58,9 @@ class AppPage   extends React.Component <IProps,IState> {
   {
  
      sessionStorage.setItem("username", param.username.toLowerCase());
+     sessionStorage.setItem("profile", param.profile.toLowerCase());
      sessionStorage.setItem("token", param.token);
-     this.setState({ isLogged: true  })   ;
+     this.setState({isLogged: true})   ;
      NotificationManager.success('Benvenuto utente ' +  param.username, 'Twine', 3000);  
 
     
@@ -69,7 +71,7 @@ class AppPage   extends React.Component <IProps,IState> {
   render() {
     
  
-   
+ 
 
 
     return (

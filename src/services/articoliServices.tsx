@@ -10,6 +10,7 @@ export const articoliServices = {
     modScheda,
     deleteScheda,
     getElenco,
+    updatePrezzoOrdini
 
  
     
@@ -18,8 +19,40 @@ export const articoliServices = {
 };
  
  
- 
 
+async function   updatePrezzoOrdini(scheda:Articolo ) 
+{ 
+    try {
+       
+        const sUrl = ConstantUtils.url.SERVER_URL + "/articoli_scheda_mod.php";   
+        const params = { scheda : scheda ,   action: "UPD_PREZZO_ORDINI"};
+        const config = {
+            headers: {
+            'Content-type': 'application/json',
+            'Authorization': sessionStorage.getItem('token')
+            }
+        };
+
+ 
+        let responseData = await  axios.post(sUrl,
+            JSON.stringify(params),
+            config
+        )  
+
+         
+        return {esito: responseData.data.esito , err_code: responseData.data.err_code };
+         
+
+    } 
+    catch(error) 
+    {
+        console.log("error", error);
+        return {esito: 'NOT_OK',  err_code: "002"};
+      
+    }
+
+      
+};
 async function   getElenco  (   ) 
 {
 

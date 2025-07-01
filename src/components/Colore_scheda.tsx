@@ -21,7 +21,8 @@ export interface IProps {
     actNewColore: any,
     actModColore: any,
     
-    isModal:boolean
+    isModal:boolean,
+    
     
 }
    
@@ -198,12 +199,12 @@ class Colore_schedaPage  extends React.Component <IProps,IState> {
         return (
 
  
- 
+          
 
             <Colore_schedaView
                 isModal={this.props.isModal}
                 bChangedForm={this.state.bChangedForm}
-                readOnly={  false }
+                readOnly={sessionStorage.getItem("profile") === "admin" ? false : true }  
                 handleClose={this.props.handleClose}
                 saveScheda={this.saveScheda}
                 isInProgress={this.state.isInProgress}

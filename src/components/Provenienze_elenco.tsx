@@ -4,13 +4,13 @@ import { Provenienza } from '../model/Provenienza';
  
 
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 
  
 import { connect } from 'react-redux';
 //import { Provenienza_scheda } from './Provenienza_scheda';
  
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
  
 import {NotificationManager} from 'react-notifications'; 
 import { provenienzeActions } from '../actions/provenienze.action';
@@ -187,7 +187,7 @@ class Provenienze_elencoPage  extends React.Component <IProps,IState> {
             <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare la provenienza: ' +      

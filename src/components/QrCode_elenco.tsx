@@ -2,11 +2,11 @@ import React  from 'react';
  
 import { QrCode } from '../model/QrCode';
  
-import {   Box, CircularProgress   } from '@material-ui/core';
+import {   Box, CircularProgress   } from '@mui/material';
 import { connect } from 'react-redux';
  
 import { QrCode_elencoFiltriView } from '../views/QrCode_elencoFiltriView';
-import { ConfirmFialog } from '../utils/ConfirmDialog';
+import { ConfirmDialog } from '../utils/ConfirmDialog';
 import { qrCodeServices } from '../services/qrCodeServices';
 import {NotificationManager} from 'react-notifications'; 
  
@@ -15,6 +15,8 @@ import QrCode_elencoView from '../views/QrCode_elencoView';
 import { QrCode_scheda } from './QrCode_scheda';
 import { Colore } from '../model/Colore';
 import { Articolo } from '../model/Articolo';
+import QrCode_schedaView from '../views/QrCode_schedaView';
+import { StampaHtml } from '../utils/StampaHtml';
 
 export interface IProps {  
   elenco_colori: Colore[],     
@@ -23,12 +25,12 @@ export interface IProps {
   }
      
 export interface IState { 
-    elenco_filtrato: any, 
+    elenco_filtrato: QrCode[], 
     isInProgress: boolean,
     isEditMode: boolean,
-    scheda_selected: QrCode | null,
     scheda_delete:  QrCode | null,
-     
+    showStampa: boolean,
+    html_stampa: string,
   }
 
 class Filtri { 
@@ -38,20 +40,22 @@ class Filtri {
 class QrCode_elencoPage  extends React.Component <IProps,IState> {
     lastFiltri : Filtri =  new Filtri();
     _isMounted = false;
-    elenco_qrCode: any;
-    
+    elenco_qrCode: any[]=[];
+    sHtml:string ="";
     constructor(props: any) {
       super(props);  
       this.handleExecRicerca = this.handleExecRicerca.bind(this);
        
-      this.handleSchedaSelected = this.handleSchedaSelected.bind(this);
       this.handleSchedaToDelete = this.handleSchedaToDelete.bind(this);
        
       this.execDeleteScheda = this.execDeleteScheda.bind(this);
-      this.load  = this.load.bind(this);
       this.savedScheda = this.savedScheda.bind(this);
+      this.getHtmlStampa = this.getHtmlStampa.bind(this);
+      this.handleShowStampa = this.handleShowStampa.bind(this);
+
       
-      this.state = {  elenco_filtrato: [], isInProgress: false , isEditMode: true, scheda_selected:null  , scheda_delete:null }; 
+      this.state = { showStampa:false, html_stampa:"",
+         elenco_filtrato: [], isInProgress: false , isEditMode: true,  scheda_delete:null }; 
     }
 
 
@@ -60,8 +64,7 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
     { 
 
       this._isMounted = true;
-       
-      this.load();
+     
     }
 
     componentWillUnmount() {
@@ -69,64 +72,22 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
     }
      
 
-    async load ()
-    {
-  
-      if (!this._isMounted)  return;
-      
  
-      this.setState({  isInProgress: true }); 
-      let resp = await qrCodeServices.getElenco( );
-      this.setState({  isInProgress: false }); 
-  
-      
-      if ( resp.esito === "OK" )
-      {
-        
-
-        this.elenco_qrCode =  resp.elenco; 
-
-      //  console.log("loadOrdini elenco_ordini" , this.elenco_ordini);
-
-        if (this._isMounted) 
-        {
-        
-        this.setState({ elenco_filtrato:  this.elenco_qrCode    }); 
-        }
-      
-        
-      }
-      else
-      {
-          
-        NotificationManager.error('Errore server', 'Ordini', 3000); 
-        return;
-      }
-    }
-
     savedScheda(scheda:QrCode)
     {
-      console.log("savedScheda", scheda)
-      let idx_qrCode = this.elenco_qrCode.findIndex( x => x.id_qrcode === scheda.id_qrcode)
-      let new_scheda:any =   Object.assign( {},  scheda);
+      
+ 
+      let new_scheda:any =   Object.assign( {},  scheda, {id_qrcode: this.state.elenco_filtrato.length });
+
       new_scheda.cod_articolo = this.props.elenco_articoli.find( x => x.id_articolo_base === scheda.id_articolo_base)?.codice
       new_scheda.cod_colore = this.props.elenco_colori.find( x => x.id_colore === scheda.id_colore)?.codice
       new_scheda.cod_colore_2 = this.props.elenco_colori.find( x => x.id_colore === scheda.id_colore_2)?.codice
       new_scheda.cod_colore_3 = this.props.elenco_colori.find( x => x.id_colore === scheda.id_colore_3)?.codice   
+     
+    
+      this.elenco_qrCode.push(new_scheda)
 
-      if (idx_qrCode == -1)
-      { 
-         this.elenco_qrCode.push(new_scheda)
-         
-      }
-      else
-      {
-          this.elenco_qrCode[idx_qrCode] = new_scheda;
-      }
-
- 
-
-      this.setState({ elenco_filtrato: this.getElencoFilter(this.lastFiltri ), scheda_selected: null   }); 
+      this.setState({ elenco_filtrato: this.getElencoFilter(this.lastFiltri ) }); 
     }
 
     handleExecRicerca   (formFilter: Filtri)
@@ -142,12 +103,7 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
     }
 
  
-
-    handleSchedaSelected (scheda:QrCode |null)
-    {
-   
-      this.setState({ scheda_selected: scheda   }); 
-    }
+ 
 
  
     handleSchedaToDelete (scheda:QrCode|null)
@@ -192,24 +148,20 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
       else return []
     }
 
-    async execDeleteScheda    ( )
+     execDeleteScheda    ( )
     {
        
       if(this.state.scheda_delete === null  ) return;
 
       let id_qrcode = this.state.scheda_delete.id_qrcode;
       this.handleSchedaToDelete(null);
-      this.setState({  isInProgress: true }); 
-      let ris = await qrCodeServices.deleteScheda(id_qrcode);
-      this.setState({  isInProgress: false }); 
-
-      if ( ris.esito === "OK")
-      { 
+ 
+ 
         let elenco_filtrato = this.elenco_qrCode.filter
         (
           (curr: any) => 
           {
-               
+               console.log("id_qrcode", id_qrcode, curr.id_qrcode )
               if ( id_qrcode !== curr.id_qrcode) return true;
               
               else      return false;
@@ -217,35 +169,124 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
         )
          
    
-          this.elenco_qrCode = elenco_filtrato;
-          this.setState({ elenco_filtrato: this.getElencoFilter(this.lastFiltri) , scheda_selected: null , scheda_delete: null }); 
-    
-            NotificationManager.success('Operazione eseguita con successo.' , 'QrCode', 3000);  
-          
-      }
-      else
-      {
+        this.elenco_qrCode = elenco_filtrato;
+        this.setState({ elenco_filtrato: this.getElencoFilter(this.lastFiltri) ,  scheda_delete: null }); 
   
-          let mex = ""
-          if (ris.err_code === "001" )
-            mex = "Errore server.";
-          else if (ris.err_code === "003" )
-            mex = "Impossibile cancellare l'QrCode perchè esistono Ordini con questo QrCode.";  
-          else
-            mex = "Errore durante l'elaborazione.";
-          NotificationManager.error(mex, 'QrCode', 3000);  
-
-      }
+        NotificationManager.success('Operazione eseguita con successo.' , 'QrCode', 3000);  
+          
+      
     }
+  
+    handleShowStampa(showStampa:boolean )
+    {
+      let sHtml = ""
+      if (showStampa)   sHtml = this.getHtmlStampa()
+      this.setState({ showStampa: showStampa, html_stampa:  sHtml }); 
  
+    }
+    getHtmlStampa()
+    {
+
+    let sHtml = `
+    <html>
+        <head>
+            <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+ 
+            <style>
+             @page {
+                size: A4;
+                margin: 10;
+              }
+
+              @media print {
+                html, body {
+                  width: 210mm;
+                  height: 287mm;
+                }
+              
+              }
+                
+              body {
+
+                      /* to centre page on screen*/
+                      margin-left: auto;
+                      margin-right: auto;
+                      font-family: 'Roboto'; font-size: 10pt;
+                  }
+
+              table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                td {
+                    width: 33.33%;
+                    text-align: center;
+                    padding: 10px;
+                    page-break-inside: avoid;
+                }
+            </style>
+        </head>
+        <body>
+            <table>
+    `;
+
+    this.state.elenco_filtrato.forEach((item: QrCode, index: number) => {
+        if (index % 3 === 0) {
+            sHtml += '<tr>';
+        }
+        let descrizione = ""
+        let arrQrCode = item.code.split("*");
+        if (arrQrCode[0] == "ART")
+        {
+          descrizione ="Articolo " + arrQrCode[1];
+          if (arrQrCode.length > 2 && arrQrCode[2] != "")   descrizione = descrizione + "-" + arrQrCode[2]
+          if (arrQrCode.length > 3 && arrQrCode[3] != "")   descrizione = descrizione + "-" + arrQrCode[3]
+        }
+        else
+        {
+          descrizione = "Colore " + arrQrCode[1];
+          
+        }
+        sHtml += `
+            <td>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(item.code)}&size=150x150" alt="QR Code for ${item.code}" />
+                <div style="margin-top: 7px;font-size:120%;">${item.code}</div>
+                <div style="margin-top: 4px;font-size:120%;">${descrizione}</div>
+            </td>
+        `;
+
+        if (index % 3 === 2 || index === this.state.elenco_filtrato.length - 1) {
+            sHtml += '</tr>';
+        }
+    });
+    
+    sHtml += `
+            </table>
+        </body>
+    </html>
+    `;
+
+     return sHtml;
+    }
     render() {    
         
           return (
-            
-            <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
+            <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center" 
+            width="100%"  >         
+       
+       {this.state.showStampa &&
+              <Box mt={2} ml={1} mr={1}>
+              <StampaHtml 
+                  html={this.state.html_stampa}
+                  handleShowStampa={e => this.handleShowStampa(false)}
+                  
+                  />
+                  </Box>
+              }
+
 
               {this.state.scheda_delete !== null &&
-                <ConfirmFialog
+                <ConfirmDialog
                           handleConfirm={this.execDeleteScheda}
                           handleAnnulla={() => { this.handleSchedaToDelete(null)}}
                           contextText={'Sei sicuro di vole cancellare il QrCode: ' +      
@@ -260,39 +301,39 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
               </Box>
               }
 
-              {this.state.scheda_selected === null  &&
-              
+{!this.state.showStampa &&
                <>
-
-                  <QrCode_elencoFiltriView     
-                      initFiltri={this.lastFiltri} 
-                      handleNewQrCode={this.handleSchedaSelected}
+               <Box  width={{ xs: '98%', sm: '90%' , md: '80%', lg: '75%', xl: '60%',}} >
+                  <QrCode_elencoFiltriView   
+                  handleStampa ={e => this.handleShowStampa(true)} 
+                      initFiltri={this.lastFiltri}  
                       handleExecRicerca={this.handleExecRicerca}   />
-
-              
+              </Box>
+              <Box  width={{ xs: '98%', sm: '90%' , md: '80%', lg: '75%', xl: '70%',}} >
                   <QrCode_elencoView 
                     deleteScheda={this.handleSchedaToDelete}
-                    showScheda={this.handleSchedaSelected}
-                    isEditMode={this.state.isEditMode}
+                     isEditMode={this.state.isEditMode}
                     elenco={this.state.elenco_filtrato}  
                     /> 
-              </>
+               </Box>
+            
               
 
-              }
-              
-              {this.state.scheda_selected !== null  &&
-                <QrCode_scheda   
-                    savedScheda={this.savedScheda}
-                 elenco_colori={this.props.elenco_colori }
-                  elenco_articoli={this.props.elenco_articoli }
-                  handleClose={() => { this.handleSchedaSelected(null)}}
-                  scheda={this.state.scheda_selected } />
-              }
-
-
-            </Box>
           
+              <Box width={{ xs: '98%', sm: '90%' , md: '80%', lg: '75%', xl: '60%',}} >
+                <QrCode_scheda    
+                  savedScheda={this.savedScheda}
+               
+                  elenco_colori={this.props.elenco_colori }
+                  elenco_articoli={this.props.elenco_articoli } 
+               
+                  />
+              </Box>
+
+              </>
+          
+}
+</Box>  
             )
           }
 
