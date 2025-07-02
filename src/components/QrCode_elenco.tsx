@@ -161,8 +161,7 @@ class QrCode_elencoPage  extends React.Component <IProps,IState> {
         (
           (curr: any) => 
           {
-               console.log("id_qrcode", id_qrcode, curr.id_qrcode )
-              if ( id_qrcode !== curr.id_qrcode) return true;
+               if ( id_qrcode !== curr.id_qrcode) return true;
               
               else      return false;
           }

@@ -369,6 +369,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
           {this.props.articolo_show != null &&
             <Articolo_scheda
               isModal={true}
+              isMobile={this.props.isMobile}
               handleClose={this.handleHideSchedaArticolo}
               scheda={this.props.articolo_show} />
           }
@@ -426,7 +427,7 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               )} />
             <Route path="/articoli_elenco" exact
               render={(props) => (
-                <Articoli_elenco {...props} />
+                <Articoli_elenco {...props} isMobile={this.props.isMobile} />
               )} />
             <Route path="/ordini_elenco" exact
               render={(props) => (
@@ -469,7 +470,7 @@ const isLg = useMediaQuery(theme.breakpoints.only('lg'));
 const isXl = useMediaQuery(theme.breakpoints.only('xl'));
 
 const activeBreakpoint = getActiveBreakpoint({ isXs, isSm, isMd, isLg, isXl });
-console.log('Breakpoint attivo:', activeBreakpoint);
+// console.log('Breakpoint attivo:', activeBreakpoint);
 
    return <AppPage {...props} isMobile={isMobile} />;
 }

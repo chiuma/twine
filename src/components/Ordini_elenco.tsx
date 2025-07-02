@@ -196,7 +196,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
         ...{ articolo_base_descrizione: articoloSel?.descrizione, articolo_base_codice: articoloSel?.codice },
         ...{ cliente_descrizione: clienteSel?.descrizione}
         }
- console.log("ris", ris)
+ 
         return ris;
 
     }
@@ -242,8 +242,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
               if (idx !== -1)
               {
                 this.elenco_ordini[idx] = { ...this.getOrdineDettaglioAggiornato (ris.testata, dettaglio) , ...{consegnato: this.elenco_ordini[idx].consegnato}};
-                console.log("saveOrdine",ris.testata,  this.elenco_ordini[idx])
-              }
+               }
               else
               {
                 this.elenco_ordini.push({ ...this.getOrdineDettaglioAggiornato (ris.testata, dettaglio) , ...{consegnato: false}})
@@ -432,7 +431,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
           }
         )
 
-        console.log("elenco_filtrato",elenco_filtrato.length)
+    
 
         if (this.tipo_elenco === "dettaglio" )
         {

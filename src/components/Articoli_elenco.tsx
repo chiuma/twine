@@ -15,6 +15,7 @@ import { withStyles } from '@mui/styles';
 
 export interface IProps {
     actDelArticolo: any,
+    isMobile: boolean,
     elenco_articoli: Articolo[],
     classes: any
 }
@@ -177,7 +178,8 @@ class Articoli_elencoPage  extends React.Component <IProps,IState> {
     }
  
     render() {    
-        // console.log("XXXXXXXX - " ,   this.props.status , this.props.elenco_storico);
+     
+      
           return (
             
             <Box  display="flex" flexDirection="column" alignItems="center"  justifyContent="center"  > 
@@ -222,6 +224,7 @@ class Articoli_elencoPage  extends React.Component <IProps,IState> {
               {this.state.scheda_selected !== null  &&
                 <Articolo_scheda  
                   isModal={false}
+                  isMobile={this.props.isMobile}
                   handleClose={() => { this.handleSchedaSelected(null)}}
                   scheda={this.state.scheda_selected } />
               }

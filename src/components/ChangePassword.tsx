@@ -121,7 +121,7 @@ class ChangePasswordPage  extends React.Component <IProps,IState> {
                     formDataError.ripeti_pwd = "Inserire la password";
                     bValid = false;
                 }
-                console.log(formDataError);
+           
         this.setState({ formDataError : formDataError });
         return bValid;
 

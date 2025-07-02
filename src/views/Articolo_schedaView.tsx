@@ -145,6 +145,7 @@ export interface IProps {
   isInProgress: boolean;
   readOnly: boolean;
   bChangedForm: boolean;
+  isMobile: boolean;
 }
 
 export interface IState {
@@ -165,11 +166,12 @@ class Articolo_schedaView extends React.Component<IProps, IState> {
   }
 
   handleSchedaUpdatePrezzi = (value: any) => {
-    console.log("handleSchedaUpdatePrezzi", value);
+  
     this.setState({ schedaArticolo: value  });
   }
 
   render() {
+ 
     return (
       <>
       
@@ -192,10 +194,10 @@ class Articolo_schedaView extends React.Component<IProps, IState> {
         )}
 
         {this.state.schedaArticolo === null &&  !this.props.isModal && (
-          <Box display="flex" flexDirection="row" alignItems="center" width={{ xs: '80%', sm: '70%', md: '65%', lg: '55%', xl: '40%' }} mt={4} justifyContent="center">
+          <Box display="flex" flexDirection="row" alignItems="center" width={{ xs: '90%', sm: '85%', md: '70%', lg: '55%', xl: '45%' }} mt={4} justifyContent="center">
             <Paper className={this.props.classes.paperFullWidth} variant="outlined">
               <Box width="100%">
-                <SchedaArticolo propieta={this.props}  handleSchedaUpdatePrezzi={this.handleSchedaUpdatePrezzi} />
+                <SchedaArticolo propieta={this.props}  handleSchedaUpdatePrezzi={this.handleSchedaUpdatePrezzi}   />
               </Box>
             </Paper>
           </Box>

@@ -26,7 +26,7 @@ export interface IProps {
     actModArticolo: any,
  
     isModal:boolean,
-
+    isMobile:boolean,
     elenco_colori: any
     
 }
@@ -240,7 +240,7 @@ class Articolo_schedaPage  extends React.Component <IProps,IState> {
 
     render() {    
  
-       
+  
 
 
         return (
@@ -251,6 +251,7 @@ class Articolo_schedaPage  extends React.Component <IProps,IState> {
             <Articolo_schedaView
                 elenco_colori={this.props.elenco_colori}
                 isModal={this.props.isModal}
+                isMobile={this.props.isMobile}
                 bChangedForm={this.state.bChangedForm}
                 readOnly={  false }
                 handleClose={this.props.handleClose}

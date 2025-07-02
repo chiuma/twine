@@ -81,7 +81,7 @@ class Provenienze_elencoPage  extends React.Component <IProps,IState> {
      {  
      
       let elenco=  [...this.props.elenco_provenienze]
-      console.log("elenco" , elenco);
+    
 
         this.handleExecRicerca   ( this.lastFiltri);
      }
