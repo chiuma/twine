@@ -260,7 +260,9 @@ function Scheda   (props: any  ) {
   
                    {props.isCameraShow && !props.readOnly &&  
                     <Box  width="100%"> 
-                      <CameraView onScan={e =>  props.handleScan(e)} /> 
+                      <CameraView onScan={e =>  props.handleScan(e)} 
+                        handleScanAutoInsert={props.handleScanAutoInsert }
+                        isScanAutoInsert={props.isScanAutoInsert }/> 
                     </Box>
                   }
 
@@ -430,7 +432,9 @@ function SchedaSm   (props: any  ) {
 
                   {props.isCameraShow && 
                   <Box  width="100%"  > 
-                      <CameraView onScan={e =>  props.handleScan(e)} /> 
+                      <CameraView onScan={e =>  props.handleScan(e)} 
+                      handleScanAutoInsert={props.handleScanAutoInsert }
+                      isScanAutoInsert={props.isScanAutoInsert }/> 
                   </Box>
                   }
 
@@ -568,8 +572,9 @@ export interface IProps {
   handleSaveOrdine:any, 
   isInProgress: boolean,
   readOnly:boolean,
-  bChangedForm: boolean
-
+  bChangedForm: boolean,
+  isScanAutoInsert: boolean,
+  handleScanAutoInsert:any
 }
  
 export interface IState {

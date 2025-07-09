@@ -1,7 +1,7 @@
 import React, { useState }   from 'react';
  
  
-import {     Box, Button,   }    from   '@mui/material';
+import {     Box, Button, Switch, FormControlLabel   }    from   '@mui/material';
 import PlayIcon from '@mui/icons-material/PlayArrow'; 
   
  
@@ -19,6 +19,7 @@ export function CameraView(props: any) {
     // chrome://flags/#unsafely-treat-insecure-origin-as-secure
     const [tracker, setTracker] = useState<string | undefined>("centerText");
     const [pause, setPause] = useState(false);
+    const [autoInsert, setAutoInsert] = useState(false);
     
  
   
@@ -53,12 +54,32 @@ export function CameraView(props: any) {
     
     };
 
+    const handleAutoInsertChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setAutoInsert(event.target.checked);  
+      props.handleScanAutoInsert(autoInsert);
+    };
+
+    const handleAutoInsert = () => {
+      props.handleScanAutoInsert(autoInsert);
+    };
+
     return (
       <Box display="flex" flexDirection="row" alignItems="center" width="100%"
       justifyContent="center">
   
-        <Box width="15%">
-
+        <Box width="16%"  display="flex" flexDirection="row"
+         justifyContent="right"
+        alignItems="center">
+        <FormControlLabel
+              control={
+                <Switch
+                  checked={autoInsert}
+                  onChange={handleAutoInsertChange}
+                  color="primary"
+                />
+              }
+              label="Auto Insert"
+            />
         </Box>
 
         <Box>
@@ -111,7 +132,8 @@ export function CameraView(props: any) {
         </Box>
 
 
-        <Box   width="15%">
+        <Box width="16%"   >
+ 
           {pause &&
           <Button   style={{marginLeft:8}}
           startIcon={<PlayIcon  />}  
@@ -119,6 +141,8 @@ export function CameraView(props: any) {
               PLAY
             </Button>
           }
+          
+        
         </Box>
 
       </Box>

@@ -49,7 +49,7 @@ type OptionsAzione = "NEW" | "MOD"  ;
 class Ordine_schedaPage  extends React.Component <IProps,IState> {
     precForm : string = '';
     azione:  OptionsAzione  =  "NEW";
-    
+    isScanAutoInsert: boolean = false;
     constructor(props: any) {
       super(props);  
       this.handleSaveOrdine = this.handleSaveOrdine.bind(this);
@@ -57,6 +57,8 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
       this.handleDelDettaglio = this.handleDelDettaglio.bind(this);
       this.handleEvadiAll = this.handleEvadiAll.bind(this);      
       this.handleScan = this.handleScan.bind(this);    
+      this.handleScanAutoInsert = this.handleScanAutoInsert.bind(this);    
+
       
  
       let formOrdine =  Object.assign (new Ordine(), {...this.props.scheda});
@@ -362,6 +364,7 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             
             if ( articolo_base != null)
             {
+            
                 formDettaglio["id_colore"]  = id_colore;
                 formDettaglio["id_colore_2"]  = id_colore_2;
                 formDettaglio["id_colore_3"]  = id_colore_3;
@@ -372,6 +375,9 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
                 formDettaglio["articolo_base_codice"] = articolo_base?.codice        
                 formDettaglio["articolo_base_descrizione"] = articolo_base?.descrizione 
                 this.setState({  formOrdine: this.state.formOrdine  }); 
+
+             if (id_colore !== -1 && this.isScanAutoInsert )
+                    this.handleAddDettaglio(null);
               //  NotificationManager.success("QR: " + scan, 'Ordine', 2000);  
             }
             else
@@ -416,6 +422,12 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
 
     }
 
+    handleScanAutoInsert(e)
+    {
+        console.log("handleScanAutoInsert", e)
+        this.isScanAutoInsert = !this.isScanAutoInsert
+        
+    }
     render() {    
  
  
@@ -448,7 +460,8 @@ class Ordine_schedaPage  extends React.Component <IProps,IState> {
             formOrdine ={this.state.formOrdine } 
             formDataError={this.state.formTestataErrors}  
             arrFormDettaglioErrors={this.state.arrFormDettaglioErrors}  
-            
+            isScanAutoInsert={this.isScanAutoInsert}
+            handleScanAutoInsert={this.handleScanAutoInsert}
             />            
            
 

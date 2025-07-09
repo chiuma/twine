@@ -61,7 +61,7 @@ class AppPage   extends React.Component <IProps,IState> {
      sessionStorage.setItem("profile", param.profile.toLowerCase());
      sessionStorage.setItem("token", param.token);
      this.setState({isLogged: true})   ;
-     NotificationManager.success('Benvenuto utente ' +  param.username, 'Twine', 3000);  
+     NotificationManager.success('Benvenuto utente ' +  param.username, 'Twine', 1600);  
 
     
   }

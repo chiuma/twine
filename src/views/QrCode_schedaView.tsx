@@ -53,7 +53,7 @@ function FormQrCode(props: any) {
  
       <Box  width="100%" display="flex" flexDirection="row"   alignItems="flex-start" justifyContent="space-around"  height="auto" >
           
-            {propieta.formData.id_articolo_base !== -1 || propieta.formData.id_colore !== -1  &&
+            {false && (propieta.formData.id_articolo_base !== -1 || propieta.formData.id_colore !== -1)  &&
             <>
             <Box mt={2} mr={2} width="25%"> 
             <Box  m={1}><QRCodeSVG value={propieta.formData.code} size={128} /></Box>

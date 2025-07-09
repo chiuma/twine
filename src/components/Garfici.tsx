@@ -346,7 +346,7 @@ class Grafici_schedaPage  extends React.Component <IProps,IState> {
       };
 
 
- if  (this.state.isInProgress==false) 
+  
  
         return (
 
