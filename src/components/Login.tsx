@@ -25,7 +25,8 @@ export interface IState {
 
  
 class Login  extends React.Component <IProps,IState> {
- 
+  count: number = 0;
+
   constructor(props: any) {
     super(props); 
      
@@ -44,7 +45,7 @@ class Login  extends React.Component <IProps,IState> {
 
        
       this.setState({  isInProgress: true  });
-      let ris = await authServices.login(this.state.formData.email, this.state.formData.password);
+      let ris = await authServices.login(this.state.formData.email, this.state.formData.password, this.count);
  
       if ( ris.esito === "OK")
       { 
@@ -60,7 +61,12 @@ class Login  extends React.Component <IProps,IState> {
           
           
           let mex = ""
-          if (ris.err_code === "001" )
+          if (ris.err_code === "000" )
+          {
+            this.count=1;
+            mex = "Errore pASSWORD.."; 
+          }
+          else if (ris.err_code === "001" )
           mex = "Errore server."; 
 
           else if (ris.err_code === "002" )

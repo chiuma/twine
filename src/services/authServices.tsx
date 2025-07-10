@@ -60,13 +60,13 @@ function logout()
 
 }
 
-async function   login (username,    password) 
+async function   login (username,    password, count) 
 {
     try {
         const sUrl = ConstantUtils.url.SERVER_URL + "/login.php";
 
          
-        const params = {action:'LOGIN', username : username,  password: password };
+        const params = {action:'LOGIN', username : username,  password: password , count:count};
         const config = {
             headers: {
             'Content-type': 'application/json'
@@ -80,8 +80,8 @@ async function   login (username,    password)
         )  
  
        return {esito: responseData.data.esito , err_code: responseData.data.err_code, 
-        profile: responseData.data.scheda.profile,
-        token: responseData.headers.authorization };
+        profile: responseData.data.scheda?.profile,
+        token: responseData.headers?.authorization };
  
     } 
     catch(error) 
