@@ -102,7 +102,8 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Colori" onClick={() => props.goToPage("colori_elenco")} />
         </ListItemButton>
-        {sessionStorage.getItem("profile") === "admin" && 
+        {(sessionStorage.getItem("profile") === "admin" || 
+          sessionStorage.getItem("profile") === "adm") && 
         <ListItemButton >
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
@@ -111,7 +112,8 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
         </ListItemButton>
         }
 
-        {sessionStorage.getItem("profile") === "admin" && 
+        {(sessionStorage.getItem("profile") === "admin" || 
+          sessionStorage.getItem("profile") === "adm") && 
         <>
           <Divider  variant="middle"  />
 
@@ -139,7 +141,8 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Elenco Articoli" onClick={() => props.goToPage("articoli_elenco")} />
         </ListItemButton>
-        {sessionStorage.getItem("profile") === "admin" && 
+        {(sessionStorage.getItem("profile") === "admin" || 
+          sessionStorage.getItem("profile") === "adm") && 
         <ListItemButton>
           <ListItemIcon>
             <IconsMenu.NuovoIcon />
@@ -162,7 +165,8 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>                
           <ListItemText sx={listItemTextStyles} primary="Nuovo Ordine" onClick={() => props.goToPage("ordini_new")} />
         </ListItemButton>
-        {sessionStorage.getItem("profile") === "admin" && 
+        {(sessionStorage.getItem("profile") === "admin" || 
+          sessionStorage.getItem("profile") === "adm") && 
         <>
         <Divider  variant="middle"  />
         <ListItemButton>
@@ -171,10 +175,11 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
           </ListItemIcon>
           <ListItemText sx={listItemTextStyles} primary="Consegne" onClick={() => props.goToPage("consegne_elenco")} />
         </ListItemButton>
+          </>
+        }
 
-
-
-
+      {sessionStorage.getItem("profile") === "admin"   && 
+        <>
         <Divider  variant="middle" />
 
         <ListItemButton   >
@@ -225,8 +230,10 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
     </Box>
   );
 
+  
   return (
     <React.Fragment>
+    
       <IconButton 
         aria-label="delete"  
         onClick={toggleDrawer("left", true)}

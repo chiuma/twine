@@ -174,7 +174,8 @@ function TableRows   (props: any ) {
             <IconButton color="primary"  component="span"   onClick={() => { propieta.deleteScheda(row);}}>
             <DeleteIcon />
             </IconButton>    
-            {  sessionStorage.getItem("profile") === "admin" && 
+            {(sessionStorage.getItem("profile") === "admin" || 
+              sessionStorage.getItem("profile") === "adm") && 
             <IconButton color="primary"  component="span"   onClick={() => { propieta.showScheda(row);}}>
             <EditIcon />
             </IconButton>

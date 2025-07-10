@@ -694,7 +694,7 @@ class Cliente_schedaView  extends React.Component <IProps,IState> {
 <>
             {!this.props.isMobile  ? (
             <Box display="flex" flexDirection="row" alignItems="center" height="70%"  
-                 width={{ xs: '95%', sm: '90%', md: '90%', lg: '85%', xl: '80%' }} 
+                 width={{ xs: '98%', sm: '95%', md: '95%', lg: '90%', xl: '90%' }} 
                  mt={4} justifyContent="center">     
             
 

@@ -118,7 +118,8 @@ function HomePage(propieta: any) {
         </Grid>
 
         <Grid item xs={3}>
-        {sessionStorage.getItem("profile") === "admin" &&
+        {(sessionStorage.getItem("profile") === "admin" || 
+          sessionStorage.getItem("profile") === "adm") && 
           <Box width="100%" textAlign="right">
             <Tooltip title="Consegne" arrow>
               <Link component="button" onClick={() => { propieta.goToPage("consegne_elenco") }} color="inherit">
@@ -433,7 +434,8 @@ class AppPage extends React.Component<IPropsWithMobile, IState> {
               render={(props) => (
                 <Ordini_elenco {...props} isMobile={this.props.isMobile}  />
               )} />
-              {sessionStorage.getItem("profile") === "admin" &&
+              {(sessionStorage.getItem("profile") === "admin" || 
+                sessionStorage.getItem("profile") === "adm") && 
               <Route path="/consegne_elenco" exact
                 render={(props) => (
                   <Consegne_elenco {...props} />
