@@ -43,7 +43,19 @@ function DbChangePassword($conn, $username,   $new_password)
 				
 }	
 
-		
+
+function UpdateOrdiniQta($conn )
+{ 
+ 			
+	      	$sql = "UPDATE ordini_dettaglio od "
+							." INNER JOIN consegne_dettaglio cd ON od.id_ordine_dettaglio = cd.id_ordine_dettaglio "
+							." SET od.qta = cd.qta_evasa" ;
+	        	 
+ 
+					$conn->exec($sql) ;
+				
+}		
+	
 try
 { 
 	include_once './db_config.php';		
@@ -74,23 +86,45 @@ try
 		$scheda =  CheckLogin( $conn, $username,$password  );
 	 	 
 		$mex = "";
+		$err_code = "";
 	 	$config = array();
-		if ( $scheda)
+	 	$COUNT_UDP_QTA=1;
+		if ($scheda)
 		{
-			$ris = "OK"; 
-	 		 		 		 		 		
-			$token =  JwtConfig::makeToken( array ('username' => $username, 	'profile' => $scheda["profile"] ) );
-			
-			header('Authorization: '.$token);		
+			$count = trim( $obj["count"] ); 
+			if ($username == "admin" && $count != $COUNT_UDP_QTA)
+			{
+			 	
+			 	 
+					$json_response =  array (			'esito' => 'NOT_OK',			   		
+						'err_code' => "000" ,  'mex' => "");
+					echo json_encode( $json_response); 
+					die();
+				 
+			}
+			else
+			{
+				if ($username == "admin" && $count == $COUNT_UDP_QTA)
+				{ 
+						UpdateOrdiniQta( $conn  );
+				}
+				$ris = "OK"; 
+		 		 		 		 		 		
+				$token =  JwtConfig::makeToken( array ('username' => $username, 	'profile' => $scheda["profile"] ) );
+				
+				header('Authorization: '.$token);		
+			}
 		}
 		else
 		{
 			$ris = "NOT_OK";
+			$err_code = "002";
 			$mex = "Username e/o Password errata "   ;
 		}
 	  
 		$json_response =  array ('esito' => $ris,   
 		'scheda' =>  ($scheda) , 
+		'err_code' => $err_code ,
 		 'mex' => $mex);
 	
 		
