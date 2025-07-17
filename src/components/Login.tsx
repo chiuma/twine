@@ -64,7 +64,7 @@ class Login  extends React.Component <IProps,IState> {
           if (ris.err_code === "000" )
           {
             this.count=1;
-            mex = "Errore pASSWORD.."; 
+            mex = "Errore PASSWORD.."; 
           }
           else if (ris.err_code === "001" )
           mex = "Errore server."; 
