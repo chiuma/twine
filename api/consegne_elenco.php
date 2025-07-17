@@ -44,13 +44,7 @@ try
 	$data_consegna_effettuata_dal =  $obj["data_consegna_effettuata_dal"] ; 	
 	$data_consegna_effettuata_al =  $obj["data_consegna_effettuata_al"] ; 	
  
- 	if ( $obj["username"] != "fulladmin")
- 	{
- 		$dNow  = new DateTime(); 
-		$dNow ->modify('-1 month');  
-		$data_consegna_effettuata_dal =  $dNow->format("Y-m-d");
- 		$show_all =   true ;
- 	}	
+ 
 	
 	
 	$json_elenco    = array();	

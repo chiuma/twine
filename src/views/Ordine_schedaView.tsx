@@ -267,20 +267,21 @@ function Scheda   (props: any  ) {
                   }
 
                    {ordineDettaglio.map((ordineDettaglio:any, idx_riga) => {
-                   let idx=  !props.isCameraShow ? idx_riga : props.formOrdine.ordineDettaglio.length -  idx_riga -1      
+                   let idx=  !props.isCameraShow ? idx_riga : props.formOrdine.ordineDettaglio.length -  idx_riga -1    
+                   let isNewRow = (idx === props.formOrdine.ordineDettaglio.length-1  );
                         return (
                      
 
                            <React.Fragment
                             key={idx}>
  
- {  !(idx === props.formOrdine.ordineDettaglio.length-1 &&  props.readOnly) &&  
+                        {  !(isNewRow &&  props.readOnly) &&  
  
                            <Box mb={2} mt={2} >
                              <Box  display="flex" flexDirection="row" alignItems="flex-end"    justifyContent="space-between"  > 
-                               <Box ml={1} fontWeight={'bold'}   fontSize={14} style={{color:'black'}}>
+                               <Box ml={1} fontWeight={'bold'}   fontSize={14} style={{color: isNewRow ? 'red' : 'black'}}>
                                Riga { 
-                               (idx === props.formOrdine.ordineDettaglio.length-1 && !props.readOnly ? "nuova " : idx+1)
+                               (isNewRow && !props.readOnly ? "nuova " : idx+1)
                                
                                + (ordineDettaglio.id_articolo_base !== -1 ?  
                                 " - " +  ordineDettaglio.articolo_base_descrizione : "")
@@ -291,9 +292,9 @@ function Scheda   (props: any  ) {
                                <Box mr= {1}  display="flex" flexDirection="row" alignItems="flex-end"    justifyContent="space-between">
  
                             
-                                {idx < props.formOrdine.ordineDettaglio.length-1  &&  !props.readOnly &&
+                                {!isNewRow  &&  !props.readOnly &&
                                  <Box >  
-                                   <IconButton color="secondary" title="Elimina"   component="span"  
+                                   <IconButton color="primary" title="Elimina"   component="span"  
                                      style={{  padding:  '1px 2px 1px 5px'  }}
                                      onClick={ e=> props.handleDelDettaglio (idx)}>
                                      <DeleteIcon />
@@ -301,7 +302,7 @@ function Scheda   (props: any  ) {
                                  </Box>
                                 }
  
-                                {idx !== props.formOrdine.ordineDettaglio.length-1 && !props.readOnly  &&
+                                {!isNewRow && !props.readOnly  &&
                                  <Box > 
                                   <FormControl>
   
@@ -341,7 +342,7 @@ function Scheda   (props: any  ) {
                                        elenco_articoli={that.elenco_articoli} 
                                        formData={ordineDettaglio}
                                        isMobile={props.isMobile} 
-                                       isNewRow={idx === props.formOrdine.ordineDettaglio.length-1}
+                                       isNewRow={isNewRow}
                                        readOnly={ordineDettaglio?.consegnato === true} 
                                        formDataError={props.arrFormDettaglioErrors[idx]} 
                                        handleChangeForm={ (e ) =>
@@ -352,7 +353,7 @@ function Scheda   (props: any  ) {
                                      /> 
                                
                                     
-                                   { idx === props.formOrdine.ordineDettaglio.length-1 &&  !props.readOnly &&
+                                   { isNewRow &&  !props.readOnly &&
                                    <Box width="100%" textAlign="right">
                                        <Button 
                                         onClick={props.handleAddDettaglio}   
@@ -462,11 +463,12 @@ function SchedaSm   (props: any  ) {
                               <Box display="flex" flexDirection="row" alignItems="flex-end"    justifyContent="space-between">
 
                            
-          {ordineDettaglio.id_ordine_dettaglio === -1 && idx < props.formOrdine.ordineDettaglio.length-1  &&  !props.readOnly &&
+          {idx < props.formOrdine.ordineDettaglio.length-1  &&  
+          !props.readOnly &&
  
 
                                 <Box >  
-                                  <IconButton color="secondary" title="Elimina"   component="span"  
+                                  <IconButton color="primary" title="Elimina"   component="span"  
                                     style={{  padding:  '1px 2px 1px 5px'  }}
                                     onClick={ e=> props.handleDelDettaglio (idx)}>
                                     <DeleteIcon />
