@@ -42,7 +42,7 @@ try
 	 
 	$action = trim($obj["action"]);
 	
-	$conn =$dbh = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
+	$conn  = new PDO ('mysql:host='.HOST.';dbname='.DB, DB_USER, DB_PASSWORD); 
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$dettagli =  array ();
 	$LogSql =  array ();

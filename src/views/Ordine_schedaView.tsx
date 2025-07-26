@@ -146,7 +146,7 @@ function Testata   (propieta: any  ) {
             </Button>
             }
    
-            {sessionStorage.getItem("profile") === "admin" && !props.readOnly && 
+            {false && sessionStorage.getItem("profile") === "admin" && !props.readOnly && 
             !(props.formOrdine.ordineDettaglio.reduce( (accumulator, currentValue, currentIndex ) =>   
             accumulator && (currentIndex !==  props.formOrdine.ordineDettaglio.length-1 ? currentValue.evaso : true )  , true ))   &&
             <Button style={{marginRight:10}}   onClick={   props.handleEvadiAll   }  
@@ -160,7 +160,8 @@ function Testata   (propieta: any  ) {
                 <>
 
 {props.handleStampaOrdine != null &&
-            <Button style={{marginRight:10}} startIcon={<IconsMenu.StampaIcon />} 
+            <Button style={{marginRight:10}} startIcon={<IconsMenu.StampaIcon /> } 
+            endIcon={<IconsMenu.EmailIcon />}
                 onClick={ e=>  props.handleStampaOrdine(true, 'singolo_ordine')  }  
                 size="small" color="primary" variant="contained" >
               Stampa 

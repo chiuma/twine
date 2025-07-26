@@ -12,6 +12,7 @@ import QrCodeIcon from '@mui/icons-material/CropFree';
 import SaveIcon from '@mui/icons-material/Save';
 import LogoutIcon from '@mui/icons-material/Logout';  
 import ChamgePwdIcon from '@mui/icons-material/Key';  
+import EmailIcon from '@mui/icons-material/EmailRounded';  
 export   const IconsMenu = {
     ClientiIcon  ,
     ArticoliIcon,
@@ -26,6 +27,7 @@ export   const IconsMenu = {
     SaveIcon,
     QrCodeIcon,
     LogoutIcon,
-    ChamgePwdIcon
+    ChamgePwdIcon,
+    EmailIcon
    
 };

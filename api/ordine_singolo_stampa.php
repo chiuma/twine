@@ -46,6 +46,7 @@ require_once "./cors.php";
         margin-left: auto;
         margin-right: auto;
         font-family: 'Roboto';font-size: 18px;
+        
     }
     
      .center {
@@ -61,7 +62,7 @@ require_once "./cors.php";
     .tabella
     {
 			margin-bottom: 3%;
-			width:90%;
+			width:98%;
     }
     
     .cell_codice

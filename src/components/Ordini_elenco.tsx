@@ -4,7 +4,7 @@ import { OrdineDettaglio } from '../model/OrdineDettaglio';
  
 
  
-import {   Box, CircularProgress, Radio, RadioGroup, FormControlLabel, FormLabel   } from '@mui/material';
+import {   Box, CircularProgress, Radio, RadioGroup, FormControlLabel, FormLabel, Button   } from '@mui/material';
 
  
 import { connect } from 'react-redux';
@@ -24,7 +24,7 @@ import { Ordini_elencoHeaderView } from '../views/Ordini_elencoHeaderView';
 import { Provenienza } from '../model/Provenienza';
  
 import { ConstantUtils } from '../ConstantUtils';
-import { StampaHtml } from '../utils/StampaHtml';
+import { IEmail, StampaHtml } from '../utils/StampaHtml';
 import Ordini_elenco_dettaglioView from '../views/Ordini_elenco_dettaglioView';
 import Ordini_elenco_testataView from '../views/Ordini_elenco_testataView';
  import { CommonFunctions } from '../common/CommonFunctions';
@@ -57,7 +57,7 @@ export interface IProps {
      
 export interface IState { 
  
-
+  cliente_email?: string,
     elenco_filtrato:  any, 
     isInProgress: boolean,
     isEditMode: boolean,
@@ -76,6 +76,7 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     lastFiltri : OrdineFiltri =  new OrdineFiltri();
     elenco_ordini: any;
     componentRef: any;
+    
     tipo_elenco: OptionsTipoElenco = "testata";
     tipo_stampa: any="";
 
@@ -99,7 +100,9 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
 
  
       this.state = {  
-        elenco_filtrato: [], isInProgress: false , isEditMode: true, ordineSelected:null  , 
+        elenco_filtrato: [], isInProgress: false , isEditMode: true, 
+        cliente_email: undefined,
+        ordineSelected:null  , 
         ordineDettaglioToDelete:null , ordineToDelete:null, showStampa: false ,  conPrezzo: null
         }; 
 
@@ -135,11 +138,24 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
     handleShowStampa(showStampa:boolean, tipo_stampa:string)
     {
  
-      
-      this.tipo_stampa = tipo_stampa;
-      this.setState({ showStampa: showStampa  , conPrezzo: !showStampa ? null : this.state.conPrezzo });   
+       this.tipo_stampa = tipo_stampa;
+      let cliente_email:any = null
+      if ( showStampa === true )
+      {
+        let clienteSel  = this.props.elenco_clienti.find (
+          x => x.id_cliente === this.state.ordineSelected?.id_cliente ) ;
+        cliente_email = clienteSel?.email  
+      }
+      this.setState({ 
+        showStampa: showStampa,
+        conPrezzo: !showStampa ? null : this.state.conPrezzo,
+        cliente_email: cliente_email !== null ? cliente_email : undefined
+      });   
  
     }
+
+ 
+
 
     async loadOrdini()
     {
@@ -189,12 +205,15 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
       let ris = {
         ...objOrdineDettaglio , 
         ...{note: objOrdineTestata.note, user_new: objOrdineTestata.user_new, data_ricezione: objOrdineTestata.data_ricezione,data_consegna: objOrdineTestata.data_consegna,  id_provenienza: objOrdineTestata.id_provenienza, 
-            id_cliente: objOrdineTestata.id_cliente , id_ordine: objOrdineTestata.id_ordine},
+           id_cliente: objOrdineTestata.id_cliente , 
+           id_ordine: objOrdineTestata.id_ordine},
         ...{ colore_codice: coloreSel?.codice,    colore_descrizione: coloreSel?.descrizione },
         ...{ colore_codice_2: coloreSel_2==null ? "" : coloreSel_2.codice,    colore_descrizione_2: coloreSel_2==null ? "" : coloreSel_2.descrizione },
         ...{ colore_codice_3: coloreSel_3==null ? "" : coloreSel_3.codice,    colore_descrizione_3: coloreSel_3==null ? "" : coloreSel_3.descrizione },
         ...{ articolo_base_descrizione: articoloSel?.descrizione, articolo_base_codice: articoloSel?.codice },
         ...{ cliente_descrizione: clienteSel?.descrizione}
+    
+        
         }
  
         return ris;
@@ -695,7 +714,10 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
    
 // console.log("OrdiniElenco - render - this.lastFiltri" , this.lastFiltri)
       
- 
+const cliente: IEmail = {
+  email: this.state.cliente_email ||"",
+  subject: "Ordine..."
+};
       const finalQueryString = this.tipo_stampa !== "singolo_ordine"
             ? objectToQueryString(this.lastFiltri)
             : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine , conPrezzo: this.state.conPrezzo });
@@ -704,42 +726,52 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
   
 
       {this.state.showStampa &&
-              <Box mt={2} ml={1} mr={1}>
+          <Box mt={2} ml={1} mr={1} width={"60%"}
+          display="flex" flexDirection="column" alignItems="center"  justifyContent="center">
           
-  {this.state.conPrezzo == null  && this.tipo_stampa == "singolo_ordine" ?
-    <>
-      <FormLabel component="legend" style={{color:'red', fontWeight:'bold'}} >Stampa prezzi</FormLabel>
-      <RadioGroup
-          row
-          aria-label="conPrezzo"
-          name="conPrezzo"
-          value={this.state.conPrezzo === null ? '' : this.state.conPrezzo}
-          onChange={(event:any) => {
-              const value = event.target.value === '' ? null : event.target.value;
-              this.handleChangeForm({ target: { name: 'conPrezzo', value } });
-          }} >
-          <FormControlLabel value="si" control={<Radio size="small" />} label="Si" />
-          <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
-      </RadioGroup>
-      
-    </>
-    :
-    <>
-      <StampaHtml 
-          handleShowStampa={this.handleShowStampa}
-            urlToPrint={ConstantUtils.url.SERVER_URL + 
-            (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
-            this.tipo_stampa === "testata" ?        "ordini_stampa.php?" : 
-            this.tipo_stampa === "singolo_ordine" ?        "ordine_singolo_stampa.php?" : 
-            "ordini_articoli_stampa.php?")
-            + 
-            finalQueryString
-            }
-        />
-    </>
-  }
-                </Box>
-              }
+        {this.state.conPrezzo == null  && this.tipo_stampa == "singolo_ordine" ?
+          <>
+          <Box  display="flex" flexDirection="column" alignItems="center"  
+                          justifyContent="center" width="80%" >
+              <FormLabel component="legend" style={{color:'red', fontWeight:'bold'}} >Stampa prezzi</FormLabel>
+              <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+              <RadioGroup
+                  row
+                  aria-label="conPrezzo"
+                  name="conPrezzo"
+                  value={this.state.conPrezzo === null ? '' : this.state.conPrezzo}
+                  onChange={(event:any) => {
+                      const value = event.target.value === '' ? null : event.target.value;
+                      this.handleChangeForm({ target: { name: 'conPrezzo', value } });
+                  }} >
+                  <FormControlLabel value="si" control={<Radio size="small" />} label="Si" />
+                  <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
+              </RadioGroup>
+              </Box>
+              <Button onClick={ e => this.handleShowStampa (false,'')}    size="small" color="primary" variant="contained"> 
+              Indietro
+              </Button>
+        
+            </Box>
+          </>
+          :
+          <>
+            <Box   width={"96%"}>
+            <StampaHtml 
+                handleShowStampa={this.handleShowStampa}
+                  urlToPrint={ConstantUtils.url.SERVER_URL + 
+                    (this.tipo_stampa === "dettaglio" ? "ordini_dettaglio_stampa.php?" :  
+                    this.tipo_stampa === "testata" ? "ordini_stampa.php?" : 
+                    this.tipo_stampa === "singolo_ordine" ? "ordine_singolo_stampa.php?" : 
+                    "ordini_articoli_stampa.php?")  + 
+                    finalQueryString
+                  } 
+                  cliente={ cliente } />
+            </Box>
+          </>
+        } 
+          </Box>
+      }
 
       {!this.state.showStampa &&
       <>
