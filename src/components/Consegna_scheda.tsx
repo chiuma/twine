@@ -18,7 +18,7 @@ import Consegna_schedaView from '../views/Consegna_schedaView';
 import { consegneServices } from '../services/consegneServices';
  
 import { ConstantUtils } from '../ConstantUtils';
-import { StampaHtml } from '../utils/StampaHtml';
+import { IEmail, StampaHtml } from '../utils/StampaHtml';
 import { clientiActions } from '../actions/clienti.action';
 import { ordiniServices } from '../services/ordiniServices';
 import { ConfirmDialog } from '../utils/ConfirmDialog';
@@ -44,7 +44,7 @@ export interface IProps {
 }
    
 export interface IState { 
- 
+  cliente_email?: string,
     isInProgress: boolean,
     bChangedForm: boolean,
     showStampa: boolean,
@@ -109,6 +109,7 @@ class Consegna_schedaPage  extends React.Component <IProps,IState> {
       this.state={           
             isInProgress: false, bChangedForm: false, 
             showStampa:false,  
+            cliente_email: undefined,
             showEtichetteStampa: false,
             formConsegna : formConsegna,
             ordineDettaglioToDelete:null , 
@@ -375,7 +376,18 @@ class Consegna_schedaPage  extends React.Component <IProps,IState> {
 
     handleShowStampa(showStampa)
     {
-      this.setState({ showStampa: showStampa   }); 
+       
+      let cliente_email:any = null
+      if ( showStampa === true )
+      {  
+       let clienteSel  = this.props.elenco_clienti.find (
+        x => x.id_cliente === this.state.formConsegna.id_cliente) ;
+        cliente_email = clienteSel?.email  
+        
+      }
+      this.setState({ showStampa: showStampa , 
+        cliente_email: cliente_email !== null ? cliente_email : undefined
+        }); 
     }
 
     applicaSconto   (sconto) {
@@ -496,7 +508,10 @@ class Consegna_schedaPage  extends React.Component <IProps,IState> {
     
     render() {    
  
- 
+      const cliente: IEmail = {
+        email: this.state.cliente_email ||"",
+        subject: "Consegna Spago di terra"
+      };
  
         return (
           
@@ -523,6 +538,7 @@ class Consegna_schedaPage  extends React.Component <IProps,IState> {
        {this.state.showStampa &&
        
        <StampaHtml 
+          cliente={ cliente }
           handleShowStampa={this.handleShowStampa}
           urlToPrint={ConstantUtils.url.SERVER_URL + "consegne_stampa.php?id_consegna=" + this.props.id_consegna}
        />

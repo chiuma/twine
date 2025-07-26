@@ -59,7 +59,8 @@ function Testata(propieta: any) {
                   Etichette
                 </Button>
 
-                <Button onClick={props.handleStampa} style={{ marginRight: 10 }} startIcon={<IconsMenu.StampaIcon />} size="small" color="primary" variant="contained">
+                <Button onClick={props.handleStampa} style={{ marginRight: 10 }} 
+                startIcon={<IconsMenu.StampaIcon />} endIcon={<IconsMenu.EmailIcon />} size="small" color="primary" variant="contained">
                   Stampa
                 </Button>
               </>

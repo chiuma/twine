@@ -714,10 +714,11 @@ class Ordini_elencoPage  extends React.Component <IProps,IState> {
    
 // console.log("OrdiniElenco - render - this.lastFiltri" , this.lastFiltri)
       
-const cliente: IEmail = {
-  email: this.state.cliente_email ||"",
-  subject: "Ordine..."
-};
+      const cliente: IEmail = {
+        email: this.state.cliente_email ||"",
+        subject: "Ordine Spago di terra"
+      };
+
       const finalQueryString = this.tipo_stampa !== "singolo_ordine"
             ? objectToQueryString(this.lastFiltri)
             : objectToQueryString({ id_ordine: this.state.ordineSelected.id_ordine , conPrezzo: this.state.conPrezzo });

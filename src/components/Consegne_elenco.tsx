@@ -302,7 +302,9 @@ class Consegne_elencoPage  extends React.Component <IProps,IState> {
     }
 
     handleStampaEtichette(showStampa)
-    {
+    {      
+
+
       let elenco_filtrato = this.state.elenco_filtrato.filter( (curr: any) =>     { return curr.stampa});
       let elenco_stampa = elenco_filtrato.map ( x => x.id_consegna)
       

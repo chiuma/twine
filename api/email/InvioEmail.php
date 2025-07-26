@@ -1,17 +1,15 @@
 <?php
- 
 require_once 'PHPMailer/class.phpmailer.php';
 
-error_reporting(0);
- 
+
 
 function InvioMail  ($destinatario , $oggetto_mail, $testo_mail)
 {
  
-
+ 
 	// Creo i vari campi prendendoli dal forma della pagina precedente
 	$nome_mittente = "Spago di terra";
- 	$mail_mittente = "sendermail@cimicapp.com";
+ 	$mail_mittente = "noreplay@spagoditerra.com";
 		
 	 
 	$messaggio = new \PHPMailer  ;
@@ -24,7 +22,7 @@ function InvioMail  ($destinatario , $oggetto_mail, $testo_mail)
 	$messaggio->SMTPAuth   = true;     // abilita autenticazione SMTP
 	$messaggio->SMTPKeepAlive = "true";
 	$messaggio->Host  = "smtp.cimicapp.com";
-	$messaggio->Username   = $mail_mittente;      // utente server SMTP autenticato
+	$messaggio->Username   = "sendermail@cimicapp.com";      // utente server SMTP autenticato
 	$messaggio->Password   = "Gi@chiuma1971";    // password server SMTP autenticato
 	$messaggio->Subject = $oggetto_mail;
 	$messaggio->Sender= $mail_mittente; // indicates ReturnPath header
